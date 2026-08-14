@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presidium</title>
+<meta name="description" content="Het presidium van de Kring Moraal en Filosofie.">
+<link rel="icon" href="img/kmf-wapen.png">
+<link rel="stylesheet" href="css/kmf.css">
+<script>
+/* Vroeg uitgevoerd, nog voor de pagina getekend wordt: anders flitst de
+   verkeerde kleur even op. Geen keuze gemaakt? Dan volgt de site het toestel. */
+try {
+	var k = localStorage.getItem("kmf-thema");
+	if (k) document.documentElement.setAttribute("data-thema", k);
+} catch (e) {}
+</script>
+</head>
+<body>
+
+<!-- De balk wordt gevuld door js/kmf.js, uit `navigatie` in data/kmf-data.js.
+     Deze pagina laat zichzelf daar automatisch uit weg. -->
+<nav class="nav" aria-label="Hoofdnavigatie">
+<!-- gebakken:start --><div class="groep"><a href="index.html">Startpagina</a></div><div class="groep doen"><a href="agenda.html">Agenda</a><a href="fotos.html">Foto&#x27;s</a></div><div class="groep studie"><a href="https://drive.google.com/drive/folders/16hUQhapamzTnRD4Cw-j5PD0drMP-Fzbo" target="_blank" rel="noopener">Samenvattingen</a><a href="boeken.html">Boeken</a><a href="vstn.html">VSTN</a><a href="lichtung.html">Lichtung</a></div><div class="groep meedoen"><a href="lid-worden.html">Lid worden</a><a href="merch.html">Merch</a></div><div class="groep wij"><a href="over.html">Over ons</a><a href="presidium.html" class="hier">Presidium</a><a href="sponsors.html">Sponsors</a></div><div class="groep hulp"><a href="welzijn.html">Mentaal welzijn</a><a href="contact.html">Contact</a></div><!-- gebakken:einde -->
+</nav>
+
+<!-- Geen zichtbare kop: je hebt net op "Presidium" geklikt, je weet waar je bent. -->
+<main>
+
+<h1 class="buiten-beeld">Presidium</h1>
+
+<section data-kmf="presidium"></section>
+
+</main>
+
+<footer class="voet">
+	<div class="links">
+		<span>Blandijnberg 2, 9000 Gent</span>
+	</div>
+	<div class="rechts">
+		<span>© 2026 Kring Moraal en Filosofie</span>
+	</div>
+</footer>
+
+<script src="js/kmf.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agenda</title>
+<meta name="description" content="Alle komende activiteiten van de Kring Moraal en Filosofie.">
+<link rel="icon" href="img/kmf-wapen.png">
+<link rel="stylesheet" href="css/kmf.css">
+<script>
+/* Vroeg uitgevoerd, nog voor de pagina getekend wordt: anders flitst de
+   verkeerde kleur even op. Geen keuze gemaakt? Dan volgt de site het toestel. */
+try {
+	var k = localStorage.getItem("kmf-thema");
+	if (k) document.documentElement.setAttribute("data-thema", k);
+} catch (e) {}
+</script>
+</head>
+<body>
+
+<nav class="nav" aria-label="Hoofdnavigatie">
+<!-- gebakken:start --><div class="groep"><a href="index.html">Startpagina</a></div><div class="groep doen"><a href="agenda.html" class="hier">Agenda</a><a href="fotos.html">Foto&#x27;s</a></div><div class="groep studie"><a href="https://drive.google.com/drive/folders/16hUQhapamzTnRD4Cw-j5PD0drMP-Fzbo" target="_blank" rel="noopener">Samenvattingen</a><a href="boeken.html">Boeken</a><a href="vstn.html">VSTN</a><a href="lichtung.html">Lichtung</a></div><div class="groep meedoen"><a href="lid-worden.html">Lid worden</a><a href="merch.html">Merch</a></div><div class="groep wij"><a href="over.html">Over ons</a><a href="presidium.html">Presidium</a><a href="sponsors.html">Sponsors</a></div><div class="groep hulp"><a href="welzijn.html">Mentaal welzijn</a><a href="contact.html">Contact</a></div><!-- gebakken:einde -->
+</nav>
+
+<!-- Geen kop boven de lijst: je hebt net op Agenda geklikt, je weet waar je
+     bent. De lijst begint meteen. -->
+<main>
+
+<h1 class="buiten-beeld">Agenda</h1>
+
+<section data-kmf="agenda">
+<!-- gebakken:start --><ul class="lijst"><li class="item rij thema-studie"><div class="marge"><span class="status">Morgen</span><span class="uur">19:00</span></div><div class="maat"><h3 class="titel">Kantiaanse grabbel</h3><p class="details"><span class="plaats">Blandijn, auditorium C</span><span class="spreker">Bert</span><span class="soort">lezing</span></p></div></li><li class="item rij thema-meedoen"><div class="marge"><span class="datum">15.09.26</span><span class="uur">21:00</span></div><div class="maat"><h3 class="titel">Pinten</h3><p class="details"><span class="plaats">De geus</span><span class="soort">café-avond</span></p></div></li><li class="item rij thema-studie"><div class="marge"><span class="datum">05.11.26</span><span class="uur">19:30</span></div><div class="maat"><h3 class="titel">Daoistisch gejank</h3><p class="details"><span class="plaats">Blandijn, auditorium D</span><span class="spreker">Johannes</span><span class="soort">debat</span></p></div></li><li class="item rij thema-studie"><div class="marge"><span class="datum">05.12.26</span><span class="uur">19:00</span></div><div class="maat"><h3 class="titel">Wittgenstein en wiskunde</h3><p class="details"><span class="plaats">Blandijn, auditorium C</span><span class="spreker">Jan</span><span class="soort">lezing</span></p></div></li></ul><!-- gebakken:einde -->
+</section>
+
+</main>
+
+<footer class="voet">
+	<div class="links">
+		<span>Blandijnberg 2, 9000 Gent</span>
+	</div>
+	<div class="rechts">
+		<span>© 2026 Kring Moraal en Filosofie</span>
+	</div>
+</footer>
+
+<script src="js/kmf.js"></script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+/* ==========================================================================
+   KMF — ontwerpsysteem
+   --------------------------------------------------------------------------
+   Eén kolom, over de hele site, tegen de linkerrand. Elk blok leest van boven
+   naar beneden:
+
+     nummer en gegevens
+     de titel, groot
+     de tekst
+     ── de noot
+
+   De haarlijnen lopen van scherm­rand tot scherm­rand. Startpagina, agenda en
+   over ons zijn op die manier hetzelfde ding: één kolom die naar beneden loopt.
+
+   Niets staat er twee keer. Heet een activiteit "Café-avond" en is haar soort
+   ook "café-avond", dan valt die soort weg; komt dezelfde activiteit om de
+   twee weken terug, dan staat de uitleg alleen bij de eerste.
+
+   De zetting volgt de Zwitserse school: weinig maten, en een rangorde die van
+   gewicht en witruimte komt in plaats van van grote sprongen in korpsgrootte.
+   De drie maten die de inhoud dragen groeien mee met het scherm, zodat de
+   pagina er op een telefoon en op een breed scherm even dicht uitziet.
+
+   Geen kaders, geen schaduwen, geen iconen, geen afgeronde hoeken. Alles op
+   het scherm is letter, haarlijn of foto.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. TOKENS
+   -------------------------------------------------------------------------- */
+
+:root {
+	/* Rollen, geen kleurnamen: --grond is waar de pagina op staat, --inkt is
+	   waarmee erop geschreven wordt. In de donkere modus wisselen die twee
+	   van waarde, en verder verandert er niets. */
+	--grond: #fff;
+	--inkt: #000;
+	--grijs: #767676;
+	--lijn: #000;
+
+	--rand: 1.25rem;   /* afstand tot de rand van het scherm — bijna niets */
+	--maat: 33rem;     /* leesbreedte, ongeveer 65 tekens                  */
+
+	/* DE LETTERLADDER — drie maten die meegroeien met het scherm, en één vaste
+	   voor de kleine hoofdletterlabels. Van een telefoon tot een breed scherm:
+
+	     klein   13 → 16 px   gegevens, noten, voettekst
+	     tekst   16 → 22 px   lopende tekst
+	     groot   22 → 44 px   indexlinks en titels van activiteiten
+
+	   Ze schalen alle drie op dezelfde manier, zodat de verhouding tussen een
+	   titel en zijn gegevens overal gelijk blijft. */
+	--t-klein: clamp(0.8125rem, 0.72rem + 0.3vw, 1rem);
+	--t-tekst: clamp(1rem, 0.9rem + 0.5vw, 1.375rem);
+	--t-groot: clamp(1.375rem, 1rem + 1.6vw, 2.75rem);
+	--t-hero: 3rem;
+
+	/* ----------------------------------------------------------------------
+	   HET ACCENT VAN HET ACADEMIEJAAR
+	   Eén keer per jaar wijzigen — deze drie regels, en verder niets.
+
+	     26–27  wapenroze   #ED778F  #B93A57  #F9D8DE   (nu ingesteld)
+	     later  wapenblauw  #2496D4  #1B6E9E  #DCEEF9
+
+	   Beide komen van het wapenschild van de kring. --accent is voor vlakken
+	   en grote letters; --accent-diep is voor kleine tekst en links, omdat
+	   het lichte roze op wit te weinig contrast heeft om klein te lezen.
+	   ---------------------------------------------------------------------- */
+	--accent: #ED778F;
+	--accent-diep: #B93A57;
+	--accent-zacht: #F9D8DE;
+
+	/* ----------------------------------------------------------------------
+	   DE KLEUREN VAN DE INDEX
+	   De startpagina noemt de thema's niet bij naam — de kleur doet dat werk,
+	   zoals bij KASK. Vijf tinten op 72° van elkaar op de kleurencirkel, en
+	   omdat het roze en het blauw van het wapenschild toevallig precies 144°
+	   uit elkaar liggen, vallen ze allebei op dat raster. De andere drie
+	   volgen er vanzelf uit.
+
+	   Alle vijf zijn op dezelfde leesbaarheid gezet — ongeveer 5,2 tegen wit —
+	   zodat geen enkel thema zwaarder weegt dan een ander. Dat is ook de reden
+	   dat het geel eerder olijfgroen uitvalt: lichter haalt het de leesdrempel
+	   op wit niet.
+
+	   Deze vijf staan vast, in tegenstelling tot het jaaraccent hierboven.
+	   Wegwijzers moeten blijven waar ze staan; de identiteit van het jaar mag
+	   veranderen. ---------------------------------------------------------- */
+	--thema-doen:    #B93A57;   /* agenda, foto's, VSTN        — wapenroze  */
+	--thema-studie:  #147E2D;   /* samenvattingen, boeken                   */
+	--thema-meedoen: #6E7112;   /* lid worden, merch                        */
+	--thema-wij:     #1D71B1;   /* presidium, alumni, statuten — wapenblauw */
+	--thema-hulp:    #A034DE;   /* mentaal welzijn, contact                 */
+}
+
+@media (min-width: 68rem) {
+	:root { --t-hero: 4.5rem; --r-hero: 4.5rem; }
+}
+
+/* De donkere modus. Standaard volgt de site de instelling van je toestel,
+   maar met de schakelaar onderaan kies je zelf — en dan moet die keuze het
+   halen van het systeem. Vandaar twee keer dezelfde tokens: één keer voor
+   "systeem staat op donker en jij hebt niets gekozen", één keer voor "jij
+   hebt donker gekozen". */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-thema="licht"]) {
+		--grond: #141313;   /* het zwart van KASK */
+		--inkt: #f2f0ee;
+		--grijs: #9c9694;
+		--lijn: #4a4544;
+		/* Op zwart heeft het lichte roze contrast genoeg, dus daar mag het
+		   kleine tekst dragen en valt de diepe variant weg. */
+		--accent-diep: #ED778F;
+		--accent-zacht: #241a1c;
+
+		/* Dezelfde vijf tinten, opgehaald tot ze op het zwart even goed
+		   leesbaar zijn — ongeveer 6,6 tegen de ondergrond. */
+		--thema-doen:    #ED778F;
+		--thema-studie:  #1DB240;
+		--thema-meedoen: #9CA01A;
+		--thema-wij:     #4CA1E2;
+		--thema-hulp:    #C27EEA;
+	}
+}
+
+:root[data-thema="donker"] {
+	--grond: #141313;
+	--inkt: #f2f0ee;
+	--grijs: #9c9694;
+	--lijn: #4a4544;
+	--accent-diep: #ED778F;
+	--accent-zacht: #241a1c;
+	--thema-doen:    #ED778F;
+	--thema-studie:  #1DB240;
+	--thema-meedoen: #9CA01A;
+	--thema-wij:     #4CA1E2;
+	--thema-hulp:    #C27EEA;
+}
+
+/* --------------------------------------------------------------------------
+   2. LETTER
+   Inter: een neogrotesk in de lijn van de Swiss 721 waarmee KASK zet. Ze
+   hoort niet op te vallen — het raster doet het werk.
+   -------------------------------------------------------------------------- */
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url('../fonts/inter-latin-ext.woff2') format('woff2');
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+		U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+		U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+	font-family: 'Inter';
+	font-style: normal;
+	font-weight: 400 700;
+	font-display: swap;
+	src: url('../fonts/inter-latin.woff2') format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+		U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* --------------------------------------------------------------------------
+   3. BASIS
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+a {
+	color: inherit;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	/* Scrollbalk verbergen (Firefox & IE/Edge) */
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+/* Scrollbalk verbergen (Chrome, Safari, nieuwere Edge) */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+	display: none;
+}
+
+/* De voet hoort onderaan het venster te blijven, ook op een korte pagina —
+   anders hangt hij halverwege het scherm met een gat eronder. */
+body {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	margin: 0;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	background: var(--grond);
+	color: var(--inkt);
+	font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: var(--t-tekst);
+	line-height: 1.5;
+	font-weight: 400;
+	/* Cijfers even breed, anders staat de datumkolom te dansen. */
+	font-variant-numeric: tabular-nums;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   4. DE RIJ
+   Eén kolom tegen de linkerrand. De horizontale marge zit ín de rij en niet in
+   een omhullende doos, zodat elke haarlijn van scherm­rand tot scherm­rand loopt.
+   -------------------------------------------------------------------------- */
+
+.rij {
+	padding-inline: var(--rand);
+	border-top: 1px solid var(--lijn);
+}
+
+/* De inhoud duwt de voet naar beneden. Zonder deze regel hangt de voettekst
+   halverwege het scherm zodra een pagina kort is. */
+main { flex: 1 0 auto; }
+
+/* Lopende tekst blijft op leesbreedte; al de rest mag de volle breedte nemen. */
+.maat { max-width: var(--maat); }
+
+/* Elke pagina heeft een titel nodig voor zoekmachines en voor wie de site met
+   een schermlezer bekijkt — maar op het scherm zou die enkel herhalen waar je
+   net op geklikt hebt. Dus staat hij er wel, en zie je hem niet. */
+.buiten-beeld {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+/* Op de over-pagina mag de intro over de volle breedte lopen. */
+.intro .maat { max-width: none; }
+
+/* --------------------------------------------------------------------------
+   5. NAVIGATIEBALK
+   Alleen op de andere pagina's. De startpagina heeft er geen: die ís de index,
+   en wie erop staat weet waar hij is.
+   -------------------------------------------------------------------------- */
+
+/* Eén vlakke rij zoals bij KASK, maar in vijf groepen: wat we doen, je studie,
+   meedoen, wie we zijn, hulp. Alleen de tussenruimte maakt de groepen — een
+   kopje boven elke groep zou de navigatie een half scherm hoog maken en de
+   hero wegduwen. Zo staat de structuur er wel, en kost ze twee regels. */
+/* Eén balk, op één regel. De gaten worden door js/kmf.js uitgerekend: eerst
+   krijgt elk item zijn eigen breedte, en wat er dan nog aan ruimte over is,
+   wordt verdeeld over de gaten. Een gat tussen twee groepen krijgt daarbij
+   ruim twee keer zoveel als een gat binnen een groep — zo blijven de groepen
+   leesbaar als groepen zonder dat er een kopje bij hoeft.
+
+   Vaste gaten in clamp() werkten hier niet: die houden geen rekening met hoe
+   breed de woorden zelf zijn, en dan loopt de balk het scherm uit. */
+.nav {
+	--nav-maat: var(--t-klein);
+	--gat-binnen: 0.7rem;
+	--gat-tussen: 1.65rem;
+
+	display: flex;
+	/* Standaard breekt de balk af. Dat is de veilige stand: draait er geen
+	   JavaScript, dan loopt ze zo nooit het scherm uit. Past alles op één
+	   regel, dan zet js/kmf.js de klasse `een-regel` erop. */
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: var(--gat-tussen);
+	row-gap: 0.35rem;
+	padding: 0.7rem var(--rand);
+	border-top: 1px solid var(--lijn);
+	border-bottom: 1px solid var(--lijn);
+}
+
+.nav .groep {
+	display: flex;
+	flex-wrap: wrap;
+	column-gap: var(--gat-binnen);
+	row-gap: 0.35rem;
+}
+
+/* Past alles samen op één regel, dan pas gaat de balk op slot. */
+.nav.een-regel, .nav.een-regel .groep { flex-wrap: nowrap; }
+
+/* De pagina waar je op staat, staat niet in haar eigen balk. Tijdens het
+   opmeten staat ze er wél — anders rekent elke pagina met een andere lijst
+   en verspringt de balk bij elke klik. */
+.nav .hier { display: none; }
+.nav.meten .hier { display: inline; }
+.nav .groep.leeg { display: none; }
+
+.nav a, .nav span.stub {
+	font-size: var(--nav-maat);
+	line-height: 1.4;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	font-weight: 500;
+	white-space: nowrap;
+	text-decoration: none;
+}
+
+.nav a:hover { text-decoration: underline; }
+
+/* Wat nog niet gebouwd is, doet ook niet alsof. */
+.nav .stub { cursor: default; font-weight: 400; }
+
+/* Dezelfde vijf kleuren als op de startpagina, zodat de wegwijzers over de
+   hele site hetzelfde blijven betekenen. */
+.nav .doen    a, .nav .doen    .stub { color: var(--thema-doen); }
+.nav .studie  a, .nav .studie  .stub { color: var(--thema-studie); }
+.nav .meedoen a, .nav .meedoen .stub { color: var(--thema-meedoen); }
+.nav .wij     a, .nav .wij     .stub { color: var(--thema-wij); }
+.nav .hulp    a, .nav .hulp    .stub { color: var(--thema-hulp); }
+
+/* --------------------------------------------------------------------------
+   6. HERO — de eerstvolgende activiteit
+   In lichte modus een accentvlak met zwarte letter. In donkere modus valt het
+   vlak weg en krijgt de titel zelf de accentkleur op de zwarte grond — precies
+   wat KASK doet. Is er een foto, dan ligt die eronder.
+
+   De kring heeft geen fotograaf en zal er ook nooit een hebben; een hero die
+   permanent op een beeld wacht, is precies hoe de vorige site doodging.
+   -------------------------------------------------------------------------- */
+
+.hero {
+	--hero-bg: var(--accent);
+	--hero-text: #fff;
+	position: relative;
+	min-height: min(52vh, 440px);
+	display: flex;
+	align-items: flex-end;
+	background: var(--hero-bg);
+	color: var(--hero-text);
+	overflow: hidden;
+	/* Geen lijn onderaan: de sectiekop die volgt brengt er zelf al een mee,
+	   en twee lijnen met niets ertussen lezen als een lege strook. */
+}
+
+.hero[data-groep="doen"]    { --hero-bg: var(--thema-doen); --hero-text: #fff; }
+.hero[data-groep="studie"]  { --hero-bg: var(--thema-studie); --hero-text: #fff; }
+.hero[data-groep="meedoen"] { --hero-bg: var(--thema-meedoen); --hero-text: #fff; }
+.hero[data-groep="wij"]     { --hero-bg: var(--thema-wij); --hero-text: #fff; }
+.hero[data-groep="hulp"]    { --hero-bg: var(--thema-hulp); --hero-text: #fff; }
+
+/* In donkere modus valt het vlak weg en staat de titel er in het roze van het
+   wapenschild — de kleur van de kring zelf, niet die van de groep. De
+   groepskleur doet haar werk in de gegevensregel eronder.
+
+   Let op de :not([data-thema="licht"]) hieronder. Zonder die uitzondering
+   blijft de hero in donkere stand staan wanneer je systeem donker is maar jij
+   licht kiest: een witte pagina met een lichtroze titel erop, 2,75 tegen 1 —
+   praktisch onleesbaar. De kleurtokens hadden die uitzondering al; de hero
+   was vergeten. */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-thema="licht"]) .hero:not(.met-beeld) { background: var(--grond); color: var(--inkt); }
+	:root:not([data-thema="licht"]) .hero:not(.met-beeld) .titel { color: var(--accent); }
+	:root:not([data-thema="licht"]) .hero:not(.met-beeld) .label { color: var(--grijs); }
+}
+
+:root[data-thema="donker"] .hero:not(.met-beeld) { background: var(--grond); color: var(--inkt); }
+:root[data-thema="donker"] .hero:not(.met-beeld) .titel { color: var(--accent); }
+:root[data-thema="donker"] .hero:not(.met-beeld) .label { color: var(--grijs); }
+
+.hero.met-beeld { color: #fff; background: #000; }
+
+.hero .beeld { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Enkel bij een foto, zodat de letter leesbaar blijft. Op het accentvlak
+   staat er niets tussen: zwart op roze heeft contrast genoeg. */
+.hero.met-beeld::after {
+	content: "";
+	position: absolute; inset: 0;
+	background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,0) 60%);
+}
+
+.hero .inhoud {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	padding: var(--rand);
+	
+	/* Voeg dit toe: */
+	display: flex;
+	flex-direction: column;
+	gap: 2rem; /* <-- Hier bepaal je direct de afstand tussen titel en gegevens! */
+}
+
+/* Zet de marges van de titel dan gewoon uit: */
+.hero .titel {
+	font-size: var(--t-hero);
+	line-height: 1;
+	font-weight: 700;
+	letter-spacing: -0.03em;
+	margin: 0 0 0 -0.05em;
+	hyphens: none;
+}
+
+/* Een woord blijft één woord: nooit afbreken op het koppelteken. */
+.hero .titel .woord { white-space: nowrap; }
+
+.hero .gegevens {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 1.25rem;
+	margin: 0;
+	padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   6b. DE INDEX
+   Op de startpagina is de lijst met bestemmingen géén balk bovenaan, maar de
+   inhoud zelf — het model van KASK, waar de startpagina niets anders is dan
+   een lijst links. Daarom staan ze hier op tekstgrootte en niet op labelmaat.
+   -------------------------------------------------------------------------- */
+
+.index { padding-block: 1.75rem 1rem; }
+
+/* Eén kolom die naar beneden loopt. De thema's staan er niet bij geschreven:
+   de kleur zegt al waar iets bij hoort, en de tussenruimte doet de rest. */
+.index .lijstjes {
+	display: flex;
+	flex-direction: column;
+	gap: 1.1em;            /* de ruimte tussen twee thema's, mee schalend */
+}
+
+.index .groep { display: flex; flex-direction: column; }
+
+/* De links van de index staan even groot als de titels in de agenda, en
+   groeien op dezelfde manier mee met het scherm. Daardoor leest de startpagina
+   als hetzelfde soort ding als de agenda. */
+.index a, .index .stub {
+	font-size: var(--t-groot);
+	line-height: 1.15;
+	letter-spacing: -0.025em;
+	text-decoration: none;
+	width: fit-content;
+	padding-block: 0.06em;
+}
+
+.index a { font-weight: 400; }
+.index a:hover { text-decoration: underline; }
+
+/* Wat nog niet gebouwd is, doet ook niet alsof: wel de kleur van zijn thema,
+   maar zonder het gewicht van een echte link. */
+.index .stub { font-weight: 400; cursor: default; }
+
+.index .doen, .index .doen a { color: var(--thema-doen); }
+.index .studie, .index .studie a { color: var(--thema-studie); }
+.index .meedoen, .index .meedoen a { color: var(--thema-meedoen); }
+.index .wij, .index .wij a { color: var(--thema-wij); }
+.index .hulp, .index .hulp a { color: var(--thema-hulp); }
+
+/* --------------------------------------------------------------------------
+   8. DE ACTIVITEITEN
+   -------------------------------------------------------------------------- */
+
+.lijst { margin: 0; padding: 0; list-style: none; }
+
+/* Een activiteit leest van boven naar beneden: wanneer, wat, en dan waar en
+   wie. De haarlijn loopt van rand tot rand, net als overal. */
+.item {
+	padding-block: 1.5rem 1.75rem;
+	border-top: 1px solid var(--lijn);
+}
+.item:last-child { border-bottom: 1px solid var(--lijn); }
+.item:hover { background: var(--accent-zacht); }
+
+
+/* De gegevens op één regel boven de titel. Wat er niet is, laat gewoon een
+   plek weg — er staan geen lege scheidingstekens tussen. */
+.item .maat { max-width: none; }
+
+/* Boven de titel: enkel wanneer het is. */
+.item .marge {
+	font-size: var(--t-klein);
+	line-height: 1.4;
+	display: flex;
+	flex-wrap: wrap;
+	/* Er staat geen scheidingsteken meer tussen de gegevens, dus moet de
+	   tussenruimte het onderscheid dragen. Vandaar iets ruimer dan gewoon. */
+	gap: 0.2rem 0.95rem;
+	margin-bottom: 0.3rem;
+}
+
+/* Onder de titel: waar, wie, en wat voor soort. */
+.item .details {
+	font-size: var(--t-klein);
+	line-height: 1.4;
+	color: var(--grijs);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.2rem 0.95rem;
+	margin: 0.45rem 0 0;
+}
+
+.item .status { font-weight: 500; }
+
+.item .datum { letter-spacing: 0.07em; text-transform: uppercase; font-weight: 500; }
+.item .uur, .item .plaats, .item .spreker { color: var(--grijs); }
+
+/* De soort staat in kleine letters waar de rest van de marge hoofdletters of
+   grijs is. Dat is het pilletje van KASK, verhuisd van een zwevend label naar
+   de marge waar het thuishoort.
+
+   De kleur is die van de groep waar de soort bij hoort — dezelfde vijf kleuren
+   als in de navigatie. Een lezing is groen omdat lezen en studeren groen zijn;
+   een cantus is olijf omdat meedoen olijf is. Zo hoef je de betekenis van een
+   kleur maar één keer te leren. */
+.item .soort { color: var(--thema-doen); }
+
+.item.thema-doen    .soort { color: var(--thema-doen); }
+.item.thema-studie  .soort { color: var(--thema-studie); }
+.item.thema-meedoen .soort { color: var(--thema-meedoen); }
+.item.thema-wij     .soort { color: var(--thema-wij); }
+.item.thema-hulp    .soort { color: var(--thema-hulp); }
+
+/* Het vlak van de hero blijft de kleur van het academiejaar. Daar staat zwarte
+   tekst op, en een groene of olijfkleurige soort zou daar niet alleen lelijk
+   maar ook slecht leesbaar op staan. De kleurcode doet haar werk in de agenda
+   en in de navigatie; de hero draagt de identiteit van het jaar. */
+
+/* Even groot als de links op de startpagina, en op dezelfde manier
+   meeschalend: agenda en index lezen zo als hetzelfde soort ding. */
+.item .titel {
+	font-size: var(--t-groot);
+	line-height: 1.15;
+	/* Zelfde gewicht als de links op de startpagina — anders leest de agenda
+	   als een ander soort ding dan de index. */
+	font-weight: 400;
+	letter-spacing: -0.025em;
+	margin: 0;
+	text-wrap: balance;
+}
+
+.item .titel a { text-decoration: none; }
+.item .titel a:hover { text-decoration: underline; }
+.item .tekst { font-size: var(--t-tekst); margin: 0.5rem 0 0; max-width: 46ch; }
+
+/* Het pijltje van Opera: het schuift op, er springt niets. */
+.item .verder {
+	display: inline-flex; align-items: center; gap: 0.4rem;
+	margin-top: 0.5rem; text-decoration: none;
+}
+.item .verder .tekstje { text-decoration: underline; }
+.item .verder .pijl { transition: transform .3s ease; }
+.item .verder:hover .pijl { transform: translateX(0.6rem); }
+
+/* --------------------------------------------------------------------------
+   9. DE NOOT
+   Onder de tekst, achter een eigen haarlijn — zoals een voetnoot onderaan een
+   bladzijde. Ze verschijnt bij het aanwijzen van de activiteit.
+   -------------------------------------------------------------------------- */
+
+.item .noot {
+	font-size: var(--t-klein);
+	line-height: 1.4;
+	color: var(--grijs);
+	max-width: var(--maat);
+	margin: 0.9rem 0 0;
+	padding-top: 0.45rem;
+	border-top: 1px solid var(--lijn);
+	opacity: 0;
+	transition: opacity .25s ease;
+}
+
+.item .noot .nootnr { color: var(--accent-diep); margin-right: 0.4rem; }
+
+.item:hover .noot,
+.item:focus-within .noot { opacity: 1; }
+
+/* Op een aanraakscherm bestaat hover niet, dus staat de noot daar gewoon open.
+   Wie geen muis heeft, mag de tekst niet kwijtspelen. */
+@media (hover: none) {
+	.item .noot { opacity: 1; transition: none; }
+	.item:hover { background: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   10. WAT IS DE KMF
+   -------------------------------------------------------------------------- */
+
+/* Eén kolom, tegen de linkerrand, op leesbreedte gehouden. */
+/* Zelfde ritme als .invullen en .item, zodat een tekstpagina en een
+   lijstpagina onder de balk identiek beginnen. */
+.intro { padding-block: 1.25rem 1.75rem; }
+
+
+/* De eerste alinea is de aanhef: groter dan de rest, maar nog altijd een
+   alinea — dus niet op titelbreedte, wel op leesbreedte. */
+.intro .maat > p:first-child {
+	font-size: clamp(1.25rem, 1rem + 1vw, 2rem);
+	line-height: 1.25;
+	letter-spacing: -0.02em;
+	margin: 0 0 1.25rem;
+	text-wrap: pretty;
+	max-width: none;
+}
+
+.intro p { font-size: var(--t-tekst); margin: 0 0 1.25rem; max-width: none; }
+.intro .stelling { color: var(--grijs); border-left: 1px solid var(--lijn); padding-left: 1rem; max-width: none; }
+
+/* --------------------------------------------------------------------------
+   11. VOET
+   -------------------------------------------------------------------------- */
+
+/* De voettekst volgt het raster van de rest niet: ze verdeelt zich in gelijke
+   kolommen over de volle breedte, zodat de pagina onderaan uitloopt in één
+   brede regel in plaats van links samen te kruipen. */
+.voet {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 0.75rem 2rem;
+	padding: 1rem var(--rand) 1.5rem;
+	border-top: 1px solid var(--lijn);
+	margin-top: 4rem;
+	font-size: var(--t-klein);
+	color: var(--grijs);
+}
+
+.voet .links, .voet .rechts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem 1.25rem;
+}
+
+.voet a { color: var(--inkt); }
+
+/* De schakelaar tussen licht en donker. Geen icoontje en geen schuifje — het
+   is een woord, zoals al de rest op deze site. */
+.thema-knop {
+	appearance: none;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--lijn);
+	padding: 0 0 1px;
+	margin: 0;
+	color: var(--inkt);
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	cursor: pointer;
+}
+
+.thema-knop:hover { color: var(--accent-diep); border-bottom-color: var(--accent-diep); }
+
+/* --------------------------------------------------------------------------
+   11b. DE ANDERE PAGINA'S
+   Presidium, boeken, merch, sponsors, VSTN en Lichtung gebruiken dezelfde rij
+   als de agenda — nummer, gegevens, grote titel, tekst — zodat de hele site
+   uit hetzelfde soort blok is opgebouwd.
+   -------------------------------------------------------------------------- */
+
+/* Zolang een lijst leeg is, zegt de pagina dat ook. Beter dan een lege pagina
+   waarvan niemand weet of er iets stuk is. */
+.invullen {
+	padding-block: 1.25rem 1.75rem;
+	color: var(--grijs);
+	max-width: var(--maat);
+}
+
+.invullen .label { color: var(--accent-diep); display: block; margin-bottom: 0.35rem; }
+.invullen p { margin: 0; }
+.invullen code { font-family: ui-monospace, Menlo, monospace; color: var(--inkt); }
+
+/* Waar een foto komt maar er nog geen is: een vlak in de kleur van het jaar,
+   zodat de bladspiegel al klopt voor de foto's er zijn. */
+.beeldplek {
+	display: flex;
+	align-items: flex-end;
+	aspect-ratio: 3 / 2;
+	width: 100%;
+	max-width: var(--maat);
+	margin: 0 0 0.6rem;
+	background: var(--accent-zacht);
+	border: 1px solid var(--lijn);
+	object-fit: cover;
+}
+
+.beeldplek .label { color: var(--accent-diep); padding: 0.5rem 0.6rem; }
+img.beeldplek { display: block; border: 0; background: none; }
+
+/* De fotopagina is het enige raster op de site: beelden naast elkaar. */
+.rooster {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: 1.5rem;
+	padding: 1.25rem var(--rand) 2rem;
+}
+
+.rooster .kiek { margin: 0; }
+.rooster .beeldplek { max-width: none; }
+.rooster figcaption { color: var(--grijs); }
+
+/* --------------------------------------------------------------------------
+   12. DE RODE BALK
+   De kring heeft geen CMS met validatie — elk jaar zit er iemand anders aan het
+   databestand. Een fout moet dus zichtbaar zijn, niet stil weggeslikt.
+   -------------------------------------------------------------------------- */
+
+.fouten {
+	background: #be000a; color: #fff;
+	padding: 1rem var(--rand);
+	font-size: var(--t-klein); line-height: 1.5;
+}
+.fouten p { margin: 0 0 0.5rem; font-weight: 700; }
+.fouten ul { margin: 0; padding-left: 1.1rem; }
+.fouten code { font-family: ui-monospace, Menlo, monospace; }
+
+.leeg { color: var(--grijs); padding: 1rem var(--rand); border-top: 1px solid var(--lijn); }
+
+/* --------------------------------------------------------------------------
+   13. SMALLER SCHERM
+   De inhoud stond al in één kolom, dus er valt weinig om te breken: alleen de
+   voettekst zet zich in minder kolommen en de noot blijft open staan.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 68rem) {
+
+	/* Vanaf hier is aanwijzen geen zekerheid meer: de noot blijft staan. */
+	.item .noot { opacity: 1; }
+}
+
+@media (max-width: 48rem) {
+	:root { --rand: 1rem; }
+
+
+	.item { padding-block: 1.1rem 1.3rem; }
+	.item .marge > * { white-space: nowrap; }
+
+	.hero { min-height: 25dvh; }
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kring Moraal en Filosofie</title>
+<meta name="description" content="De faculteitskring voor wijsbegeerte en moraalwetenschappen aan de Universiteit Gent.">
+<link rel="icon" href="img/kmf-wapen.png">
+<link rel="stylesheet" href="css/kmf.css">
+<script>
+/* Vroeg uitgevoerd, nog voor de pagina getekend wordt: anders flitst de
+   verkeerde kleur even op. Geen keuze gemaakt? Dan volgt de site het toestel. */
+try {
+	var k = localStorage.getItem("kmf-thema");
+	if (k) document.documentElement.setAttribute("data-thema", k);
+} catch (e) {}
+</script>
+</head>
+<body>
+
+<main>
+
+<h1 class="buiten-beeld">Kring Moraal en Filosofie</h1>
+
+<section class="hero" data-kmf="hero" aria-label="Eerstvolgende activiteit">
+<!-- gebakken:start --><div class="inhoud"><p class="label">Eerstvolgende activiteit</p><h2 class="titel"><span class="woord">Kantiaanse</span> <span class="woord">grabbel</span></h2><div class="gegevens label"><span class="soort">Morgen</span><span>19:00</span><span>Blandijn, auditorium C</span><span>lezing</span></div></div><!-- gebakken:einde -->
+</section>
+
+<nav class="index rij" aria-label="Hoofdnavigatie"></nav>
+
+</main>
+
+<footer class="voet">
+	<div class="links">
+		<span>Blandijnberg 2, 9000 Gent</span>
+	</div>
+	<div class="rechts">
+		<span>© 2026 Kring Moraal en Filosofie</span>
+	</div>
+</footer>
+
+<script src="js/kmf.js"></script>
+</body>
+</html>
