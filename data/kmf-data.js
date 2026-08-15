@@ -185,7 +185,7 @@ window.KMF = {
     {
       titel:   "Kantiaanse grabbel",
       soort:   "lezing",
-      start:   "2026-08-15",
+      start:   "2026-08-16",
       tijd:    "19:00",
       locatie: "Blandijn, auditorium C",
       spreker: "Bert",
