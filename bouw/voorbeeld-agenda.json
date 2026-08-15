@@ -1,9 +1,0 @@
-[
-  ["titel", "soort", "start", "tijd", "locatie", "spreker", "tekst"],
-  ["Kantiaanse grabbel", "lezing", "2026-08-15", "19:00", "Blandijn, auditorium C", "Bert", ""],
-  ["Pinten", "café-avond", "2026-09-15", "21:00", "De geus", "", ""],
-  ["Daoistisch gejank", "debat", "2026-11-05", "19:30", "Blandijn, auditorium D", "Johannes", ""],
-  ["Wittgenstein en wiskunde", "lezing", "2026-12-05", "19:00", "Blandijn, auditorium C", "Jan", ""],
-  ["", "", "", "", "", "", ""],
-  ["Kapotte rij zonder datum", "lezing", "5 december", "20:00", "Blandijn", "", ""]
-]
