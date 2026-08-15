@@ -406,11 +406,6 @@ def bak_deelvoorbeeld(tekst, bestand, links, heeft_beeld):
     m = re.search(r'<meta name="description" content="(.*?)">', tekst, re.S)
     omschrijving = html.unescape(m.group(1).strip()) if m else ""
 
-    # "Agenda" alleen zegt in een groepsgesprek niets. De naam van de kring
-    # erbij, tenzij die er al in staat — dan zou hij er twee keer staan.
-    if KRINGNAAM.lower() not in titel.lower():
-        titel = "%s — %s" % (titel, KRINGNAAM)
-
     url = adres + "/" + ("" if bestand == "index.html" else bestand)
 
     regels = [
