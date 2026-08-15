@@ -1,0 +1,253 @@
+/* ==========================================================================
+   KMF — het postergereedschap
+   --------------------------------------------------------------------------
+   Alleen poster.html laadt dit blad. Het staat los van css/kmf.css omdat de
+   rest van de site er niets aan heeft: dit zijn de regelaars van één werkstuk.
+
+   De vormtaal blijft dezelfde. Geen kaders, geen schaduwen, geen afgeronde
+   hoeken, geen iconen. Een keuzevakje is een vierkantje, een schuifregelaar is
+   een vierkantje op een haarlijn, en een knop is een onderstreept woord — net
+   als de schakelaar tussen licht en donker onderaan elke pagina.
+   ========================================================================== */
+
+/* De kleine hoofdletterregel: dezelfde maat, spatiëring en gewicht als in de
+   navigatiebalk en op de datum in de agenda. Op de werkbank draagt ze alles wat
+   geen inhoud is maar aanwijzing — de kopjes, de veldnamen, de knoppen.
+
+   Ze staat hier en niet in css/kmf.css, omdat op de rest van de site niets ze
+   nodig heeft: daar zetten .nav en .item .datum hun eigen kapitalen. Heeft een
+   andere pagina ze ooit ook nodig, dan verhuist ze naar het hoofdblad en gaan
+   die twee erop mee. */
+.kap {
+	font-size: var(--t-klein);
+	line-height: 1.4;
+	letter-spacing: 0.07em;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+/* De werkbank: links wat je instelt, rechts wat eruit komt. Op een smal scherm
+   onder elkaar, met de poster eerst — je wil zien wat je aan het maken bent. */
+.werkbank {
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+@media (min-width: 68rem) {
+	.werkbank {
+		display: grid;
+		grid-template-columns: minmax(0, 26rem) minmax(0, 1fr);
+		align-items: start;
+	}
+}
+
+/* -------------------------------------------------------------- de regelaars */
+
+.blok { padding-block: 1.1rem 1.35rem; }
+
+.blok .kopje {
+	margin: 0 0 0.7rem;
+	color: var(--grijs);
+}
+
+/* Drie formaten naast elkaar. Het gekozene staat onderstreept in de inktkleur,
+   de andere twee grijs. Geen omkadering: een streep en een tint zeggen genoeg. */
+.keuze {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem 1.1rem;
+}
+
+.keuze label {
+	cursor: pointer;
+	color: var(--grijs);
+}
+
+.keuze input:checked + span {
+	color: var(--inkt);
+	border-bottom: 1px solid var(--inkt);
+}
+
+.keuze label:hover span { color: var(--inkt); }
+
+/* Eén regel per gegeven: het vierkantje zegt of het meegaat, het vak wat er
+   staat. Twee aparte lijstjes — één om aan te vinken en één om in te vullen —
+   zou hetzelfde twee keer zeggen. */
+.velden {
+	display: flex;
+	flex-direction: column;
+	gap: 0.55rem;
+}
+
+.veld {
+	display: grid;
+	grid-template-columns: 1.1rem 5.5rem minmax(0, 1fr);
+	align-items: baseline;
+	gap: 0 0.5rem;
+}
+
+.veld .naam { color: var(--grijs); }
+
+/* Een vierkantje. Vol is aan, leeg is uit. */
+.vink {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 0.72rem;
+	height: 0.72rem;
+	margin: 0;
+	padding: 0;
+	border: 1px solid var(--lijn);
+	border-radius: 0;
+	background: none;
+	cursor: pointer;
+	align-self: center;
+}
+
+.vink:checked { background: var(--inkt); border-color: var(--inkt); }
+.vink:hover { border-color: var(--inkt); }
+
+/* Invoervakken zonder vak: een haarlijn eronder, zoals overal op de site. */
+.tekstvak,
+.kiezer {
+	font: inherit;
+	font-size: var(--t-klein);
+	line-height: 1.4;
+	color: var(--inkt);
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--lijn);
+	border-radius: 0;
+	appearance: none;
+	-webkit-appearance: none;
+	padding: 0.1rem 0;
+	width: 100%;
+	min-width: 0;
+}
+
+.tekstvak:focus,
+.kiezer:focus {
+	outline: none;
+	border-bottom-color: var(--accent-diep);
+}
+
+.kiezer { cursor: pointer; }
+
+/* De schuifregelaar: een vierkantje dat over een haarlijn schuift. */
+.schuif {
+	appearance: none;
+	-webkit-appearance: none;
+	background: none;
+	width: 100%;
+	height: 1rem;
+	margin: 0;
+	cursor: pointer;
+}
+
+.schuif::-webkit-slider-runnable-track { height: 1px; background: var(--lijn); }
+.schuif::-webkit-slider-thumb {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 0.7rem;
+	height: 0.7rem;
+	margin-top: -0.35rem;
+	background: var(--inkt);
+	border: 0;
+	border-radius: 0;
+}
+.schuif::-moz-range-track { height: 1px; background: var(--lijn); }
+.schuif::-moz-range-thumb {
+	width: 0.7rem;
+	height: 0.7rem;
+	background: var(--inkt);
+	border: 0;
+	border-radius: 0;
+}
+
+/* Het echte bestandsvak heeft een knop van het besturingssysteem, met randjes
+   en ronde hoeken. Dat vak staat er wel, maar je ziet het niet; je klikt op
+   het woord ernaast. */
+.bestandsvak {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+}
+
+.bestandsknop {
+	cursor: pointer;
+	border-bottom: 1px solid var(--lijn);
+}
+.bestandsknop:hover { color: var(--accent-diep); border-bottom-color: var(--accent-diep); }
+
+.beeldregel {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.3rem 1.1rem;
+	align-items: baseline;
+}
+
+#bestandsnaam { color: var(--grijs); }
+
+#uitsnede { margin-top: 0.9rem; }
+#uitsnede .uitleg { color: var(--grijs); margin: 0 0 0.2rem; }
+
+/* Een knop die eruitziet als een woord. Zelfde behandeling als de schakelaar
+   tussen licht en donker onderaan de pagina. */
+.tekstknop {
+	appearance: none;
+	background: none;
+	border: 0;
+	border-bottom: 1px solid var(--lijn);
+	padding: 0 0 1px;
+	margin: 0;
+	color: var(--inkt);
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	cursor: pointer;
+}
+
+.tekstknop:hover { color: var(--accent-diep); border-bottom-color: var(--accent-diep); }
+.tekstknop[disabled] { color: var(--grijs); border-bottom-color: var(--grijs); cursor: default; }
+
+#melding { color: var(--accent-diep); margin: 0.6rem 0 0; }
+
+/* --------------------------------------------------------------- het voorbeeld */
+
+.voorbeeld {
+	border-top: 1px solid var(--lijn);
+	padding: 1.1rem var(--rand) 1.35rem;
+}
+
+@media (min-width: 68rem) {
+	.voorbeeld {
+		border-left: 1px solid var(--lijn);
+		position: sticky;
+		top: 0;
+	}
+}
+
+/* De plaat zelf. Ze staat op een grijs vlak zodat een lichte poster niet in de
+   pagina wegvalt, en ze wordt nooit hoger dan het scherm. */
+#doek {
+	display: block;
+	max-width: 100%;
+	max-height: 78vh;
+	width: auto;
+	height: auto;
+	margin-inline: auto;
+	touch-action: none;
+	cursor: grab;
+	background: var(--accent-zacht);
+}
+
+#doek:active { cursor: grabbing; }
+
+.voorbeeld .onderschrift {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.2rem 1.1rem;
+	color: var(--grijs);
+	margin: 0.7rem 0 0;
+}

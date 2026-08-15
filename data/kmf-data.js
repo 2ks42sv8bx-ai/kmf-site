@@ -40,7 +40,20 @@ window.KMF = {
     instagram:      "https://www.instagram.com/kmf.gent/",
     facebook:       "https://www.facebook.com/kringmoraalfilosofie",
     wikipedia:      "https://nl.wikipedia.org/wiki/Kring_Moraal_en_Filosofie",
-    mail:           "kringmoraalenfilosofie@gmail.com"
+    mail:           "kringmoraalenfilosofie@gmail.com",
+
+    /* Het adres waar de site staat, zonder schuine streep op het einde —
+       bijvoorbeeld "https://kmfgent.github.io/website".
+
+       Dit is nodig voor het deelvoorbeeld. Deel je een link in een WhatsApp-
+       groep of op Facebook, dan gaat die app zelf de pagina ophalen om er een
+       kaartje van te maken met titel, tekst en beeld. Voor dat beeld heeft ze
+       een volledig adres nodig: zij weet niet waar de site staat.
+
+       Zolang dit leeg blijft, laat het bouwscript het deelvoorbeeld gewoon
+       achterwege. Er gaat niets stuk; een gedeelde link toont dan alleen het
+       kale adres, zoals nu. */
+    site:           ""
   },
 
   /* ------------------------------------------------------------------------
@@ -55,26 +68,26 @@ window.KMF = {
      regel met geen van beide staat er grijs bij als "nog niet gebouwd".
      ------------------------------------------------------------------------ */
   navigatie: [
-    { thema: "doen", items: [
+    { thema: "doen", naam: "Wat we doen", items: [
       { naam: "Agenda",         pagina: "agenda.html" },
       { naam: "Foto's",         pagina: "fotos.html" }
     ]},
-    { thema: "studie", items: [
+    { thema: "studie", naam: "Voor je studie", items: [
       { naam: "Samenvattingen", link: "samenvattingen" },   /* uit `links` hierboven */
       { naam: "Boeken",         pagina: "boeken.html" },
       { naam: "VSTN",           pagina: "vstn.html" },
       { naam: "Lichtung",       pagina: "lichtung.html" }
     ]},
-    { thema: "meedoen", items: [
+    { thema: "meedoen", naam: "Meedoen", items: [
       { naam: "Lid worden",     pagina: "lid-worden.html" },
       { naam: "Merch",          pagina: "merch.html" }
     ]},
-    { thema: "wij", items: [
+    { thema: "wij", naam: "Wie we zijn", items: [
       { naam: "Over ons",       pagina: "over.html" },
       { naam: "Presidium",      pagina: "presidium.html" },
       { naam: "Sponsors",       pagina: "sponsors.html" }
     ]},
-    { thema: "hulp", items: [
+    { thema: "hulp", naam: "Hulp en contact", items: [
       { naam: "Mentaal welzijn", pagina: "welzijn.html" },
       { naam: "Contact",         pagina: "contact.html" }
     ]}
@@ -91,21 +104,40 @@ window.KMF = {
      de groep waar de agenda zelf onder valt.
      ------------------------------------------------------------------------ */
   soorten: {
+    /* Sociale activiteiten — de groep waar de agenda zelf onder valt. */
+    "café-avond":       "doen",
+    "cafe-avond":       "doen",
+    "cantus":           "doen",
+    "fuif":             "doen",
+    "weekend":          "doen",
+    "uitstap":          "doen",
+
+    /* Alles waar je iets van opsteekt. */
     "lezing":           "studie",
     "debat":            "studie",
+    "workshop":         "studie",
+    "seminar":          "studie",
+    "colloquium":       "studie",
     "boekvoorstelling": "studie",
     "leesgroep":        "studie",
 
-    "café-avond":       "meedoen",
-    "cantus":           "meedoen",
-    "fuif":             "meedoen",
+    /* Meedoen met de kring. */
+    "lid":              "meedoen",
+    "lidworden":        "meedoen",
     "gebakdag":         "meedoen",
-    "weekend":          "meedoen",
 
+    /* De kring zelf. */
+    "bestuur":          "wij",
+    "presidium":        "wij",
+    "alumni":           "wij",
+    "statuten":         "wij",
     "ledenvergadering": "wij",
     "verkiezingen":     "wij",
 
-    "welzijn":          "hulp"
+    /* Zorg en contact. */
+    "welzijn":          "hulp",
+    "mentaal":          "hulp",
+    "contact":          "hulp"
   },
 
   /* ------------------------------------------------------------------------

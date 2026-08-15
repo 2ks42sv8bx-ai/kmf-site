@@ -219,6 +219,54 @@
 		return marge;
 	}
 
+	// Hetzelfde kenmerk dat bouw/haal-agenda.py uitrekent. Zie daar.
+	function stempelVan(komende) {
+		var ruw = komende.map(function (g) {
+			var d = g.start;
+			var iso = d.getFullYear() + "-" +
+				String(d.getMonth() + 1).padStart(2, "0") + "-" +
+				String(d.getDate()).padStart(2, "0");
+			return g.titel + "|" + iso + "|" + (g.tijd || "");
+		}).join(";");
+
+		var h = 5381;
+		for (var i = 0; i < ruw.length; i++) {
+			h = ((h * 33) ^ ruw.charCodeAt(i)) >>> 0;
+		}
+		return h.toString(16);
+	}
+
+	// Zelfde volgorde als STEMPELVELDEN in bouw/haal-agenda.py.
+	var STEMPELVELDEN = ["naam", "titel", "functie", "datum", "prijs", "auteur",
+		"vak", "link", "beeld", "tekst"];
+
+	function stempelLijst(rijen) {
+		var ruw = (rijen || []).map(function (r) {
+			return STEMPELVELDEN.map(function (v) { return r[v] || ""; }).join("|");
+		}).join(";");
+
+		var h = 5381;
+		for (var i = 0; i < ruw.length; i++) h = ((h * 33) ^ ruw.charCodeAt(i)) >>> 0;
+		return h.toString(16);
+	}
+
+	// Zelfde berekening als stempel_nav in bouw/haal-agenda.py.
+	function stempelNav(data, hier) {
+		var delen = [hier];
+		(data.navigatie || []).forEach(function (groep) {
+			delen.push(groep.thema || "");
+			(groep.items || []).forEach(function (item) { delen.push(item.naam || ""); });
+		});
+		var ruw = delen.join("|");
+		var h = 5381;
+		for (var i = 0; i < ruw.length; i++) h = ((h * 33) ^ ruw.charCodeAt(i)) >>> 0;
+		return h.toString(16);
+	}
+
+	function klopt(gebakken, stempel) {
+		return !!gebakken && gebakken.getAttribute("data-stempel") === stempel;
+	}
+
 	function vlakbij(status) {
 		return status === "Vandaag" || status === "Vanavond" || status === "Morgen";
 	}
@@ -329,6 +377,11 @@
 				titel.scrollHeight <= px * MAX_LIJNEN + 1;
 		};
 
+		// Lukt zelfs de kleinste maat niet, dan is er iets mis met de meting —
+		// bijvoorbeeld omdat de tekst nog niet is opgemaakt. Dan laten we de
+		// maat uit de CSS staan in plaats van de titel op MIN te pletten.
+		if (!past(MIN)) { titel.style.fontSize = ""; return; }
+
 		var laag = MIN, hoog = MAX;
 		if (past(MAX)) { laag = MAX; }
 		else {
@@ -348,11 +401,15 @@
 		if (titel) pasTitelIn(titel);
 	}
 
+	var heroVolgt = false;
 	function volgHeroMaat() {
+		pasHeroIn();
+		if (heroVolgt) return;          // anders bij elke oproep een luisteraar erbij
+		heroVolgt = true;
+
 		if (document.fonts && document.fonts.ready) {
 			document.fonts.ready.then(pasHeroIn);
 		}
-		pasHeroIn();
 
 		var wacht;
 		window.addEventListener("resize", function () {
@@ -363,43 +420,15 @@
 
 	// Is er een foto, dan komt die eronder; is er geen, dan blijft het
 	// accentvlak staan en verandert er verder niets aan de zetting.
-	function themaVanSoort(soort) {
-		var s = String(soort || "").trim().toLowerCase();
-		var kaart = {
-			"cafe-avond": "doen",
-			"caf\u00e9-avond": "doen",
-			"cantus": "doen",
-			"fuif": "doen",
-			"weekend": "doen",
-			"uitstap": "doen",
-			"workshop": "studie",
-			"lezing": "studie",
-			"debat": "studie",
-			"seminar": "studie",
-			"colloquium": "studie",
-			"lid": "meedoen",
-			"lidworden": "meedoen",
-			"bestuur": "wij",
-			"presidium": "wij",
-			"alumni": "wij",
-			"statuten": "wij",
-			"welzijn": "hulp",
-			"mentaal": "hulp",
-			"contact": "hulp"
-		};
-		return kaart[s] || "";
-	}
-
 	function bouwHero(doel, g) {
 		if (!doel) return;
 		doel.innerHTML = "";
-		doel.dataset.thema = g && g.soort ? themaVanSoort(g.soort) : "";
 
 		var inhoud = el("div", "inhoud");
 
 		if (!g) {
 			inhoud.appendChild(el("h2", "titel", "Tot binnenkort"));
-			var leegGegevens = el("div", "gegevens label");
+			var leegGegevens = el("div", "gegevens");
 			leegGegevens.appendChild(el("span", null, "Geen activiteiten gepland"));
 			inhoud.appendChild(leegGegevens);
 			doel.appendChild(inhoud);
@@ -424,7 +453,7 @@
 		});
 		inhoud.appendChild(titel);
 
-		var gegevens = el("div", "gegevens label");
+		var gegevens = el("div", "gegevens");
 		var status = heroStatus(g.start, g.tijd);
 		if (status) {
 			gegevens.appendChild(el("span", "soort", status));
@@ -452,27 +481,26 @@
 	// en krijg je altijd wat je net getypt hebt. Dit werkt ook wanneer je de
 	// pagina rechtstreeks vanaf je schijf opent.
 	function laadData(klaar) {
-		if (window.KMF) return klaar();
+		if (window.KMF && window.KMF_AGENDA) return klaar();
 
-		// Eerste poging met tijdstempel. Lukt dat niet — sommige browsers doen
-		// moeilijk over een vraagteken achter een bestand op de harde schijf —
-		// dan gewoon nog eens zonder.
-		var mislukt = function () {
-			toonFouten(["Het bestand <code>data/kmf-data.js</code> kon niet geladen worden. " +
-				"Staat het nog in de map <code>data</code>?"]);
-		};
+		// De twee bestanden hebben niets met elkaar te maken, dus halen we ze
+		// naast elkaar op. Achter elkaar kostte dat veertig milliseconden extra,
+		// en al die tijd stond de pagina te wachten.
+		var teGaan = 2;
+		var af = function () { if (--teGaan === 0) klaar(); };
 
-		haalScript("data/kmf-data.js?t=" + Date.now(), function () { haalAgenda(klaar); }, function () {
-			haalScript("data/kmf-data.js", function () { haalAgenda(klaar); }, mislukt);
+		haalScript("data/kmf-data.js?t=" + Date.now(), af, function () {
+			haalScript("data/kmf-data.js", af, function () {
+				toonFouten(["Het bestand <code>data/kmf-data.js</code> kon niet geladen worden. " +
+					"Staat het nog in de map <code>data</code>?"]);
+				af();
+			});
 		});
-	}
 
-	// De agenda komt uit de spreadsheet en wordt elk uur door GitHub in
-	// data/agenda.js gezet. Bestaat dat bestand niet — bijvoorbeeld omdat je
-	// lokaal aan het werken bent — dan valt de site terug op de activiteiten
-	// die in data/kmf-data.js staan.
-	function haalAgenda(klaar) {
-		haalScript("data/agenda.js?t=" + Date.now(), klaar, function () { klaar(); });
+		// De agenda komt uit de spreadsheet en wordt elk uur door GitHub in
+		// data/agenda.js gezet. Bestaat dat bestand niet — bijvoorbeeld omdat je
+		// lokaal werkt — dan valt de site terug op data/kmf-data.js.
+		haalScript("data/agenda.js?t=" + Date.now(), af, af);
 	}
 
 	function haalScript(bron, gelukt, mislukt) {
@@ -523,6 +551,11 @@
 				if (!items.length) return;
 
 				var vak = el("div", "groep " + (groep.thema || ""));
+
+				// De groepen worden alleen door kleur en tussenruimte
+				// onderscheiden. Wie voorleest of de kleuren niet ziet, hoort
+				// hier waar een groep over gaat. Op het scherm blijft het weg.
+				if (groep.naam) vak.appendChild(el("span", "buiten-beeld", groep.naam));
 				items.forEach(function (item) {
 					var link = maakNavLink(item, data);
 					// De pagina waar je op staat, komt niet in haar eigen balk —
@@ -620,15 +653,18 @@
 		nav.classList.remove("meten");
 		nav.querySelectorAll(".groep").forEach(function (groep) {
 			var zichtbaar = [].slice.call(groep.children).filter(function (k) {
-				return !k.classList.contains("hier");
+				return !k.classList.contains("hier") && !k.classList.contains("buiten-beeld");
 			});
 			if (!zichtbaar.length) groep.classList.add("leeg");
 		});
 	}
 
+	var navVolgt = false;
 	function volgNavMaat() {
-		if (document.fonts && document.fonts.ready) document.fonts.ready.then(pasNavIn);
 		pasNavIn();
+		if (navVolgt) return;          // anders bij elke oproep een luisteraar erbij
+		navVolgt = true;
+		if (document.fonts && document.fonts.ready) document.fonts.ready.then(pasNavIn);
 
 		var wacht;
 		window.addEventListener("resize", function () {
@@ -663,7 +699,7 @@
 		var voet = document.querySelector(".voet .links");
 		if (!voet || voet.querySelector(".thema-knop")) return;
 
-		var knop = el("button", "thema-knop label");
+		var knop = el("button", "thema-knop");
 		knop.type = "button";
 
 		function huidig() {
@@ -767,7 +803,7 @@
 	function maakBeeld(bron) {
 		if (!bron) {
 			var vlak = el("div", "beeldplek");
-			vlak.appendChild(el("span", "label", "Beeld"));
+			vlak.appendChild(el("span", null, "Beeld"));
 			return vlak;
 		}
 		var img = el("img", "beeldplek beeld");
@@ -786,11 +822,11 @@
 			return;
 		}
 
-		var rooster = el("div", "rooster");
+		var rooster = el("div", "rooster rij");
 		fotos.forEach(function (f) {
 			var fig = el("figure", "kiek");
 			fig.appendChild(maakBeeld(f.beeld));
-			if (f.bijschrift) fig.appendChild(el("figcaption", "label", f.bijschrift));
+			if (f.bijschrift) fig.appendChild(el("figcaption", null, f.bijschrift));
 			rooster.appendChild(fig);
 		});
 		doel.appendChild(rooster);
@@ -799,14 +835,30 @@
 	// Een pagina die nog geschreven moet worden, zegt dat met één woord.
 	function maakInvulblok(sleutel, eigenLijn) {
 		var blok = el("div", "invullen" + (eigenLijn === false ? "" : " rij"));
-		blok.appendChild(el("p", "label", "WIP"));
+		blok.appendChild(el("p", null, "WIP"));
 		return blok;
 	}
 
 	function bouwTekstblok(doel) {
-		if (!doel || doel.textContent.trim() !== "") return;
+		if (!doel || doel.querySelector(".invullen")) return;
+		if (doel.textContent.trim() !== "") return;
 		doel.appendChild(maakInvulblok(doel.getAttribute("data-kmf-bestand") || "deze pagina", false));
 	}
+
+	/* --------------------------------------------------- gedeeld met de poster */
+
+	// Het postergereedschap op poster.html rekent met dezelfde datums, dezelfde
+	// groepskleuren en dezelfde lijst van komende activiteiten als de rest van
+	// de site. Ze staan hier één keer, en js/poster.js leest ze hier op — zodat
+	// een poster nooit een andere datum of een andere kleur kan tonen dan de
+	// agenda waar hij uit komt.
+	window.KMF_HULP = {
+		leesDatum: leesDatum,
+		toonDatum: toonDatum,
+		toonPeriode: toonPeriode,
+		groepVanSoort: groepVanSoort,
+		komende: komendeActiviteiten
+	};
 
 	/* ----------------------------------------------------------------- start */
 
@@ -819,7 +871,16 @@
 			return;
 		}
 
-		bouwNavigatie(data);
+		// Idem voor de balk: klopt het kenmerk, dan blijft ze staan zoals ze
+		// gebakken is. Gooiden we ze weg en bouwden we ze opnieuw, dan moest ze
+		// ook opnieuw passend gemaakt worden — en dat gaf een ander resultaat
+		// naargelang het lettertype op dat moment al binnen was. Vandaar dat de
+		// pagina er niet elke keer hetzelfde uitzag.
+		var merk = stempelNav(data, huidigePagina());
+		var navKlopt = [].slice.call(document.querySelectorAll("nav.nav, nav.index"))
+			.every(function (n) { return n.getAttribute("data-stempel") === merk; });
+		if (!navKlopt) bouwNavigatie(data);
+
 		bouwThemaKnop();
 
 		var uitSpreadsheet = Array.isArray(window.KMF_AGENDA);
@@ -831,13 +892,44 @@
 
 		var komende = komendeActiviteiten(lijst);
 
-		bouwHero(document.querySelector('[data-kmf="hero"]'), komende[0]);
-		bouwLijst(document.querySelector('[data-kmf="agenda"]'), komende);
+		// Wat het bouwscript al in de pagina zette, laten we staan zolang het
+		// nog klopt. Het bouwscript stempelt zijn werk; klopt die stempel met
+		// wat het script zelf zou tekenen, dan is opnieuw tekenen alleen maar
+		// geknipper. Verschilt hij — omdat iemand het databestand aanpaste
+		// zonder opnieuw te bouwen — dan tekent het script wél opnieuw.
+		var heroDoel = document.querySelector('[data-kmf="hero"]');
+		if (heroDoel) {
+			// De kleur van het vlak hoort bij de gegevens, niet bij de opmaak.
+			// Ze staat dus los van de vraag of we opnieuw tekenen — anders valt
+			// ze weg zodra we de gebakken versie laten staan.
+			heroDoel.setAttribute("data-groep",
+				komende[0] ? groepVanSoort(komende[0].soort) : "");
 
+			if (!klopt(heroDoel.querySelector(".inhoud"), stempelVan(komende.slice(0, 1)))) {
+				bouwHero(heroDoel, komende[0]);
+			}
+		}
+
+		var agendaDoel = document.querySelector('[data-kmf="agenda"]');
+		if (agendaDoel && !klopt(agendaDoel.querySelector(".lijst"), stempelVan(komende))) {
+			bouwLijst(agendaDoel, komende);
+		}
+
+		// Ook hier: staat het er al en klopt het nog, dan blijft het staan.
 		Object.keys(LIJSTEN).forEach(function (soort) {
-			bouwPaginaLijst(document.querySelector('[data-kmf="' + soort + '"]'), soort, data[soort]);
+			var doel = document.querySelector('[data-kmf="' + soort + '"]');
+			if (!doel) return;
+			var reeds = doel.querySelector(".lijst, .invullen");
+			if (!klopt(reeds, stempelLijst(data[soort]))) {
+				bouwPaginaLijst(doel, soort, data[soort]);
+			}
 		});
-		bouwFotos(document.querySelector('[data-kmf="fotos"]'), data.fotos);
+
+		var fotoDoel = document.querySelector('[data-kmf="fotos"]');
+		if (fotoDoel && !klopt(fotoDoel.querySelector(".rooster, .invullen"),
+				stempelLijst(data.fotos))) {
+			bouwFotos(fotoDoel, data.fotos);
+		}
 
 		document.querySelectorAll('[data-kmf="tekst"]').forEach(bouwTekstblok);
 
@@ -845,9 +937,28 @@
 		volgNavMaat();
 	}
 
+	// De balk en de titel staan al in de pagina — het bouwscript heeft ze
+	// erin gebakken — en hebben de gegevens niet nodig om passend gemaakt te
+	// worden. Dus doen we dat meteen. Wachtten we op de databestanden, dan
+	// stond de balk een vijfde seconde verkeerd en sprong de pagina daarna op
+	// haar plaats. Dát was de hapering.
+	volgNavMaat();
+	volgHeroMaat();
+
+	// Pas hierna staan window.KMF en de agenda klaar. Het postergereedschap
+	// wacht op dit sein; ging het meteen aan de slag, dan stond de keuzelijst
+	// met activiteiten leeg. Het sein komt ook wanneer start() vroegtijdig
+	// afhaakt — dan werkt de poster nog altijd, je typt de gegevens gewoon zelf.
+	function starten() {
+		try { start(); } finally {
+			window.KMF_GEREED = true;
+			document.dispatchEvent(new CustomEvent("kmf-klaar"));
+		}
+	}
+
 	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", function () { laadData(start); });
+		document.addEventListener("DOMContentLoaded", function () { laadData(starten); });
 	} else {
-		laadData(start);
+		laadData(starten);
 	}
 })();

@@ -85,12 +85,35 @@
 
 	   Deze vijf staan vast, in tegenstelling tot het jaaraccent hierboven.
 	   Wegwijzers moeten blijven waar ze staan; de identiteit van het jaar mag
-	   veranderen. ---------------------------------------------------------- */
-	--thema-doen:    #B93A57;   /* agenda, foto's, VSTN        — wapenroze  */
-	--thema-studie:  #147E2D;   /* samenvattingen, boeken                   */
-	--thema-meedoen: #6E7112;   /* lid worden, merch                        */
-	--thema-wij:     #1D71B1;   /* presidium, alumni, statuten — wapenblauw */
-	--thema-hulp:    #A034DE;   /* mentaal welzijn, contact                 */
+	   veranderen.
+
+	   De vijf staan hieronder twee keer onder een andere naam. --papier-* is de
+	   tint zoals ze op papier terechtkomt: een affiche heeft geen donkere
+	   modus, ze wordt gedrukt of ze hangt aan de valven. --thema-* is dezelfde
+	   tint op het scherm; die volgt de papierwaarde en wijkt er enkel in de
+	   donkere modus van af. Zo staat elke kleur maar één keer geschreven, en
+	   maakt js/poster.js een poster die er 's avonds hetzelfde uitziet als
+	   's ochtends. ------------------------------------------------------- */
+	--papier-doen:    #B93A57;   /* agenda, foto's, VSTN        — wapenroze  */
+	--papier-studie:  #147E2D;   /* samenvattingen, boeken                   */
+	--papier-meedoen: #6E7112;   /* lid worden, merch                        */
+	--papier-wij:     #1D71B1;   /* presidium, alumni, statuten — wapenblauw */
+	--papier-hulp:    #A034DE;   /* mentaal welzijn, contact                 */
+
+	--thema-doen:    var(--papier-doen);
+	--thema-studie:  var(--papier-studie);
+	--thema-meedoen: var(--papier-meedoen);
+	--thema-wij:     var(--papier-wij);
+	--thema-hulp:    var(--papier-hulp);
+
+	/* Dezelfde vijf, maar dan als achtergrond bij het aanwijzen: de kleur van
+	   de groep, acht procent op wit. Zo krijgt een activiteit bij het aanwijzen
+	   haar eigen kleur mee in plaats van die van het jaar. */
+	--zacht-doen:    #F9EFF2;
+	--zacht-studie:  #ECF5EE;
+	--zacht-meedoen: #F3F4EC;
+	--zacht-wij:     #EDF4F9;
+	--zacht-hulp:    #F7EFFC;
 }
 
 @media (min-width: 68rem) {
@@ -120,6 +143,11 @@
 		--thema-meedoen: #9CA01A;
 		--thema-wij:     #4CA1E2;
 		--thema-hulp:    #C27EEA;
+		--zacht-doen: #372327;
+		--zacht-studie: #152C1A;
+		--zacht-meedoen: #2A2A14;
+		--zacht-wij: #1D2A34;
+		--zacht-hulp: #302435;
 	}
 }
 
@@ -135,6 +163,11 @@
 	--thema-meedoen: #9CA01A;
 	--thema-wij:     #4CA1E2;
 	--thema-hulp:    #C27EEA;
+	--zacht-doen: #372327;
+	--zacht-studie: #152C1A;
+	--zacht-meedoen: #2A2A14;
+	--zacht-wij: #1D2A34;
+	--zacht-hulp: #302435;
 }
 
 /* --------------------------------------------------------------------------
@@ -147,7 +180,18 @@
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400 700;
-	font-display: swap;
+	/* block, niet swap en niet optional.
+
+	   swap tekent eerst met de terugvalletter en wisselt daarna: je ziet de
+	   tekst van vorm veranderen. optional loste dat op, maar is een wedloop —
+	   haalt Inter het venster van een tiende seconde niet, dan blijft die hele
+	   paginaweergave in Helvetica staan. Bij de ene verversing wel, bij de
+	   andere niet: de pagina zag er niet elke keer hetzelfde uit.
+
+	   block wacht kort met tekenen tot Inter er is. Dankzij de preload in de
+	   <head> duurt dat een handvol milliseconden, en het resultaat is elke
+	   keer identiek. */
+	font-display: block;
 	src: url('../fonts/inter-latin-ext.woff2') format('woff2');
 	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
 		U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
@@ -158,7 +202,18 @@
 	font-family: 'Inter';
 	font-style: normal;
 	font-weight: 400 700;
-	font-display: swap;
+	/* block, niet swap en niet optional.
+
+	   swap tekent eerst met de terugvalletter en wisselt daarna: je ziet de
+	   tekst van vorm veranderen. optional loste dat op, maar is een wedloop —
+	   haalt Inter het venster van een tiende seconde niet, dan blijft die hele
+	   paginaweergave in Helvetica staan. Bij de ene verversing wel, bij de
+	   andere niet: de pagina zag er niet elke keer hetzelfde uit.
+
+	   block wacht kort met tekenen tot Inter er is. Dankzij de preload in de
+	   <head> duurt dat een handvol milliseconden, en het resultaat is elke
+	   keer identiek. */
+	font-display: block;
 	src: url('../fonts/inter-latin.woff2') format('woff2');
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
 		U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
@@ -359,12 +414,12 @@ main { flex: 1 0 auto; }
 @media (prefers-color-scheme: dark) {
 	:root:not([data-thema="licht"]) .hero:not(.met-beeld) { background: var(--grond); color: var(--inkt); }
 	:root:not([data-thema="licht"]) .hero:not(.met-beeld) .titel { color: var(--accent); }
-	:root:not([data-thema="licht"]) .hero:not(.met-beeld) .label { color: var(--grijs); }
+	:root:not([data-thema="licht"]) .hero:not(.met-beeld) .gegevens { color: var(--grijs); }
 }
 
 :root[data-thema="donker"] .hero:not(.met-beeld) { background: var(--grond); color: var(--inkt); }
 :root[data-thema="donker"] .hero:not(.met-beeld) .titel { color: var(--accent); }
-:root[data-thema="donker"] .hero:not(.met-beeld) .label { color: var(--grijs); }
+:root[data-thema="donker"] .hero:not(.met-beeld) .gegevens { color: var(--grijs); }
 
 .hero.met-beeld { color: #fff; background: #000; }
 
@@ -390,9 +445,18 @@ main { flex: 1 0 auto; }
 	gap: 2rem; /* <-- Hier bepaal je direct de afstand tussen titel en gegevens! */
 }
 
-/* Zet de marges van de titel dan gewoon uit: */
+/* Zet de marges van de titel dan gewoon uit.
+
+   De korpsgrootte wordt door js/kmf.js precies uitgerekend, maar het bouwscript
+   zet er alvast --tekens op: het aantal letters van het langste woord. Daarmee
+   kiest de browser bij het eerste tekenen al een maat die er dicht bij zit, in
+   plaats van de titel klein te zetten en te laten opspringen zodra het script
+   klaar is. 0,58 is ongeveer de gemiddelde letterbreedte van Inter in het vet. */
 .hero .titel {
-	font-size: var(--t-hero);
+	font-size: min(
+		calc((100vw - 2 * var(--rand)) / (var(--tekens, 12) * 0.58)),
+		220px
+	);
 	line-height: 1;
 	font-weight: 700;
 	letter-spacing: -0.03em;
@@ -468,7 +532,14 @@ main { flex: 1 0 auto; }
 	border-top: 1px solid var(--lijn);
 }
 .item:last-child { border-bottom: 1px solid var(--lijn); }
-.item:hover { background: var(--accent-zacht); }
+/* Bij het aanwijzen krijgt een activiteit de tint van haar eigen groep — niet
+   die van het academiejaar. Zo klopt de kleur op de rij met de kleur van het
+   woord erin. */
+.item:hover { background: var(--zacht-doen); }
+.item.thema-studie:hover  { background: var(--zacht-studie); }
+.item.thema-meedoen:hover { background: var(--zacht-meedoen); }
+.item.thema-wij:hover     { background: var(--zacht-wij); }
+.item.thema-hulp:hover    { background: var(--zacht-hulp); }
 
 
 /* De gegevens op één regel boven de titel. Wat er niet is, laat gewoon een
@@ -669,8 +740,7 @@ main { flex: 1 0 auto; }
 	max-width: var(--maat);
 }
 
-.invullen .label { color: var(--accent-diep); display: block; margin-bottom: 0.35rem; }
-.invullen p { margin: 0; }
+.invullen p { color: var(--accent-diep); margin: 0 0 0.35rem; }
 .invullen code { font-family: ui-monospace, Menlo, monospace; color: var(--inkt); }
 
 /* Waar een foto komt maar er nog geen is: een vlak in de kleur van het jaar,
@@ -687,7 +757,7 @@ main { flex: 1 0 auto; }
 	object-fit: cover;
 }
 
-.beeldplek .label { color: var(--accent-diep); padding: 0.5rem 0.6rem; }
+.beeldplek span { color: var(--accent-diep); padding: 0.5rem 0.6rem; }
 img.beeldplek { display: block; border: 0; background: none; }
 
 /* De fotopagina is het enige raster op de site: beelden naast elkaar. */
@@ -695,12 +765,144 @@ img.beeldplek { display: block; border: 0; background: none; }
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
 	gap: 1.5rem;
-	padding: 1.25rem var(--rand) 2rem;
+	/* Geen eigen zijmarge: die komt van de rij eromheen, net als bij elk ander
+	   blok. Stond ze hier ook, dan begonnen de beelden veertig pixel van de
+	   rand terwijl de tekst op twintig staat. */
+	padding-block: 1.25rem 2rem;
 }
 
 .rooster .kiek { margin: 0; }
 .rooster .beeldplek { max-width: none; }
 .rooster figcaption { color: var(--grijs); }
+
+
+/* --------------------------------------------------------------------------
+   11c. LOPENDE TEKST
+   Alles hierboven is een lijst. Dit is het stuk voor pagina's die je gewoon
+   leest: Over ons, Lid worden, Mentaal welzijn.
+
+   De regels hangen aan gewone HTML — h2, p, ul, blockquote — zodat wie de
+   tekst schrijft geen klassen hoeft te onthouden. Zet `proza` op het blok en
+   typ verder.
+
+   Geen knoppen. Een actie is een link, met dezelfde streep als elke andere
+   link op de site. Wil je dat mensen zich inschrijven, dan wijst die link
+   naar het formulier.
+   -------------------------------------------------------------------------- */
+
+.proza { max-width: var(--maat); }
+
+.proza p { font-size: var(--t-tekst); margin: 0 0 1.25rem; }
+
+/* De aanhef: groter, maar nog altijd een alinea, dus op leesbreedte. */
+.proza .aanhef {
+	font-size: clamp(1.25rem, 1rem + 1vw, 2rem);
+	line-height: 1.25;
+	letter-spacing: -0.02em;
+	margin-bottom: 1.5rem;
+}
+
+/* Er staat geen zichtbare paginatitel, dus h2 is het hoogste wat je ziet.
+   Hij heeft dezelfde maat en hetzelfde gewicht als een titel in de agenda. */
+.proza h2 {
+	font-size: var(--t-groot);
+	line-height: 1.15;
+	font-weight: 400;
+	letter-spacing: -0.025em;
+	margin: 2.5rem 0 0.75rem;
+}
+
+.proza h2:first-child { margin-top: 0; }
+
+/* Een trap lager: geen nieuwe korpsgrootte, wel meer gewicht. */
+.proza h3 {
+	font-size: var(--t-tekst);
+	font-weight: 700;
+	margin: 1.75rem 0 0.4rem;
+}
+
+/* Opsommingen met een streepje in de kantlijn, zodat de tekst zelf op één
+   lijn blijft staan met de alinea's eromheen. Een bolletje zou het enige
+   ronde ding op de hele site zijn. */
+.proza ul, .proza ol { margin: 0 0 1.25rem; padding-left: 1.4rem; list-style: none; }
+.proza li { font-size: var(--t-tekst); margin-bottom: 0.35rem; position: relative; }
+
+.proza ul li::before {
+	content: "–";
+	position: absolute;
+	left: -1.4rem;
+	color: var(--grijs);
+}
+
+.proza ol { counter-reset: nummer; }
+.proza ol li { counter-increment: nummer; }
+.proza ol li::before {
+	content: counter(nummer);
+	position: absolute;
+	left: -1.4rem;
+	color: var(--grijs);
+	font-variant-numeric: tabular-nums;
+}
+
+/* Een aangehaalde of uitgelichte passage: dezelfde haarlijn als overal,
+   nu staand. */
+.proza blockquote {
+	margin: 1.5rem 0;
+	padding-left: 1rem;
+	border-left: 1px solid var(--lijn);
+	color: var(--grijs);
+}
+
+.proza blockquote p:last-child { margin-bottom: 0; }
+
+/* Kleine lettertjes: een naschrift, een voorwaarde, een bronvermelding. */
+.proza .klein { font-size: var(--t-klein); color: var(--grijs); }
+
+/* --------------------------------------------------------------------------
+   11d. BEELD
+   Eén patroon: een figuur met een bijschrift. De verhouding staat in
+   --verhouding, zodat een staand portret en een liggende foto hetzelfde
+   werken. Beelden worden bijgesneden (cover) zodat een rooster netjes blijft;
+   logo's niet, want die mag je niet afsnijden.
+   -------------------------------------------------------------------------- */
+
+figure.kiek { margin: 1.5rem 0; }
+
+.kiek img,
+.kiek .beeldplek {
+	width: 100%;
+	aspect-ratio: var(--verhouding, 3 / 2);
+	object-fit: cover;
+	margin: 0;
+}
+
+.kiek figcaption {
+	font-size: var(--t-klein);
+	line-height: 1.4;
+	color: var(--grijs);
+	margin-top: 0.5rem;
+}
+
+/* Een beeld mag buiten de leesbreedte treden; de tekst eromheen niet. */
+.kiek.breed { max-width: none; }
+
+/* Meerdere beelden naast elkaar. Het aantal per rij bepaalt de browser zelf,
+   aan de hand van hoeveel er past. */
+.rooster.portret .kiek { --verhouding: 2 / 3; }
+
+/* Logo's van sponsors: nooit bijsnijden, en op een eigen veld zodat een wit
+   logo op een donkere pagina niet verdwijnt. */
+.rooster.logos .kiek img {
+	object-fit: contain;
+	background: #fff;
+	border: 1px solid var(--lijn);
+	padding: 1.25rem;
+	aspect-ratio: 3 / 2;
+}
+
+/* Zolang er geen beeld is, staat er een vierkant in de kleur van het jaar.
+   Geen tekening, geen icoon — gewoon een vlak, zoals de hero er een is. */
+.kiek .beeldplek { --verhouding: 1 / 1; }
 
 /* --------------------------------------------------------------------------
    12. DE RODE BALK
