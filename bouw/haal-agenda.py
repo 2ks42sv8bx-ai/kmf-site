@@ -370,6 +370,11 @@ MARKER = re.compile(r"(<!-- gebakken:start -->).*?(<!-- gebakken:einde -->)", re
 DEELMARKER = re.compile(r"(<!-- deelvoorbeeld:start -->).*?(<!-- deelvoorbeeld:einde -->)", re.S)
 
 DEELBEELD = "img/deelbeeld.png"
+
+# Het deelbeeld is de affiche van één activiteit, geen algemeen plaatje. Het
+# hoort dus op één pagina: de agenda. Stond het overal, dan kreeg wie de
+# contactpagina deelt een aankondiging voor een lezing te zien.
+DEELBEELD_OP = "agenda.html"
 KRINGNAAM = "Kring Moraal en Filosofie"
 
 
@@ -419,12 +424,12 @@ def bak_deelvoorbeeld(tekst, bestand, links, heeft_beeld):
     if omschrijving:
         regels.append('<meta property="og:description" content="%s">' % e(omschrijving))
 
-    if heeft_beeld:
+    if heeft_beeld and bestand == DEELBEELD_OP:
         regels += [
             '<meta property="og:image" content="%s">' % e(adres + "/" + DEELBEELD),
             '<meta property="og:image:width" content="1200">',
             '<meta property="og:image:height" content="630">',
-            '<meta property="og:image:alt" content="%s">' % e(KRINGNAAM),
+            '<meta property="og:image:alt" content="Aankondiging van de eerstvolgende activiteit">',
             '<meta name="twitter:card" content="summary_large_image">',
         ]
     else:
