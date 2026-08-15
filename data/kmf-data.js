@@ -53,7 +53,7 @@ window.KMF = {
        Zolang dit leeg blijft, laat het bouwscript het deelvoorbeeld gewoon
        achterwege. Er gaat niets stuk; een gedeelde link toont dan alleen het
        kale adres, zoals nu. */
-    site:           ""
+    site:           "https://2ks42sv8bx-ai.github.io/kmf-site"
   },
 
   /* ------------------------------------------------------------------------
