@@ -12,140 +12,107 @@
 <link rel="stylesheet" href="css/kmf.css">
 <link rel="stylesheet" href="css/poster.css">
 <script>
-/* Vroeg uitgevoerd, nog voor de pagina getekend wordt: anders flitst de
-   verkeerde kleur even op. Geen keuze gemaakt? Dan volgt de site het toestel. */
 try {
-	var k = localStorage.getItem("kmf-thema");
-	if (k) document.documentElement.setAttribute("data-thema", k);
+	var k = localStorage.getItem("site-theme");
+	if (k) document.documentElement.setAttribute("data-theme", k);
 } catch (e) {}
 </script>
 </head>
 <body>
-
-<!-- Deze pagina staat niet in de navigatie: ze is voor het presidium, niet voor
-     wie de site bezoekt. Het adres is /poster.html; zet het bij je bladwijzers. -->
-<nav class="nav" aria-label="Hoofdnavigatie" data-stempel="935af905">
-<!-- gebakken:start --><div class="groep"><a href="index.html">Startpagina</a></div><div class="groep doen"><span class="buiten-beeld">Wat we doen</span><a href="agenda.html">Agenda</a><a href="fotos.html">Foto&#x27;s</a></div><div class="groep studie"><span class="buiten-beeld">Voor je studie</span><a href="https://drive.google.com/drive/folders/16hUQhapamzTnRD4Cw-j5PD0drMP-Fzbo" target="_blank" rel="noopener">Samenvattingen</a><a href="boeken.html">Boeken</a><a href="vstn.html">VSTN</a><a href="lichtung.html">Lichtung</a></div><div class="groep meedoen"><span class="buiten-beeld">Meedoen</span><a href="lid-worden.html">Lid worden</a><a href="merch.html">Merch</a></div><div class="groep wij"><span class="buiten-beeld">Wie we zijn</span><a href="over.html">Over ons</a><a href="presidium.html">Presidium</a><a href="sponsors.html">Sponsors</a></div><div class="groep hulp"><span class="buiten-beeld">Hulp en contact</span><a href="welzijn.html">Mentaal welzijn</a><a href="contact.html">Contact</a></div><!-- gebakken:einde -->
+<nav class="nav" aria-label="Hoofdnavigatie" data-hash="935af905">
+<!-- gebakken:start --><div class="group"><a href="index.html">Startpagina</a></div><div class="group social"><span class="visually-hidden">Wat we doen</span><a href="agenda.html">Agenda</a><a href="fotos.html">Foto&#x27;s</a></div><div class="group study"><span class="visually-hidden">Voor je studie</span><a href="https://drive.google.com/drive/folders/16hUQhapamzTnRD4Cw-j5PD0drMP-Fzbo" target="_blank" rel="noopener">Samenvattingen</a><a href="boeken.html">Boeken</a><a href="vstn.html">VSTN</a><a href="lichtung.html">Lichtung</a></div><div class="group join"><span class="visually-hidden">Meedoen</span><a href="lid-worden.html">Lid worden</a><a href="merch.html">Merch</a></div><div class="group about"><span class="visually-hidden">Wie we zijn</span><a href="over.html">Over ons</a><a href="presidium.html">Presidium</a><a href="sponsors.html">Sponsors</a></div><div class="group support"><span class="visually-hidden">Hulp en contact</span><a href="welzijn.html">Mentaal welzijn</a><a href="contact.html">Contact</a></div><!-- gebakken:einde -->
 </nav>
-
 <main>
-
-<h1 class="buiten-beeld">Poster maken</h1>
-
-<div class="werkbank">
-
+<h1 class="visually-hidden">Poster maken</h1>
+<div class="workbench">
 	<div class="regelaars">
-
-		<section class="rij blok">
-			<h2 class="kap kopje">Formaat</h2>
-			<div class="keuze kap">
-				<label><input type="radio" name="formaat" value="post" class="buiten-beeld" checked><span>Instagram-post</span></label>
-				<label><input type="radio" name="formaat" value="verhaal" class="buiten-beeld"><span>Instagram-verhaal</span></label>
-				<label><input type="radio" name="formaat" value="affiche" class="buiten-beeld"><span>Affiche A3</span></label>
-				<label><input type="radio" name="formaat" value="deelbeeld" class="buiten-beeld"><span>Deelbeeld</span></label>
+		<section class="row block">
+			<h2 class="caps legend">Formaat</h2>
+			<div class="choice caps">
+				<label><input type="radio" name="formaat" value="post" class="visually-hidden" checked><span>Instagram-post</span></label>
+				<label><input type="radio" name="formaat" value="verhaal" class="visually-hidden"><span>Instagram-verhaal</span></label>
+				<label><input type="radio" name="formaat" value="affiche" class="visually-hidden"><span>Affiche A3</span></label>
+				<label><input type="radio" name="formaat" value="deelbeeld" class="visually-hidden"><span>Deelbeeld</span></label>
 			</div>
 		</section>
-
-		<section class="rij blok">
-			<h2 class="kap kopje">Activiteit</h2>
-			<select id="kies" class="kiezer">
+		<section class="row block">
+			<h2 class="caps legend">Activiteit</h2>
+			<select id="pick-event" class="select">
 				<option value="">Kies een activiteit uit de agenda</option>
 			</select>
 		</section>
-
-		<!-- Eén regel per gegeven: het vierkantje bepaalt of het meegaat, het vak
-		     wat er staat. De titel heeft geen vierkantje — een poster zonder
-		     titel is geen poster. -->
-		<section class="rij blok">
-			<h2 class="kap kopje">Wat erop komt</h2>
-			<div class="velden">
-
-				<div class="veld">
+		<section class="row block">
+			<h2 class="caps legend">Wat erop komt</h2>
+			<div class="fields">
+				<div class="field">
 					<span></span>
-					<span class="kap naam">Titel</span>
-					<input type="text" id="v-titel" class="tekstvak" placeholder="Café-avond">
+					<span class="caps label">Titel</span>
+					<input type="text" id="f-title" class="text-field" placeholder="Café-avond">
 				</div>
-
-				<div class="veld">
-					<input type="checkbox" id="t-datum" class="vink" aria-label="Datum tonen">
-					<label class="kap naam" for="v-datum">Datum</label>
-					<input type="text" id="v-datum" class="tekstvak" placeholder="2026-11-19" spellcheck="false">
+				<div class="field">
+					<input type="checkbox" id="s-date" class="checkbox" aria-label="Datum tonen">
+					<label class="caps label" for="f-date">Datum</label>
+					<input type="text" id="f-date" class="text-field" placeholder="2026-11-19" spellcheck="false">
 				</div>
-
-				<div class="veld">
-					<input type="checkbox" id="t-tijd" class="vink" aria-label="Uur tonen">
-					<label class="kap naam" for="v-tijd">Uur</label>
-					<input type="text" id="v-tijd" class="tekstvak" placeholder="20:00" spellcheck="false">
+				<div class="field">
+					<input type="checkbox" id="s-time" class="checkbox" aria-label="Uur tonen">
+					<label class="caps label" for="f-time">Uur</label>
+					<input type="text" id="f-time" class="text-field" placeholder="20:00" spellcheck="false">
 				</div>
-
-				<div class="veld">
-					<input type="checkbox" id="t-locatie" class="vink" aria-label="Plaats tonen">
-					<label class="kap naam" for="v-locatie">Plaats</label>
-					<input type="text" id="v-locatie" class="tekstvak" placeholder="Blandijn, auditorium C">
+				<div class="field">
+					<input type="checkbox" id="s-venue" class="checkbox" aria-label="Plaats tonen">
+					<label class="caps label" for="f-venue">Plaats</label>
+					<input type="text" id="f-venue" class="text-field" placeholder="Blandijn, auditorium C">
 				</div>
-
-				<div class="veld">
-					<input type="checkbox" id="t-spreker" class="vink" aria-label="Spreker tonen">
-					<label class="kap naam" for="v-spreker">Spreker</label>
-					<input type="text" id="v-spreker" class="tekstvak" placeholder="">
+				<div class="field">
+					<input type="checkbox" id="s-speaker" class="checkbox" aria-label="Spreker tonen">
+					<label class="caps label" for="f-speaker">Spreker</label>
+					<input type="text" id="f-speaker" class="text-field" placeholder="">
 				</div>
-
-				<div class="veld">
-					<input type="checkbox" id="t-soort" class="vink" aria-label="Soort tonen">
-					<label class="kap naam" for="v-soort">Soort</label>
-					<input type="text" id="v-soort" class="tekstvak" placeholder="lezing" spellcheck="false">
+				<div class="field">
+					<input type="checkbox" id="s-kind" class="checkbox" aria-label="Soort tonen">
+					<label class="caps label" for="f-kind">Soort</label>
+					<input type="text" id="f-kind" class="text-field" placeholder="lezing" spellcheck="false">
 				</div>
-
-				<div class="veld">
-					<input type="checkbox" id="t-wapen" class="vink" aria-label="Wapenschild tonen">
-					<span class="kap naam">Wapen</span>
+				<div class="field">
+					<input type="checkbox" id="s-crest" class="checkbox" aria-label="Wapenschild tonen">
+					<span class="caps label">Wapen</span>
 				</div>
-
 			</div>
 		</section>
-
-		<section class="rij blok">
-			<h2 class="kap kopje">Beeld</h2>
-
-			<div class="beeldregel kap">
-				<input type="file" id="bestand" class="bestandsvak" accept="image/*">
-				<label for="bestand" class="bestandsknop">Kies een beeld</label>
-				<span id="bestandsnaam">Nog geen beeld gekozen</span>
+		<section class="row block">
+			<h2 class="caps legend">Beeld</h2>
+			<div class="file-row caps">
+				<input type="file" id="file" class="file-input" accept="image/*">
+				<label for="file" class="file-button">Kies een beeld</label>
+				<span id="file-name">Nog geen beeld gekozen</span>
 			</div>
-
-			<div id="uitsnede" hidden>
-				<p class="kap uitleg">Sleep in de poster om te verschuiven</p>
-				<input type="range" id="zoom" class="schuif" min="1" max="3" step="0.01" value="1" aria-label="Zoomen">
-				<p class="beeldregel kap"><a href="#" id="beeld-weg">Beeld weghalen</a></p>
+			<div id="crop" hidden>
+				<p class="caps hint">Sleep in de poster om te verschuiven</p>
+				<input type="range" id="zoom" class="slider" min="1" max="3" step="0.01" value="1" aria-label="Zoomen">
+				<p class="file-row caps"><a href="#" id="clear-photo">Beeld weghalen</a></p>
 			</div>
 		</section>
-
-		<section class="rij blok">
-			<button type="button" id="bewaren" class="tekstknop kap">Bewaren als PNG</button>
-			<p id="melding" class="kap" hidden></p>
+		<section class="row block">
+			<button type="button" id="save" class="text-button caps">Bewaren als PNG</button>
+			<p id="notice" class="caps" hidden></p>
 		</section>
-
 	</div>
-
-	<div class="voorbeeld">
-		<canvas id="doek" width="900" height="900" aria-label="Voorbeeld van de poster"></canvas>
-		<p class="onderschrift kap"><span id="maten"></span></p>
+	<div class="preview">
+		<canvas id="canvas" width="900" height="900" aria-label="Voorbeeld van de poster"></canvas>
+		<p class="caption caps"><span id="dimensions"></span></p>
 	</div>
-
 </div>
-
 </main>
-
-<footer class="voet">
-	<div class="links">
+<footer class="footer">
+	<div class="start">
 		<span>Blandijnberg 2, 9000 Gent</span>
 	</div>
-	<div class="rechts">
+	<div class="end">
 		<span>© 2026 Kring Moraal en Filosofie</span>
 		<span>Beheerd door Andries Didden</span>
 	</div>
 </footer>
-
 <script src="js/kmf-wapen.js"></script>
 <script src="js/kmf.js"></script>
 <script src="js/poster.js"></script>

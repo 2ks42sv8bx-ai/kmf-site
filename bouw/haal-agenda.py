@@ -35,6 +35,8 @@ import sys
 HIER = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.dirname(HIER)
 
+GROUPS = {"doen": "social", "studie": "study", "meedoen": "join", "wij": "about", "hulp": "support"}
+
 # De kolommen die het script uit de spreadsheet leest. De volgorde in het
 # tabblad maakt niet uit — er wordt op de koptekst gezocht. Alleen "titel" en
 # "start" moeten ingevuld zijn.
@@ -192,7 +194,7 @@ def status_van(start, tijd):
 
 
 def groep_van_soort(soort, tabel):
-    return tabel.get(str(soort or "").strip().lower(), "doen")
+    return GROUPS.get(tabel.get(str(soort or "").strip().lower(), "doen"), "social")
 
 
 def rijg(delen):
@@ -221,7 +223,7 @@ def stempel(komende):
 
 def bak_agenda(komende, soorten):
     if not komende:
-        return ('<p class="leeg">Er staat nog niets gepland.</p>')
+        return ('<p class="empty">Er staat nog niets gepland.</p>')
 
     rijen = []
     for a in komende:
@@ -236,41 +238,41 @@ def bak_agenda(komende, soorten):
             boven.append('<span class="status">%s</span>' % e(status))
         # Staat er "Vandaag" of "Morgen", dan zegt de datum niets meer.
         if not vlakbij(status):
-            boven.append('<span class="datum">%s</span>' % e(toon_periode(start, einde)))
+            boven.append('<span class="date">%s</span>' % e(toon_periode(start, einde)))
         if a.get("tijd"):
-            boven.append('<span class="uur">%s</span>' % e(a["tijd"]))
+            boven.append('<span class="time">%s</span>' % e(a["tijd"]))
 
         onder = []
         if a.get("locatie"):
-            onder.append('<span class="plaats">%s</span>' % e(a["locatie"]))
+            onder.append('<span class="venue">%s</span>' % e(a["locatie"]))
         if a.get("spreker") and soort.lower() in SOORTEN_MET_SPREKER:
-            onder.append('<span class="spreker">%s</span>' % e(a["spreker"]))
+            onder.append('<span class="speaker">%s</span>' % e(a["spreker"]))
         if soort and soort.strip().lower() != a["titel"].strip().lower():
-            onder.append('<span class="soort">%s</span>' % e(soort))
+            onder.append('<span class="kind">%s</span>' % e(soort))
 
         titel = e(a["titel"])
         if a.get("link"):
             titel = '<a href="%s" rel="noopener">%s</a>' % (e(a["link"]), titel)
 
-        stuk = ['<li class="item rij thema-%s">' % e(groep),
-                '<div class="marge">%s</div>' % rijg(boven),
-                '<div class="maat">',
-                '<h3 class="titel">%s</h3>' % titel]
+        stuk = ['<li class="item row theme-%s">' % e(groep),
+                '<div class="aside">%s</div>' % rijg(boven),
+                '<div class="measure">',
+                '<h3 class="title">%s</h3>' % titel]
         if onder:
             stuk.append('<p class="details">%s</p>' % rijg(onder))
         if a.get("tekst"):
-            stuk.append('<p class="tekst">%s</p>' % e(a["tekst"]))
+            stuk.append('<p class="body">%s</p>' % e(a["tekst"]))
         stuk.append("</div></li>")
         rijen.append("".join(stuk))
 
-    return '<ul class="lijst" data-stempel="%s">%s</ul>' % (stempel(komende), "".join(rijen))
+    return '<ul class="list" data-hash="%s">%s</ul>' % (stempel(komende), "".join(rijen))
 
 
 def bak_hero(komende, soorten):
     if not komende:
-        return ('<div class="inhoud" data-stempel="%s">'
+        return ('<div class="content" data-hash="%s">'
                 '<p>Geen activiteiten gepland</p>'
-                '<h2 class="titel">Tot binnenkort</h2></div>') % stempel([])
+                '<h2 class="title">Tot binnenkort</h2></div>') % stempel([])
 
     a = komende[0]
     start = lees_datum(a["start"])
@@ -280,7 +282,7 @@ def bak_hero(komende, soorten):
     status = status_van(start, a.get("tijd", ""))
     stukken = []
     if status:
-        stukken.append('<span class="soort">%s</span>' % e(status))
+        stukken.append('<span class="kind">%s</span>' % e(status))
     if not vlakbij(status):
         stukken.append('<span>%s</span>' % e(toon_periode(start, einde)))
     if a.get("tijd"):
@@ -290,7 +292,7 @@ def bak_hero(komende, soorten):
     if soort and soort.strip().lower() != a["titel"].strip().lower():
         stukken.append('<span>%s</span>' % e(soort))
 
-    woorden = "".join('<span class="woord">%s</span> ' % e(w)
+    woorden = "".join('<span class="word">%s</span> ' % e(w)
                       for w in a["titel"].split())
 
     # Het langste woord bepaalt hoe groot de titel kan worden. Die maat geven we
@@ -298,9 +300,9 @@ def bak_hero(komende, soorten):
     # dit staat ze eerst klein en springt ze op zodra het script gerekend heeft.
     langste = max((len(w) for w in a["titel"].split()), default=1)
 
-    return ('<div class="inhoud" data-stempel="%s">'
-            '<h2 class="titel" style="--tekens: %d">%s</h2>'
-            '<div class="gegevens">%s</div>'
+    return ('<div class="content" data-hash="%s">'
+            '<h2 class="title" style="--chars: %d">%s</h2>'
+            '<div class="meta">%s</div>'
             "</div>") % (stempel(komende[:1]), langste, woorden.strip(), rijg(stukken))
 
 
@@ -321,17 +323,17 @@ def bak_index(navigatie, links):
                 continue
             items.append('<a href="%s"%s>%s</a>' % (e(adres), extra, naam))
         if items:
-            naam = ('<span class="buiten-beeld">%s</span>' % e(groep["naam"])
+            naam = ('<span class="visually-hidden">%s</span>' % e(groep["naam"])
                     if groep.get("naam") else "")
-            groepen.append('<div class="groep %s">%s%s</div>'
-                           % (e(groep.get("thema", "")), naam, "".join(items)))
-    return '<div class="lijstjes">%s</div>' % "".join(groepen)
+            groepen.append('<div class="group %s">%s%s</div>'
+                           % (e(GROUPS.get(groep.get("thema", ""), "")), naam, "".join(items)))
+    return '<div class="lists">%s</div>' % "".join(groepen)
 
 
 def bak_navigatie(navigatie, links, deze_pagina, is_start):
     groepen = []
     if not is_start:
-        groepen.append('<div class="groep"><a href="index.html">Startpagina</a></div>')
+        groepen.append('<div class="group"><a href="index.html">Startpagina</a></div>')
 
     for groep in navigatie:
         items = []
@@ -345,15 +347,15 @@ def bak_navigatie(navigatie, links, deze_pagina, is_start):
             if not adres:
                 items.append('<span class="stub" title="Nog niet gebouwd">%s</span>' % naam)
                 continue
-            klasse = ' class="hier"' if item.get("pagina") == deze_pagina else ""
+            klasse = ' class="current"' if item.get("pagina") == deze_pagina else ""
             items.append('<a href="%s"%s%s>%s</a>' % (e(adres), extra, klasse, naam))
         if items:
             # Verborgen naam: de groepen zijn op het scherm alleen aan kleur en
             # tussenruimte te herkennen. Een schermlezer hoort ze hier wel.
-            naam = ('<span class="buiten-beeld">%s</span>' % e(groep["naam"])
+            naam = ('<span class="visually-hidden">%s</span>' % e(groep["naam"])
                     if groep.get("naam") else "")
-            groepen.append('<div class="groep %s">%s%s</div>'
-                           % (e(groep.get("thema", "")), naam, "".join(items)))
+            groepen.append('<div class="group %s">%s%s</div>'
+                           % (e(GROUPS.get(groep.get("thema", ""), "")), naam, "".join(items)))
 
     return "".join(groepen)
 
@@ -547,7 +549,7 @@ def stempel_lijst(rijen):
 
 
 def bak_invulblok(stempel_waarde):
-    return ('<div class="invullen rij" data-stempel="%s">'
+    return ('<div class="empty-state row" data-hash="%s">'
             '<p>WIP</p></div>') % stempel_waarde
 
 
@@ -567,17 +569,17 @@ def bak_paginalijst(soort, rijen):
             titel = ('<a href="%s" target="_blank" rel="noopener">%s</a>'
                      % (e(r[vorm["link"]]), titel))
 
-        maat = ['<h2 class="titel">%s</h2>' % titel]
+        maat = ['<h2 class="title">%s</h2>' % titel]
         for veld in ("onder", "tekst"):
             naam = vorm.get(veld)
             if naam and r.get(naam):
-                maat.append('<p class="tekst">%s</p>' % e(r[naam]))
+                maat.append('<p class="body">%s</p>' % e(r[naam]))
 
-        stukken.append('<li class="item rij">%s<div class="maat">%s</div></li>'
-                       % ('<div class="marge">%s</div>' % rijg(marge) if marge else "",
+        stukken.append('<li class="item row">%s<div class="measure">%s</div></li>'
+                       % ('<div class="aside">%s</div>' % rijg(marge) if marge else "",
                           "".join(maat)))
 
-    return '<ul class="lijst" data-stempel="%s">%s</ul>' % (merk, "".join(stukken))
+    return '<ul class="list" data-hash="%s">%s</ul>' % (merk, "".join(stukken))
 
 
 def bak_fotos(fotos):
@@ -586,13 +588,13 @@ def bak_fotos(fotos):
         return bak_invulblok(merk)
     kieken = []
     for f in fotos:
-        beeld = ('<img class="beeldplek beeld" src="%s" alt="" loading="lazy">' % e(f["beeld"])
+        beeld = ('<img class="photo-slot photo" src="%s" alt="" loading="lazy">' % e(f["beeld"])
                  if f.get("beeld")
-                 else '<div class="beeldplek"><span>Beeld</span></div>')
+                 else '<div class="photo-slot"><span>Beeld</span></div>')
         bij = ('<figcaption>%s</figcaption>' % e(f["bijschrift"])
                if f.get("bijschrift") else "")
-        kieken.append('<figure class="kiek">%s%s</figure>' % (beeld, bij))
-    return ('<div class="rooster rij" data-stempel="%s">%s</div>' % (merk, "".join(kieken)))
+        kieken.append('<figure class="figure">%s%s</figure>' % (beeld, bij))
+    return ('<div class="grid row" data-hash="%s">%s</div>' % (merk, "".join(kieken)))
 
 
 def lees_lijst_uit_databestand(sleutel):
@@ -748,8 +750,8 @@ def main():
         # De balk krijgt haar kenmerk op de nav zelf; de merktekens zitten
         # erbinnen, dus daar kan het attribuut niet staan.
         merk_nav = stempel_nav(navigatie, bestand)
-        tekst = re.sub(r'<nav class="(nav|index rij)"([^>]*?)(\s*data-stempel="[^"]*")?>',
-                       lambda m: '<nav class="%s"%s data-stempel="%s">'
+        tekst = re.sub(r'<nav class="(nav|index rij)"([^>]*?)(\s*data-hash="[^"]*")?>',
+                       lambda m: '<nav class="%s"%s data-hash="%s">'
                                  % (m.group(1), m.group(2), merk_nav),
                        tekst, count=1)
 
@@ -761,8 +763,8 @@ def main():
             # niet aan iets binnen de merktekens. Dat moet het bouwscript dus
             # apart zetten — anders valt de hero terug op het jaaraccent.
             groep = groep_van_soort(komende[0].get("soort"), soorten) if komende else ""
-            tekst = re.sub(r'<section class="hero"[^>]*?(\s*data-groep="[^"]*")?>',
-                           '<section class="hero" data-kmf="hero" data-groep="%s" '
+            tekst = re.sub(r'<section class="hero"[^>]*?(\s*data-group="[^"]*")?>',
+                           '<section class="hero" data-render="hero" data-group="%s" '
                            'aria-label="Eerstvolgende activiteit">' % groep,
                            tekst, count=1)
             tekst = zet_marker(tekst, 1, bak_index(navigatie, links))
@@ -774,7 +776,7 @@ def main():
                 # De andere pagina's: hun lijst, of het WIP-blok als die leeg is.
                 soort = None
                 for sleutel in list(LIJSTEN) + ["fotos"]:
-                    if 'data-kmf="%s"' % sleutel in tekst:
+                    if 'data-render="%s"' % sleutel in tekst:
                         soort = sleutel
                         break
                 if soort == "fotos":
@@ -782,10 +784,10 @@ def main():
                 elif soort:
                     tekst = zet_marker(tekst, 1,
                                        bak_paginalijst(soort, lees_lijst_uit_databestand(soort)))
-                elif 'data-kmf="tekst"' in tekst:
+                elif 'data-render="tekst"' in tekst:
                     # Tekstpagina die nog geschreven moet worden.
                     tekst = zet_marker(tekst, 1,
-                                       '<div class="invullen"><p>WIP</p></div>')
+                                       '<div class="empty-state"><p>WIP</p></div>')
 
         if tekst != origineel:
             with open(pad, "w", encoding="utf-8") as f:

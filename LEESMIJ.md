@@ -265,6 +265,85 @@ Foto's zet je in de map `img`, en je verwijst ernaar als `img/naam.jpg`.
 
 ---
 
+## Een poster maken
+
+Ga naar **`/poster.html`**. Die pagina staat niet in de navigatiebalk — ze is
+voor het presidium, niet voor wie de site bezoekt. Zet ze bij je bladwijzers.
+
+Kies bovenaan een formaat:
+
+| | maat | waarvoor |
+|---|---|---|
+| Instagram-post | 1080 × 1080 | het vierkante bericht |
+| Instagram-verhaal | 1080 × 1920 | het staande verhaal |
+| Affiche A3 | 3508 × 4961 | om af te drukken, 300 dpi |
+| Deelbeeld | 1200 × 630 | het beeld bij een gedeelde link (zie hieronder) |
+
+Kies daaronder een activiteit uit de agenda. Titel, datum, uur, plaats, spreker
+en soort worden overgenomen, en daarna mag je ze allemaal nog aanpassen: wat je
+op de poster typt verandert niets aan de agenda. Het vierkantje voor een regel
+bepaalt of ze meegaat. Wat je uitvinkt of leeg laat, laat gewoon een plek weg.
+
+Bij **Beeld** kies je een schilderij of een foto. Die vult de hele plaat; met
+slepen in de poster en de schuifregelaar eronder bepaal je welk stuk je ziet.
+Kies je geen beeld, dan blijft er een vlak staan in de kleur van de groep waar
+de activiteit bij hoort — een lezing wordt groen, een café-avond roze. Dezelfde
+kleuren als op de startpagina, dus dezelfde betekenis.
+
+**Bewaren als PNG** zet het bestand in je downloadmap. De affiche is een groot
+bestand; daar duurt het een paar tellen.
+
+Twee dingen die de poster bewust anders doet dan de site:
+
+- er staat nooit *Vanavond* of *Morgen* op. Een affiche hangt er dagen op voor
+  ze gelezen wordt; er staat altijd de echte datum.
+- bij een Instagram-verhaal blijft de tekst verder van de onderrand. Instagram
+  legt daar zijn eigen knoppen overheen.
+
+Het wapenschild in de hoek komt uit `img/kmf-wapen.png`. Vervang je dat bestand
+door een scherpere versie, dan gebruikt de poster die vanzelf — draai daarna
+eenmalig `python3 bouw/wapen-overschrijven.py`, zodat het ook klopt wanneer je
+de site rechtstreeks vanaf je schijf opent.
+
+---
+
+## Wat er verschijnt als iemand een link deelt
+
+Deel je een pagina in een WhatsApp-groep of op Facebook, dan gaat die app de
+pagina zelf ophalen en er een kaartje van maken: titel, een zin uitleg, een
+beeld. Staat dat er niet, dan blijft er een kaal adres staan — en dat leest in
+een groep als een dode link.
+
+Er zijn twee dingen voor nodig, allebei eenmalig.
+
+**Eén.** Zet in `data/kmf-data.js`, bij `links`, het adres waar de site staat:
+
+```
+site: "https://kmfgent.github.io/website",
+```
+
+Zonder schuine streep op het einde. Dit is nodig omdat een groepsgesprek niet
+weet waar de site staat: het beeld heeft een volledig adres nodig.
+
+**Twee.** Maak het beeld met `poster.html`, formaat **Deelbeeld**. Zet er de
+naam van de kring op, vink de gegevensregels uit, bewaar, en zet het bestand in
+de map `img` onder de naam **`deelbeeld.png`**.
+
+Draai daarna het bouwscript. De titel en de omschrijving worden overgenomen uit
+wat al bovenaan elke pagina staat, dus je typt nergens twee keer hetzelfde: pas
+je de titel van een pagina aan, dan verandert het kaartje mee.
+
+Twee dingen om te weten:
+
+- Facebook en WhatsApp onthouden zo'n kaartje. Verander je het beeld, dan zien
+  ze dat niet meteen. Facebook heeft daar een knop voor (zoek op *Sharing
+  Debugger*); WhatsApp laat het na een dag of wat vanzelf los.
+- Zet daarom géén activiteit op het deelbeeld. Dat kaartje blijft hangen, en
+  dan staat er weken later nog een lezing op die al voorbij is. De naam van de
+  kring blijft altijd kloppen.
+
+---
+
 ## Waar wat staat
 
 | bestand | wat het is |
@@ -274,6 +353,7 @@ Foto's zet je in de map `img`, en je verwijst ernaar als `img/naam.jpg`.
 | `js/kmf.js` | bouwt de agenda op uit het databestand. Hier hoef je niets aan te doen. |
 | `index.html` | de startpagina |
 | `agenda.html` | de agendapagina |
+| `poster.html` | het postergereedschap. Staat niet in de navigatiebalk. |
 | de tien andere `.html` | foto's, boeken, VSTN, Lichtung, merch, presidium, sponsors, lid worden, welzijn, contact |
 | `over.html` | "Over ons": wie de kring is, sinds 1985 |
 | `fonts/` | het lettertype (Inter), meegeleverd zodat de site ook zonder internet werkt |
