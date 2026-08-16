@@ -227,7 +227,7 @@ window.KMF = {
       start:    "2026-10-01",
       tijd:     "21:00",
       locatie:  "De Geus",
-      beeld:    "img/nietzsche-bier.jpg"
+      beeld:    "img/nietzsche-bier.png"
     },
 
     /* Soort: uitstap */
@@ -275,7 +275,7 @@ window.KMF = {
       tijd:     "20:30",
       locatie:  "Salamander",
       link:     "https://facebook.com/events/kantus-2026",
-      beeld:    "img/kantus-cover.jpg"
+      beeld:    "img/kantus-cover.png"
     },
 
     /* Soort: lezing met spreker */
@@ -317,7 +317,7 @@ window.KMF = {
       tijd:     "18:00",
       locatie:  "Ardennen",
       link:     "https://facebook.com/events/kmf-herfstweekend",
-      beeld:    "img/weekend-bos.jpg"
+      beeld:    "img/weekend-bos.png"
     },
 
     /* Soort: workshop met spreker */
