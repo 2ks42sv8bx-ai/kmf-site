@@ -181,21 +181,13 @@ window.KMF = {
       tijd:     "18:00",
       locatie:  "De geus",
     },
-
-    {
-      titel:    "Pinten",
-      soort:    "café-avond",
-      start:    "2026-09-15",
-      tijd:     "21:00",
-      locatie:  "De geus",
-    },
-
+     
     {
       titel:   "Kantiaanse grabbel",
       soort:   "lezing",
       start:   "2026-08-15",
       tijd:    "19:00",
-      locatie: "Blandijn, auditorium C",
+      locatie: "Jan Broeckx",
       spreker: "Bert",
     },
 
@@ -204,7 +196,7 @@ window.KMF = {
       soort:   "debat",
       start:   "2026-11-05",
       tijd:    "19:30",
-      locatie: "Blandijn, auditorium D",
+      locatie: "Franz Cumont",
       spreker: "Johannes",    
     },
 
@@ -213,7 +205,7 @@ window.KMF = {
       soort:   "lezing",
       start:   "2026-12-05",
       tijd:    "19:00",
-      locatie: "Blandijn, auditorium C",
+      locatie: "Suzanne Lilar",
       spreker: "Jan",
     }
   ]
