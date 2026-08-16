@@ -727,8 +727,7 @@ def main():
         print("Geen adres in kmf-data.js (links.site) — geen deelvoorbeeld. "
               "Een gedeelde link toont dan enkel het kale adres.")
     elif not heeft_deelbeeld:
-        print("Geen %s — het deelvoorbeeld krijgt titel en tekst, maar geen beeld. "
-              "Maak er een met poster.html, formaat Deelbeeld." % DEELBEELD)
+        print("Geen %s — %s krijgt een kaart zonder beeld." % (DEELBEELD, DEELBEELD_OP))
 
     paginas = [f for f in sorted(os.listdir(SITE)) if f.endswith(".html")]
     for bestand in paginas:
