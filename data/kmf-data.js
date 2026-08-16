@@ -174,225 +174,47 @@ window.KMF = {
      ------------------------------------------------------------------------ */
   activiteiten: [
 
-    /* Edge case: Activiteit in het verleden (site filtert automatisch) */
     {
-      titel:    "Kantiaanse grabbel",
-      soort:    "lezing",
-      start:    "2026-08-15",
-      tijd:     "19:00",
-      locatie:  "Auditorium C",
-      spreker:  "Bert"
-    },
-
-    /* Toegevoegd op 17 augustus */
-    {
-      titel:    "Herexamens en existentiële spijt",
-      soort:    "welzijn",
+      titel:    "Bestaat Gent eigenlijk wel?",
+      soort:    "colloquium",
       start:    "2026-08-17",
-      tijd:     "14:00",
-      locatie:  "Rozier"
+      tijd:     "18:00",
+      locatie:  "De geus",
     },
 
-    /* Toegevoegd op 19 augustus */
-    {
-      titel:    "Troostdrinken na epistemologie",
-      soort:    "café-avond",
-      start:    "2026-08-19",
-      tijd:     "20:30",
-      locatie:  "De Geus"
-    },
-
-    /* Edge case: Minimaal ingevuld blok */
     {
       titel:    "Pinten",
       soort:    "café-avond",
       start:    "2026-09-15",
       tijd:     "21:00",
-      locatie:  "De Geus"
+      locatie:  "De geus",
     },
 
-    /* Soort: lidworden */
     {
-      titel:    "Lidkaartverkoop en gratis pennenkaping",
-      soort:    "lidworden",
-      start:    "2026-09-22",
-      tijd:     "10:00",
-      locatie:  "Blandijn"
+      titel:   "Kantiaanse grabbel",
+      soort:   "lezing",
+      start:   "2026-08-15",
+      tijd:    "19:00",
+      locatie: "Blandijn, auditorium C",
+      spreker: "Bert",
     },
 
-    /* Soort: café-avond met beeld */
     {
-      titel:    "Nacht van de eeuwige wederkeer",
-      soort:    "café-avond",
-      start:    "2026-10-01",
-      tijd:     "21:00",
-      locatie:  "De Geus",
-      beeld:    "img/nietzsche-bier.png"
+      titel:   "Daoistisch gejank",
+      soort:   "debat",
+      start:   "2026-11-05",
+      tijd:    "19:30",
+      locatie: "Blandijn, auditorium D",
+      spreker: "Johannes",    
     },
 
-    /* Soort: uitstap */
     {
-      titel:    "Cynisch ronddolen in het Citadelpark",
-      soort:    "uitstap",
-      start:    "2026-10-04",
-      tijd:     "14:30",
-      locatie:  "Citadelpark"
-    },
-
-    /* Soort: gebakdag */
-    {
-      titel:    "Utilitaristische wafelbak",
-      soort:    "gebakdag",
-      start:    "2026-10-07",
-      tijd:     "11:00",
-      locatie:  "Blandijn"
-    },
-
-    /* Soort: leesgroep met link */
-    {
-      titel:    "Samen vastlopen in Hegel",
-      soort:    "leesgroep",
-      start:    "2026-10-14",
-      tijd:     "18:00",
-      locatie:  "KMF-kelder",
-      link:     "https://facebook.com/events/kmf-hegel-pijn"
-    },
-
-    /* Soort: ledenvergadering */
-    {
-      titel:    "Statutair crisisberaad",
-      soort:    "ledenvergadering",
-      start:    "2026-10-19",
-      tijd:     "19:30",
-      locatie:  "Lokaal 1.10"
-    },
-
-    /* Soort: cantus met beeld en link */
-    {
-      titel:    "Immanuel Kantus",
-      soort:    "cantus",
-      start:    "2026-10-22",
-      tijd:     "20:30",
-      locatie:  "Salamander",
-      link:     "https://facebook.com/events/kantus-2026",
-      beeld:    "img/kantus-cover.png"
-    },
-
-    /* Soort: lezing met spreker */
-    {
-      titel:    "Schopenhauers klaagzang",
-      soort:    "lezing",
-      start:    "2026-10-29",
-      tijd:     "20:00",
-      locatie:  "Auditorium 2",
-      spreker:  "Prof. Dr. M. Vrijdag"
-    },
-
-    /* Soort: debat met spreker */
-    {
-      titel:    "Daoistisch gejank",
-      soort:    "debat",
-      start:    "2026-11-05",
-      tijd:     "19:30",
-      locatie:  "Auditorium D",
-      spreker:  "Johannes"
-    },
-
-    /* Soort: boekvoorstelling met spreker */
-    {
-      titel:    "Boekvoorstelling van iets onbegrijpelijks",
-      soort:    "boekvoorstelling",
-      start:    "2026-11-12",
-      tijd:     "19:00",
-      locatie:  "Boekhandel Limerick",
-      spreker:  "Daan"
-    },
-
-    /* Edge case: Meerdaagse activiteit (weekend) met start én einde */
-    {
-      titel:    "Weekend van de existentiële leegte",
-      soort:    "weekend",
-      start:    "2026-11-20",
-      einde:    "2026-11-22",
-      tijd:     "18:00",
-      locatie:  "Ardennen",
-      link:     "https://facebook.com/events/kmf-herfstweekend",
-      beeld:    "img/weekend-bos.png"
-    },
-
-    /* Soort: workshop met spreker */
-    {
-      titel:    "Beroepskeuzeangst bezweren",
-      soort:    "workshop",
-      start:    "2026-11-26",
-      tijd:     "16:00",
-      locatie:  "Lokaal 1.10",
-      spreker:  "Alumni-panel"
-    },
-
-    /* Soort: café-avond */
-    {
-      titel:    "Vrijmibo zonder transcendentie",
-      soort:    "café-avond",
-      start:    "2026-11-27",
-      tijd:     "17:00",
-      locatie:  "Café Video"
-    },
-
-    /* Soort: lezing met spreker */
-    {
-      titel:    "Wittgenstein en wiskunde",
-      soort:    "lezing",
-      start:    "2026-12-05",
-      tijd:     "19:00",
-      locatie:  "Auditorium C",
-      spreker:  "Jan"
-    },
-
-    /* Soort: fuif met link */
-    {
-      titel:    "Panopticonfuif",
-      soort:    "fuif",
-      start:    "2026-12-18",
-      tijd:     "22:00",
-      locatie:  "Koepelzaal",
-      link:     "https://facebook.com/events/panopticon-party"
-    },
-
-    /* Soort: welzijn / hulp */
-    {
-      titel:    "Collectieve paniekaanval voor de examens",
-      soort:    "welzijn",
-      start:    "2027-01-08",
-      tijd:     "14:00",
-      locatie:  "KMF-kelder"
-    },
-
-    /* Soort: colloquium met spreker */
-    {
-      titel:    "Bestaat Gent eigenlijk wel",
-      soort:    "colloquium",
-      start:    "2027-02-18",
-      tijd:     "10:00",
-      locatie:  "Het Pand",
-      spreker:  "Vakgroep Wijsbegeerte"
-    },
-
-    /* Soort: verkiezingen */
-    {
-      titel:    "Grote paleisrevolutie",
-      soort:    "verkiezingen",
-      start:    "2027-04-22",
-      tijd:     "20:00",
-      locatie:  "De Geus"
-    },
-
-    /* Edge case: Extreem kaal blok zonder tijd of locatie */
-    {
-      titel:    "Zwijgen",
-      soort:    "workshop",
-      start:    "2027-05-12"
+      titel:   "Wittgenstein en wiskunde",
+      soort:   "lezing",
+      start:   "2026-12-05",
+      tijd:    "19:00",
+      locatie: "Blandijn, auditorium C",
+      spreker: "Jan",
     }
-
   ]
 };
