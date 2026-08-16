@@ -180,8 +180,26 @@ window.KMF = {
       soort:    "lezing",
       start:    "2026-08-15",
       tijd:     "19:00",
-      locatie:  "Blandijn, auditorium C",
+      locatie:  "Auditorium C",
       spreker:  "Bert"
+    },
+
+    /* Toegevoegd op 17 augustus */
+    {
+      titel:    "Herexamens en existentiële spijt",
+      soort:    "welzijn",
+      start:    "2026-08-17",
+      tijd:     "14:00",
+      locatie:  "Rozier"
+    },
+
+    /* Toegevoegd op 19 augustus */
+    {
+      titel:    "Troostdrinken na epistemologie",
+      soort:    "café-avond",
+      start:    "2026-08-19",
+      tijd:     "20:30",
+      locatie:  "De Geus"
     },
 
     /* Edge case: Minimaal ingevuld blok */
@@ -199,7 +217,7 @@ window.KMF = {
       soort:    "lidworden",
       start:    "2026-09-22",
       tijd:     "10:00",
-      locatie:  "Foyer Blandijn"
+      locatie:  "Blandijn"
     },
 
     /* Soort: café-avond met beeld */
@@ -218,7 +236,7 @@ window.KMF = {
       soort:    "uitstap",
       start:    "2026-10-04",
       tijd:     "14:30",
-      locatie:  "Kiosk Citadelpark"
+      locatie:  "Citadelpark"
     },
 
     /* Soort: gebakdag */
@@ -227,7 +245,7 @@ window.KMF = {
       soort:    "gebakdag",
       start:    "2026-10-07",
       tijd:     "11:00",
-      locatie:  "Blandijn gang 1ste verdieping"
+      locatie:  "Blandijn"
     },
 
     /* Soort: leesgroep met link */
@@ -236,7 +254,7 @@ window.KMF = {
       soort:    "leesgroep",
       start:    "2026-10-14",
       tijd:     "18:00",
-      locatie:  "KMF-lokaal Blandijn",
+      locatie:  "KMF-kelder",
       link:     "https://facebook.com/events/kmf-hegel-pijn"
     },
 
@@ -246,7 +264,7 @@ window.KMF = {
       soort:    "ledenvergadering",
       start:    "2026-10-19",
       tijd:     "19:30",
-      locatie:  "Blandijn, lokaal 1.10"
+      locatie:  "Lokaal 1.10"
     },
 
     /* Soort: cantus met beeld en link */
@@ -266,7 +284,7 @@ window.KMF = {
       soort:    "lezing",
       start:    "2026-10-29",
       tijd:     "20:00",
-      locatie:  "Blandijn, auditorium 2",
+      locatie:  "Auditorium 2",
       spreker:  "Prof. Dr. M. Vrijdag"
     },
 
@@ -276,7 +294,7 @@ window.KMF = {
       soort:    "debat",
       start:    "2026-11-05",
       tijd:     "19:30",
-      locatie:  "Blandijn, auditorium D",
+      locatie:  "Auditorium D",
       spreker:  "Johannes"
     },
 
@@ -297,7 +315,7 @@ window.KMF = {
       start:    "2026-11-20",
       einde:    "2026-11-22",
       tijd:     "18:00",
-      locatie:  "Ardennen (onbekende blokhut)",
+      locatie:  "Ardennen",
       link:     "https://facebook.com/events/kmf-herfstweekend",
       beeld:    "img/weekend-bos.jpg"
     },
@@ -308,7 +326,7 @@ window.KMF = {
       soort:    "workshop",
       start:    "2026-11-26",
       tijd:     "16:00",
-      locatie:  "Blandijn, lokaal 1.10",
+      locatie:  "Lokaal 1.10",
       spreker:  "Alumni-panel"
     },
 
@@ -327,7 +345,7 @@ window.KMF = {
       soort:    "lezing",
       start:    "2026-12-05",
       tijd:     "19:00",
-      locatie:  "Blandijn, auditorium C",
+      locatie:  "Auditorium C",
       spreker:  "Jan"
     },
 
