@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Setup guide · vandenHove</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <nav class="side" aria-label="Main">
+    <a class="brand" href="./">vandenHove</a>
+    <a class="item item-on" aria-current="page" href="./">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>
+      Setup guide
+    </a>
+  </nav>
+  <main class="main">
+    <div class="col">
+      <h1 class="title">Setup guide</h1>
+      <div class="seg" role="group" aria-label="Your e-reader">
+        <button class="seg-btn seg-on" type="button" data-device="kobo" aria-pressed="true">Kobo</button>
+        <button class="seg-btn" type="button" data-device="other" aria-pressed="false">PocketBook</button>
+        <button class="seg-btn" type="button" data-device="other" aria-pressed="false">Android</button>
+      </div>
+      <ol class="list">
+        <li class="step">
+          <span class="num" aria-hidden="true">1</span>
+          <div>
+            <h2>Install KOReader</h2>
+            <p data-for="kobo">Plug in your Kobo and run the <a href="https://www.mobileread.com/forums/showthread.php?t=314220">installer</a>.</p>
+            <p data-for="other" hidden>Follow <a href="https://github.com/koreader/koreader/wiki">KOReader's steps</a>.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true">2</span>
+          <div>
+            <h2>Add the plugin</h2>
+            <p>Copy vandenhove.koplugin into KOReader's plugins folder.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true">3</span>
+          <div>
+            <h2>Enter your code</h2>
+            <p>Menu, Tools, vandenHove.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="num" aria-hidden="true">4</span>
+          <div>
+            <h2>Connect Obsidian</h2>
+            <p>Install the plugin and enter your second code.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </main>
+</div>
+<script src="guide.js"></script>
+</body>
+</html>
