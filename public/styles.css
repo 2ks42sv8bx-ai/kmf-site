@@ -124,7 +124,7 @@ summary { min-height: 32px; cursor: pointer; }
 details label { margin-top: 8px; }
 
 .hero { max-width: 720px; margin: 0 auto; padding: 12vh 16px 64px; }
-.hero h1 { margin-bottom: 40px; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(38px, 6vw, 60px); font-weight: 600; line-height: 1.08; letter-spacing: -.02em; }
+.hero h1 { margin-bottom: 40px; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(32px, 4.5vw, 44px); font-weight: 500; line-height: 1.15; letter-spacing: -.02em; }
 .code-entry label { display: block; margin-bottom: 8px; color: var(--muted); }
 .row { display: flex; gap: 8px; max-width: 460px; }
 .row input { font-size: 18px; letter-spacing: .04em; }
@@ -194,9 +194,14 @@ details label { margin-top: 8px; }
 .admin-group li, .admin-list li { padding: 4px 0; }
 .admin-list > li + li { border-top: 1px solid var(--sep); }
 
-.hero form { margin-top: 32px; max-width: 460px; padding: 0; background: none; border: 0; }
+.hero form { margin-top: 14px; max-width: 360px; padding: 0; background: none; border: 0; }
 .hero form label { color: var(--muted); }
 .hero form input { width: 100%; min-height: 44px; margin-top: 6px; padding: 0 12px; border: 1px solid var(--sep); border-radius: 8px; background: var(--card); color: var(--ink); font: inherit; }
 .hero form button { margin-top: 10px; background: var(--well); color: var(--ink); }
 
 .top { justify-content: flex-end; min-height: 76px; }
+
+.already { margin-top: 28px; color: var(--muted); }
+.already summary { display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; list-style: none; }
+.already summary::-webkit-details-marker { display: none; }
+.already summary:hover { color: var(--ink); }

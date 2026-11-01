@@ -49,11 +49,16 @@ function signedOutView() {
   view.replaceChildren(
     el('h1', {}, 'Sync highlights and notes between KOReader and Obsidian.'),
     el('p', {}, el('a', { class: 'button primary', href: 'install/' }, 'Install')),
-    form('connect', [['Already installed? Enter a code from one of your devices', 'code']], 'Connect', async (data) => {
-      await pair(data.get('code').trim());
-      view.className = 'page';
-      await route();
-    }),
+    el(
+      'details',
+      { class: 'already' },
+      el('summary', {}, 'Already installed?'),
+      form('connect', [['Code from one of your devices', 'code']], 'Connect', async (data) => {
+        await pair(data.get('code').trim());
+        view.className = 'page';
+        await route();
+      }),
+    ),
   );
 }
 
