@@ -70,7 +70,7 @@ function accountName(account) {
 function groupCard(group) {
   return el(
     'section',
-    { class: 'card admin-group' },
+    { class: 'admin-group' },
     el('h3', {}, group.name),
     el(
       'p',
@@ -90,7 +90,7 @@ function groupCard(group) {
         el(
           'li',
           {},
-          `${member.name} `,
+          el('span', {}, member.name),
           action('Remove', `Remove ${member.name} from ${group.name}?`, () =>
             admin('DELETE', `/groups/${group.id}/members/${member.id}`),
           ),
@@ -104,7 +104,8 @@ function personRow(account) {
   return el(
     'li',
     {},
-    `${accountName(account)}: joined ${date(account.created_at)}, ${account.books} book${account.books === 1 ? '' : 's'}`,
+    el('strong', {}, accountName(account)),
+    el('span', { class: 'admin-meta' }, `${account.books} book${account.books === 1 ? '' : 's'}, joined ${date(account.created_at)}`),
     el(
       'ul',
       {},
@@ -112,7 +113,7 @@ function personRow(account) {
         el(
           'li',
           {},
-          `Device connected ${date(device.created_at)} `,
+          el('span', {}, `Device, ${date(device.created_at)}`),
           action('Disconnect', 'Disconnect this device? It keeps its notes, and needs a new code to sync again.', () =>
             admin('DELETE', `/devices/${device.id}`),
           ),
@@ -130,7 +131,7 @@ async function show() {
         'li',
         {},
         el('strong', { class: 'code' }, invite.code),
-        ` until ${date(invite.expires_at)} `,
+        el('span', { class: 'admin-meta' }, `until ${date(invite.expires_at)}`),
         action('Cancel', `Cancel invite ${invite.code}?`, () => admin('DELETE', `/invites/${invite.code}`)),
       ),
     ),
@@ -146,6 +147,8 @@ onSubmit(document.querySelector('#unlock'), async (data) => {
   secret = data.get('secret');
   await show();
   document.querySelector('#unlock').hidden = true;
+  document.querySelector('h1').hidden = true;
+  document.body.classList.add('unlocked');
   panel.hidden = false;
 });
 
@@ -159,6 +162,12 @@ document.querySelector('#new-invite').addEventListener('click', async () => {
   }
 });
 
+document.querySelector('#show-new-group').addEventListener('click', () => {
+  const form = document.querySelector('#new-group');
+  form.hidden = !form.hidden;
+  if (!form.hidden) form.elements.name.focus();
+});
+
 onSubmit(document.querySelector('#new-group'), async (data) => {
   await admin('POST', '/groups', {
     name: data.get('name'),
@@ -166,5 +175,6 @@ onSubmit(document.querySelector('#new-group'), async (data) => {
     account: Number(data.get('account')),
   });
   document.querySelector('#new-group').reset();
+  document.querySelector('#new-group').hidden = true;
   await show();
 });

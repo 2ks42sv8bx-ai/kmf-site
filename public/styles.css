@@ -435,3 +435,30 @@ body.admin .home { position: static; display: inline-flex; margin: var(--line) v
 @media (max-width: 900px) {
   .admin-columns { grid-template-columns: 1fr; }
 }
+
+/* Admin, tidied: three equal cards, each with its title and action on one line. */
+body.admin .top { display: none; }
+body.admin.unlocked main.page { padding-top: var(--edge); }
+.admin-columns { gap: var(--edge); }
+.admin-col { min-height: 60svh; padding: var(--line); border: 1px solid var(--ink); border-radius: calc(var(--round) * 1.6); }
+.admin-head { display: flex; align-items: center; justify-content: space-between; min-height: 44px; margin-bottom: var(--line); }
+#panel .admin-head h2 { margin: 0; font-size: var(--facts); line-height: 1.2; letter-spacing: -.01em; }
+.admin-meta { opacity: .6; }
+.admin-list { margin: 0; }
+.admin-list > li, #invites li { display: block; margin: 0; padding: 14px 0; border-top: 1px solid color-mix(in srgb, var(--ink) 20%, transparent); }
+#invites li { display: flex; flex-wrap: wrap; align-items: center; gap: .75em; }
+#invites li .quiet { margin-left: auto; min-height: 0; }
+#people > li > strong { display: block; }
+#people > li > .admin-meta { display: block; }
+#people ul { margin: 8px 0 0; }
+#people ul li, #groups ul li { display: flex; justify-content: space-between; align-items: center; gap: .75em; min-height: 36px; }
+#people .quiet, #groups .quiet { min-height: 0; }
+.admin-group { padding: 14px 0; margin: 0; border-top: 1px solid color-mix(in srgb, var(--ink) 20%, transparent); }
+.admin-group h3 { margin-bottom: 4px; font-weight: 700; font-size: inherit; }
+.admin-group p { gap: .75em; }
+.admin-group .quiet, .admin-group .secondary { min-height: 0; }
+.admin-group ul { margin-top: 8px; }
+.admin-form { padding-bottom: var(--line); margin-bottom: 0; }
+@media (max-width: 900px) {
+  .admin-col { min-height: 0; }
+}

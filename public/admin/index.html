@@ -10,7 +10,7 @@
 try { if (localStorage.getItem('vandenhove-token')) document.documentElement.classList.add('connected'); } catch {}
 history.scrollRestoration = 'manual';
 </script>
-<link rel="stylesheet" href="../styles.css?v=20261101q">
+<link rel="stylesheet" href="../styles.css?v=20261101r">
 </head>
 <body class="admin">
 <header class="top">
@@ -30,15 +30,14 @@ history.scrollRestoration = 'manual';
     <p class="problem" id="problem" role="alert"></p>
 
     <div class="admin-columns">
-      <section>
-        <h2>Invites</h2>
-        <p><button class="primary" type="button" id="new-invite">New invite</button></p>
+      <section class="admin-col">
+        <header class="admin-head"><h2>Invites</h2><button type="button" id="new-invite">New invite</button></header>
         <ul class="admin-list" id="invites"></ul>
       </section>
 
-      <section>
-        <h2>Groups</h2>
-        <form class="stack admin-form" id="new-group">
+      <section class="admin-col">
+        <header class="admin-head"><h2>Groups</h2><button type="button" id="show-new-group">New group</button></header>
+        <form class="stack admin-form" id="new-group" hidden>
           <label>Group's name <input name="name" maxlength="60" required></label>
           <label>First member's name <input name="member_name" maxlength="60" required></label>
           <label>First member's account <select name="account" id="accounts" required></select></label>
@@ -48,14 +47,14 @@ history.scrollRestoration = 'manual';
         <div id="groups"></div>
       </section>
 
-      <section>
-        <h2>People</h2>
+      <section class="admin-col">
+        <header class="admin-head"><h2>People</h2></header>
         <ul class="admin-list" id="people"></ul>
       </section>
     </div>
   </div>
 </main>
 <a class="home" href="../">Home</a>
-<script type="module" src="admin.js?v=20261101q"></script>
+<script type="module" src="admin.js?v=20261101r"></script>
 </body>
 </html>
