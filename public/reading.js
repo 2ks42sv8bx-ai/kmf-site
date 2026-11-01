@@ -46,18 +46,39 @@ function form(id, fields, submit, run) {
 
 function signedOutView() {
   view.className = 'hero';
+  // Six lines on a tall screen, like the flyer. A wide one joins some, so the type can fill it.
+  const word = (text) => el('span', {}, text);
+  const wideBreak = () => el('br', { class: 'wide' });
   view.replaceChildren(
-    el('h1', {}, 'Sync highlights and notes between KOReader and Obsidian.'),
-    el('p', {}, el('a', { class: 'button primary', href: 'install/' }, 'Install')),
     el(
-      'details',
-      { class: 'already' },
-      el('summary', {}, 'Already installed?'),
-      form('connect', [['Code from one of your devices', 'code']], 'Connect', async (data) => {
-        await pair(data.get('code').trim());
-        view.className = 'page';
-        await route();
-      }),
+      'h1',
+      {},
+      word('Sync'),
+      ' ',
+      word('highlights'),
+      wideBreak(),
+      word('and notes'),
+      wideBreak(),
+      word('between'),
+      ' ',
+      word('KOReader'),
+      wideBreak(),
+      word('and Obsidian.'),
+    ),
+    el(
+      'div',
+      { class: 'meta' },
+      el('p', {}, el('a', { class: 'install-link', href: 'install/' }, 'Install')),
+      el(
+        'details',
+        { class: 'already' },
+        el('summary', {}, 'Already installed?'),
+        form('connect', [['Code from one of your devices', 'code']], 'Connect', async (data) => {
+          await pair(data.get('code').trim());
+          view.className = 'page';
+          await route();
+        }),
+      ),
     ),
   );
 }
