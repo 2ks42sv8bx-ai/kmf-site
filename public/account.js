@@ -78,3 +78,17 @@ export function onSubmit(form, action) {
     }
   });
 }
+
+/** Buttons that show a new code for another device beside them. */
+export function showCodeButtons() {
+  for (const button of document.querySelectorAll('.get-code')) {
+    const shown = button.parentElement.querySelector('.code');
+    button.addEventListener('click', async () => {
+      try {
+        shown.textContent = (await call('POST', '/codes')).code;
+      } catch (error) {
+        shown.textContent = error.message;
+      }
+    });
+  }
+}

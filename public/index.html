@@ -4,64 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Setup guide · vandenHove</title>
+<title>vandenHove</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="shell">
-  <nav class="side" aria-label="Main">
-    <a class="brand" href="./">vandenHove</a>
-    <a class="item item-on" aria-current="page" href="./">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>
-      Setup guide
-    </a>
-    <a class="item" href="groups/">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M9.5 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M21 19v-1a4 4 0 0 0-3-3.9M16 3.1a3.5 3.5 0 0 1 0 6.8"/></svg>
-      Groups
-    </a>
+<header class="top">
+  <a class="brand" href="">vandenHove</a>
+  <nav aria-label="Main">
+    <a href="setup/">Setup</a>
+    <a href="groups/">Groups</a>
   </nav>
-  <main class="main">
-    <div class="col">
-      <h1 class="title">Setup guide</h1>
-      <div class="seg" role="group" aria-label="Your e-reader">
-        <button class="seg-btn seg-on" type="button" data-device="kobo" aria-pressed="true">Kobo</button>
-        <button class="seg-btn" type="button" data-device="other" aria-pressed="false">PocketBook</button>
-        <button class="seg-btn" type="button" data-device="other" aria-pressed="false">Android</button>
-      </div>
-      <ol class="list">
-        <li class="step">
-          <span class="num" aria-hidden="true">1</span>
-          <div>
-            <h2>Install KOReader</h2>
-            <p data-for="kobo">Plug in your Kobo and run the <a href="https://www.mobileread.com/forums/showthread.php?t=314220">installer</a>.</p>
-            <p data-for="other" hidden>Follow <a href="https://github.com/koreader/koreader/wiki">KOReader's steps</a>.</p>
-          </div>
-        </li>
-        <li class="step">
-          <span class="num" aria-hidden="true">2</span>
-          <div>
-            <h2>Add the plugin</h2>
-            <p>Unzip <a class="link" href="downloads/vandenhove.koplugin.zip">vandenhove.koplugin</a> into KOReader's plugins folder.</p>
-          </div>
-        </li>
-        <li class="step">
-          <span class="num" aria-hidden="true">3</span>
-          <div>
-            <h2>Enter your code</h2>
-            <p>Menu, Tools, vandenHove, Account.</p>
-          </div>
-        </li>
-        <li class="step">
-          <span class="num" aria-hidden="true">4</span>
-          <div>
-            <h2>Connect Obsidian</h2>
-            <p>Unzip <a class="link" href="downloads/vandenhove-obsidian.zip">the plugin</a> into your vault's <code>.obsidian/plugins</code> folder, and turn it on. Get a second code from your e-reader's Account menu.</p>
-          </div>
-        </li>
-      </ol>
+</header>
+<main class="hero">
+  <h1>Your reading notes, on your e-reader and in Obsidian.</h1>
+  <form class="code-entry" id="enter">
+    <label for="code">Have a group code?</label>
+    <div class="row">
+      <input id="code" name="code" placeholder="KANT-4F7Q" autocomplete="off" autocapitalize="characters" required>
+      <button class="primary" type="submit">Join</button>
     </div>
-  </main>
-</div>
-<script src="guide.js"></script>
+  </form>
+  <p class="hero-links"><a href="setup/">Set up your devices</a><a href="groups/">Your groups</a></p>
+</main>
+<script type="module" src="home.js"></script>
 </body>
 </html>

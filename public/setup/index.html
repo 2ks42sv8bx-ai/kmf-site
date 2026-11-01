@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Setup · vandenHove</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="../">vandenHove</a>
+  <nav aria-label="Main">
+    <a href="../setup/" aria-current="page">Setup</a>
+    <a href="../groups/">Groups</a>
+  </nav>
+</header>
+<main class="page narrow">
+  <p class="notice" id="joined" role="status" hidden></p>
+  <h1>What do you read on?</h1>
+
+  <div class="tiles" role="group" aria-label="Your e-reader">
+    <button class="tile" type="button" data-device="kobo" aria-pressed="true">Kobo</button>
+    <button class="tile" type="button" data-device="other" aria-pressed="false">PocketBook</button>
+    <button class="tile" type="button" data-device="other" aria-pressed="false">Android</button>
+  </div>
+
+  <section class="wizard">
+    <p class="progress" id="progress"></p>
+
+    <article class="step-card" hidden>
+      <h2>Install KOReader</h2>
+      <p data-for="kobo">Plug in your Kobo and run the <a href="https://www.mobileread.com/forums/showthread.php?t=314220">installer</a>.</p>
+      <p data-for="other" hidden>Follow <a href="https://github.com/koreader/koreader/wiki">KOReader's steps</a>.</p>
+    </article>
+    <article class="step-card" hidden>
+      <h2>Add the plugin to KOReader</h2>
+      <p>Unzip it into KOReader's <code>plugins</code> folder.</p>
+      <a class="button secondary" href="../downloads/vandenhove.koplugin.zip">Download for KOReader</a>
+    </article>
+    <article class="step-card" hidden>
+      <h2>Connect your e-reader</h2>
+      <p>In KOReader, open Menu, Tools, vandenHove, Account, and enter a code.</p>
+      <div class="code-line" data-signed-in hidden><button class="primary get-code" type="button">Get a code</button> <strong class="code"></strong></div>
+      <p data-signed-out>Use the code you were given.</p>
+    </article>
+    <article class="step-card" hidden>
+      <h2>Add the plugin to Obsidian</h2>
+      <p>Unzip it into your vault's <code>.obsidian/plugins</code> folder, then turn it on in Settings, Community plugins.</p>
+      <a class="button secondary" href="../downloads/vandenhove-obsidian.zip">Download for Obsidian</a>
+    </article>
+    <article class="step-card" hidden>
+      <h2>Connect Obsidian</h2>
+      <p>In Obsidian, open Settings, vandenHove, and enter a code.</p>
+      <div class="code-line" data-signed-in hidden><button class="primary get-code" type="button">Get a code</button> <strong class="code"></strong></div>
+      <p data-signed-out>Get one on your e-reader: Account, Code for another device.</p>
+    </article>
+    <article class="step-card" hidden>
+      <h2>You're set up</h2>
+      <p>On your e-reader, tap a highlight, then the "…" button, to share it with your groups.</p>
+      <a class="button primary" href="../groups/">Go to your groups</a>
+    </article>
+
+    <div class="wizard-nav">
+      <button class="quiet" type="button" id="back">Back</button>
+      <button class="primary" type="button" id="next">Next</button>
+    </div>
+  </section>
+</main>
+<script type="module" src="setup.js"></script>
+</body>
+</html>

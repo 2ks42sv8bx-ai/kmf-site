@@ -8,42 +8,14 @@
 <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<div class="shell">
-  <nav class="side" aria-label="Main">
-    <a class="brand" href="../">vandenHove</a>
-    <a class="item" href="../">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></svg>
-      Setup guide
-    </a>
-    <a class="item item-on" href="../groups/">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 19v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M9.5 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M21 19v-1a4 4 0 0 0-3-3.9M16 3.1a3.5 3.5 0 0 1 0 6.8"/></svg>
-      Groups
-    </a>
+<header class="top">
+  <a class="brand" href="../">vandenHove</a>
+  <nav aria-label="Main">
+    <a href="../setup/">Setup</a>
+    <a href="../groups/" aria-current="page">Groups</a>
   </nav>
-  <main class="main">
-    <div class="col">
-      <h1 class="title">Groups</h1>
-
-      <form class="panel" id="connect" hidden>
-        <label>Code from a device you use <input name="code" autocomplete="off" autocapitalize="characters" required></label>
-        <button type="submit">Connect</button>
-        <p class="problem" role="alert"></p>
-      </form>
-
-      <div id="groups"></div>
-
-      <form class="panel" id="create" hidden>
-        <h2>New group</h2>
-        <label>Group's name <input name="name" maxlength="60" required></label>
-        <label>Your name in the group <input name="member_name" maxlength="60" autocomplete="name" required></label>
-        <button type="submit">Create</button>
-        <p class="problem" role="alert"></p>
-      </form>
-
-      <p><a class="link" href="../join/">Join with a code</a> <button type="button" id="forget" class="plain" hidden>Disconnect this browser</button></p>
-    </div>
-  </main>
-</div>
+</header>
+<main class="page" id="view"></main>
 <script type="module" src="groups.js"></script>
 </body>
 </html>
