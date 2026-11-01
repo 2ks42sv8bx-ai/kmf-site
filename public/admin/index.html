@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Admin · vandenHove</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<nav><strong><a href="../">vandenHove</a></strong> · Admin</nav>
+<main>
+  <h1>Admin</h1>
+  <form id="unlock">
+    <label>Admin secret <input name="secret" type="password" autocomplete="off" required></label>
+    <button type="submit">Open</button>
+    <p class="problem" role="alert"></p>
+  </form>
+  <div id="panel" hidden>
+    <p class="problem" id="problem" role="alert"></p>
+
+    <h2>Invites</h2>
+    <p><button type="button" id="new-invite">New invite</button></p>
+    <ul id="invites"></ul>
+
+    <h2>Groups</h2>
+    <form id="new-group">
+      <label>Group's name <input name="name" maxlength="60" required></label>
+      <label>First member's name <input name="member_name" maxlength="60" required></label>
+      <label>First member's account <select name="account" id="accounts" required></select></label>
+      <button type="submit">Create</button>
+      <p class="problem" role="alert"></p>
+    </form>
+    <div id="groups"></div>
+
+    <h2>People</h2>
+    <ul id="people"></ul>
+  </div>
+</main>
+<script type="module" src="admin.js"></script>
+</body>
+</html>

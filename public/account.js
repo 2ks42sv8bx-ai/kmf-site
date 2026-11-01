@@ -1,5 +1,5 @@
 // The server, and this browser's place on it. The site is one more device.
-const SERVER = location.hostname === 'localhost' ? 'http://localhost:8766/v1' : 'https://sync.vandenhove.page/v1';
+export const SERVER = location.hostname === 'localhost' ? 'http://localhost:8766/v1' : 'https://sync.vandenhove.page/v1';
 const KEY = 'vandenhove-token';
 
 function stored() {
