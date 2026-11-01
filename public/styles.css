@@ -168,25 +168,26 @@ summary { cursor: pointer; }
 .code:empty { display: none; }
 .code-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--line); }
 
-/* Install: prose in the facts' voice, with the same size and margin as the front. */
+/* Install: one step at a time, in a card of fixed size, so nothing moves between steps. */
 
 .unseen { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.wide-text { max-width: none; }
-.prose { max-width: 26em; font-size: var(--facts); line-height: 1.36; }
-.prose p + p { margin-top: 1.36em; }
-button.link {
-  display: inline;
-  min-height: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--ink);
-  font-size: inherit;
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: .12em;
+.wizard { max-width: 36rem; }
+.progress { margin-bottom: .75em; }
+.step-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1em;
+  min-height: 15em;
+  padding: 1.75em;
+  border: 1px solid var(--ink);
 }
+.step-card[hidden] { display: none; }
+.step-card h2 { font-size: var(--facts); line-height: 1.2; letter-spacing: -.01em; }
+.card-action { display: inline-flex; align-items: center; min-height: 44px; margin-top: auto; padding: 0 1em; background: var(--ink); color: var(--paper); font-weight: 700; text-decoration: none; }
+.step-card .code-line { margin-top: auto; gap: 1em; }
+.wizard-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1em; }
+.wizard-nav #next { margin-left: auto; }
 
 /* Reading */
 
