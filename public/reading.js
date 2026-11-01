@@ -104,7 +104,7 @@ async function groupsView() {
     el(
       'div',
       { class: 'heading-row' },
-      el('h1', {}, 'Reading'),
+      el('h1', { class: 'unseen' }, 'Reading'),
       el('div', { class: 'actions' }, el('a', { class: 'button secondary', href: 'join/' }, 'Join a group'), newGroup),
     ),
     create,
@@ -206,7 +206,6 @@ async function groupView(id) {
   }
   const { books } = await call('GET', `/groups/${id}/library`);
   view.replaceChildren(
-    el('a', { class: 'back', href: '#/' }, 'Reading'),
     el('h1', {}, group.name),
     books.length > 0
       ? el('div', { class: 'book-list' }, ...books.map((book) => bookRow(group, book)))

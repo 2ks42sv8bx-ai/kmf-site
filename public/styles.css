@@ -337,3 +337,50 @@ body.fixed .top { position: relative; z-index: 1; }
 .wizard-nav .quiet:hover { background: var(--ink); color: var(--paper); }
 
 .top { padding-left: var(--edge); padding-right: var(--edge); }
+
+/*
+ * Don't make them think. Each screen has one solid button: the next thing to do. Everything
+ * else is quiet text. Labels that repeat what the page already says are gone.
+ */
+
+.already summary {
+  min-height: 2.2em;
+  padding: 0 .4em;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-weight: 400;
+}
+.already summary:hover, .already summary:focus-visible, .already[open] summary { background: none; color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
+.already button { background: var(--paper); color: var(--ink); }
+.already button:hover { background: var(--ink); color: var(--paper); }
+
+.progress { font-size: var(--text); opacity: .6; }
+.step-card { justify-content: flex-start; }
+.step-card p { font-size: calc(var(--text) * 1.1); }
+
+.wizard-nav { margin-top: 1.25em; }
+.wizard-nav button, .wizard-nav .done { min-height: 48px; padding: 0 1.5em; font-size: var(--text); }
+.wizard-nav .quiet { min-height: 48px; padding: 0; border: 0; background: none; font-weight: 400; text-decoration: underline; text-underline-offset: 3px; }
+.wizard-nav .quiet:hover { background: none; color: var(--ink); opacity: .7; }
+.done { display: inline-flex; align-items: center; margin-left: auto; border: 1px solid var(--ink); border-radius: var(--round); background: var(--ink); color: var(--paper); font-weight: 700; text-decoration: none; }
+
+.home {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: var(--text);
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.home:hover { background: none; color: var(--ink); opacity: .7; }
+
+.page h1:not(.unseen) { font-size: var(--facts); line-height: 1.2; font-weight: 700; letter-spacing: -.01em; text-transform: none; }
+.chapter, #panel h2 { font-size: var(--text); font-weight: 700; letter-spacing: 0; text-transform: none; }
+.quiet-footer { border-top: 0; opacity: .75; }
+
+/* One left edge: tabs, headings and content all start where the headline does. */
+body:not(.fixed) main.page { max-width: calc(40rem + var(--edge) * 2); padding-left: var(--edge); padding-right: var(--edge); }

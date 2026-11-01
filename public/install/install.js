@@ -4,6 +4,7 @@ const cards = [...document.querySelectorAll('.step-card')];
 const progress = document.querySelector('#progress');
 const back = document.querySelector('#back');
 const next = document.querySelector('#next');
+const done = document.querySelector('#done');
 let at = 0;
 
 function show() {
@@ -13,6 +14,7 @@ function show() {
   progress.textContent = `Step ${at + 1} of ${cards.length}`;
   back.hidden = at === 0;
   next.hidden = at === cards.length - 1;
+  done.hidden = !next.hidden;
 }
 
 back.addEventListener('click', () => {
