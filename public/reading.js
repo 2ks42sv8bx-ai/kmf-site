@@ -99,6 +99,7 @@ async function groupsView() {
       'footer',
       { class: 'quiet-footer' },
       el('div', { class: 'code-line' }, el('button', { type: 'button', class: 'quiet get-code' }, 'Code for another device'), el('strong', { class: 'code' })),
+      el('a', { class: 'quiet', href: 'install/' }, 'Install'),
       forget,
     ),
   );
@@ -228,6 +229,7 @@ async function groupView(id) {
   }
   const { books } = await call('GET', `/groups/${id}/library`);
   view.replaceChildren(
+    el('a', { class: 'back', href: '#/' }, 'Groups'),
     el('h1', {}, group.name),
     el('div', { class: 'panels' }, booksPanel(group, books), membersPanel(group)),
   );
@@ -291,6 +293,7 @@ async function route() {
     signedOutView();
     return;
   }
+  if (view.classList.contains('hero')) view.replaceChildren();
   view.className = 'page';
   const [groupId, bookId] = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   try {
