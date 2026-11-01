@@ -1,4 +1,4 @@
-import { call, onSubmit, pair, remember, showCodeButtons, signedIn } from './account.js';
+import { call, onSubmit, remember, showCodeButtons, signedIn } from './account.js';
 
 // Three views on one page: #/ every group, #/ID one group's books, #/ID/BOOK one book's notes.
 const view = document.querySelector('#view');
@@ -44,24 +44,9 @@ function form(id, fields, submit, run) {
   return made;
 }
 
-// The front page is already in the HTML. This only gives it its form.
+// The front page is already in the HTML, so there's nothing to draw unless it was replaced.
 function signedOutView() {
-  view.className = 'hero';
   if (!view.querySelector('.meta')) location.reload();
-  const already = view.querySelector('.already');
-  if (already.querySelector('form')) return;
-  const code = el('input', { name: 'code', 'aria-label': 'Code from one of your devices', placeholder: 'Code', maxlength: '60', autocomplete: 'off', required: '' });
-  const connect = el('form', { id: 'connect' }, code, el('button', { type: 'submit' }, 'Connect'), problemLine());
-  onSubmit(connect, async (data) => {
-    await pair(data.get('code').trim());
-    await route();
-  });
-  already.append(connect);
-  already.addEventListener('toggle', () => {
-    if (already.open) {
-      code.focus({ preventScroll: true });
-    }
-  });
 }
 
 function groupRow(group) {
