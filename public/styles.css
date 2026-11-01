@@ -62,7 +62,7 @@ code { font: inherit; font-weight: 700; }
   margin: 0;
   padding: var(--edge);
   /* The longest line fills the page, whatever the page really is. */
-  font-size: min(calc((100cqw - var(--edge) * 2) / 8.95), calc((100svh - var(--facts-room)) / 3.8));
+  font-size: calc(min((100cqw - var(--edge) * 2) / 8.95, (100svh - var(--facts-room)) / 3.8) * .95);
   font-weight: 700;
   line-height: .95;
   letter-spacing: -.03em;
@@ -70,7 +70,7 @@ code { font: inherit; font-weight: 700; }
   text-transform: none;
 }
 @media (max-aspect-ratio: 1/1) {
-  .hero h1 { font-size: min(calc((100cqw - var(--edge) * 2) / 6.3), calc((100svh - var(--facts-room)) / 5.7)); }
+  .hero h1 { font-size: calc(min((100cqw - var(--edge) * 2) / 6.3, (100svh - var(--facts-room)) / 5.7) * .95); }
   .hero h1 span { display: block; }
   .hero h1 .wide { display: none; }
 }
