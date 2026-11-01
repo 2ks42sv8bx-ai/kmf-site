@@ -8,65 +8,24 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<nav><strong><a href="./">vandenHove</a></strong><a href="groups/">Groups</a></nav>
-<main>
-  <h1 class="headline">Your reading notes, shared between your e-reader and Obsidian.</h1>
-  <p id="joined" role="status" hidden></p>
-
-  <form id="code-form">
+<header class="top">
+  <a class="brand" href="">vandenHove</a>
+  <nav aria-label="Main">
+    <a href="setup/">Setup</a>
+    <a href="groups/">Groups</a>
+  </nav>
+</header>
+<main class="hero">
+  <h1>Your reading notes, shared between your e&#8209;reader and Obsidian.</h1>
+  <form class="code-entry" id="enter">
     <label for="code">Have a group code?</label>
     <div class="row">
       <input id="code" name="code" placeholder="KANT-4F7Q" autocomplete="off" autocapitalize="characters" required>
-      <button type="submit">Continue</button>
+      <button class="primary" type="submit">Join</button>
     </div>
-    <p class="problem" role="alert"></p>
   </form>
-
-  <form id="name-form" class="panel" hidden>
-    <h2 id="group-name"></h2>
-    <label>Your name in this group <input name="name" maxlength="60" autocomplete="name" required></label>
-    <details id="existing">
-      <summary>I already use vandenHove</summary>
-      <label>Code from one of your devices <input name="device" autocomplete="off" autocapitalize="characters"></label>
-    </details>
-    <button type="submit">Join</button>
-    <p class="problem" role="alert"></p>
-  </form>
-
-  <h2>What do you read on?</h2>
-  <div class="tiles" role="group" aria-label="What you read on">
-    <button class="tile" type="button" data-device="kobo" aria-pressed="true">Kobo</button>
-    <button class="tile" type="button" data-device="kindle" aria-pressed="false">Kindle</button>
-    <button class="tile" type="button" data-device="pocketbook" aria-pressed="false">PocketBook</button>
-    <button class="tile" type="button" data-device="android" aria-pressed="false">Android</button>
-    <button class="tile" type="button" data-device="remarkable" aria-pressed="false">reMarkable</button>
-    <button class="tile" type="button" data-device="other" aria-pressed="false">Something else</button>
-  </div>
-  <ol class="steps">
-    <li>
-      Install KOReader.
-      <span data-for="kobo"><a href="https://github.com/koreader/koreader/wiki/Installation-on-Kobo-devices">Steps for Kobo</a>.</span>
-      <span data-for="kindle" hidden>Your Kindle has to be jailbroken first. <a href="https://github.com/koreader/koreader/wiki/Installation-on-Kindle-devices">Steps for Kindle</a>.</span>
-      <span data-for="pocketbook" hidden><a href="https://github.com/koreader/koreader/wiki/Installation-on-PocketBook-devices">Steps for PocketBook</a>.</span>
-      <span data-for="android" hidden>Also for e-readers such as BOOX. <a href="https://github.com/koreader/koreader/wiki/Installation-on-Android-devices">Steps for Android</a>.</span>
-      <span data-for="remarkable" hidden><a href="https://github.com/koreader/koreader/wiki/Installation-on-reMarkable">Steps for reMarkable</a>.</span>
-      <span data-for="other" hidden><a href="https://github.com/koreader/koreader/wiki">KOReader's guide</a> covers every device.</span>
-    </li>
-    <li>Unzip <a href="downloads/vandenhove.koplugin.zip">the KOReader plugin</a> into KOReader's <code>plugins</code> folder.</li>
-    <li>
-      In KOReader, open Menu, Tools, vandenHove, Account, and enter a code.
-      <span data-signed-out>Use the code you were given.</span>
-      <span class="code-line" data-signed-in hidden><button type="button" class="get-code">Get a code</button> <strong class="code"></strong></span>
-    </li>
-    <li>Unzip <a href="downloads/vandenhove-obsidian.zip">the Obsidian plugin</a> into your vault's <code>.obsidian/plugins</code> folder, then turn it on in Settings, Community plugins.</li>
-    <li>
-      In Obsidian, open Settings, vandenHove, and enter a code.
-      <span data-signed-out>Get one on your e-reader: Account, Code for another device.</span>
-      <span class="code-line" data-signed-in hidden><button type="button" class="get-code">Get a code</button> <strong class="code"></strong></span>
-    </li>
-  </ol>
-  <p class="tip">To share a passage with your groups: on your e-reader, tap a highlight, then "…". In Obsidian, add "-shared" to its title.</p>
+  <p class="hero-links"><a href="setup/">Set up your devices</a><a href="groups/">Your groups</a></p>
 </main>
-<script type="module" src="start.js"></script>
+<script type="module" src="home.js"></script>
 </body>
 </html>

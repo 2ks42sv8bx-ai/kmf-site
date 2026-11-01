@@ -54,7 +54,7 @@ function signedOutView() {
         await pair(data.get('code').trim());
         await route();
       }),
-      el('div', { class: 'card stack' }, el('h2', {}, 'New here?'), el('a', { class: 'button secondary', href: '../' }, 'Join with a group code')),
+      el('div', { class: 'card stack' }, el('h2', {}, 'New here?'), el('a', { class: 'button secondary', href: '../join/' }, 'Join with a group code')),
     ),
   );
 }
@@ -100,7 +100,7 @@ async function groupsView() {
       'div',
       { class: 'heading-row' },
       el('h1', {}, 'Groups'),
-      el('div', { class: 'actions' }, el('a', { class: 'button secondary', href: '../' }, 'Join a group'), newGroup),
+      el('div', { class: 'actions' }, el('a', { class: 'button secondary', href: '../join/' }, 'Join a group'), newGroup),
     ),
     create,
     groups.length > 0 ? el('div', { class: 'group-list' }, ...groups.map(groupRow)) : el('p', { class: 'muted' }, 'No groups yet.'),
@@ -138,7 +138,7 @@ function membersPanel(group) {
   const problem = problemLine();
   const copy = el('button', { type: 'button', class: 'secondary' }, 'Copy invite link');
   copy.addEventListener('click', async () => {
-    const link = new URL(`../#${group.code}`, location.href).href;
+    const link = new URL(`../join/#${group.code}`, location.href).href;
     try {
       await navigator.clipboard.writeText(link);
       copy.textContent = 'Copied';

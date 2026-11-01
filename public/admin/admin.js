@@ -33,7 +33,7 @@ function el(tag, attributes = {}, ...children) {
 }
 
 function action(text, question, run) {
-  const button = el('button', { type: 'button' }, text);
+  const button = el('button', { type: 'button', class: 'quiet' }, text);
   button.addEventListener('click', async () => {
     if (question && !confirm(question)) return;
     problem.textContent = '';
@@ -48,7 +48,7 @@ function action(text, question, run) {
 }
 
 function copyButton(text) {
-  const button = el('button', { type: 'button' }, 'Copy link');
+  const button = el('button', { type: 'button', class: 'secondary' }, 'Copy link');
   button.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(text);
@@ -61,7 +61,7 @@ function copyButton(text) {
 }
 
 const date = (at) => new Date(at).toLocaleDateString();
-const startPage = new URL('../', location.href).href;
+const joinPage = new URL('../join/', location.href).href;
 
 function accountName(account) {
   return account.names.length > 0 ? account.names.join(', ') : `Account ${account.id}`;
@@ -70,14 +70,14 @@ function accountName(account) {
 function groupCard(group) {
   return el(
     'section',
-    {},
+    { class: 'card admin-group' },
     el('h3', {}, group.name),
     el(
       'p',
       {},
       el('strong', { class: 'code' }, group.code),
       ' ',
-      copyButton(`${startPage}#${group.code}`),
+      copyButton(`${joinPage}#${group.code}`),
       ' ',
       action('Replace code', `Replace the code for ${group.name}? The old code and link stop working.`, () =>
         admin('POST', `/groups/${group.id}/code`),

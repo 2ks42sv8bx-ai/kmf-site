@@ -8,33 +8,39 @@
 <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-<nav><strong><a href="../">vandenHove</a></strong><a href="../groups/">Groups</a></nav>
-<main>
+<header class="top">
+  <a class="brand" href="../">vandenHove</a>
+  <nav aria-label="Main">
+    <a href="../setup/">Setup</a>
+    <a href="../groups/">Groups</a>
+  </nav>
+</header>
+<main class="page">
   <h1>Admin</h1>
-  <form id="unlock">
+  <form class="card stack admin-form" id="unlock">
     <label>Admin secret <input name="secret" type="password" autocomplete="off" required></label>
-    <button type="submit">Open</button>
+    <button class="primary" type="submit">Open</button>
     <p class="problem" role="alert"></p>
   </form>
   <div id="panel" hidden>
     <p class="problem" id="problem" role="alert"></p>
 
     <h2>Invites</h2>
-    <p><button type="button" id="new-invite">New invite</button></p>
-    <ul id="invites"></ul>
+    <p><button class="primary" type="button" id="new-invite">New invite</button></p>
+    <ul class="admin-list" id="invites"></ul>
 
     <h2>Groups</h2>
-    <form id="new-group">
+    <form class="card stack admin-form" id="new-group">
       <label>Group's name <input name="name" maxlength="60" required></label>
       <label>First member's name <input name="member_name" maxlength="60" required></label>
       <label>First member's account <select name="account" id="accounts" required></select></label>
-      <button type="submit">Create</button>
+      <button class="primary" type="submit">Create</button>
       <p class="problem" role="alert"></p>
     </form>
     <div id="groups"></div>
 
     <h2>People</h2>
-    <ul id="people"></ul>
+    <ul class="admin-list" id="people"></ul>
   </div>
 </main>
 <script type="module" src="admin.js"></script>
