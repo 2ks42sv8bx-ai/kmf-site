@@ -54,7 +54,7 @@ function signedOutView() {
         await pair(data.get('code').trim());
         await route();
       }),
-      el('div', { class: 'card stack' }, el('h2', {}, 'New here?'), el('a', { class: 'button secondary', href: '../join/' }, 'Join with a group code')),
+      el('div', { class: 'card stack' }, el('h2', {}, 'New account'), el('a', { class: 'button secondary', href: '../join/' }, 'Join a group')),
     ),
   );
 }
@@ -209,7 +209,7 @@ async function groupView(id) {
           'div',
           { class: 'empty-card' },
           el('h2', {}, 'Nothing shared yet'),
-          el('p', { class: 'muted' }, 'Books appear here when someone shares a passage. On an e-reader: tap a highlight, then "…". In Obsidian: add "-shared" to a passage\'s title.'),
+          el('p', { class: 'muted' }, 'Books are listed once a passage is shared. On an e-reader: tap a highlight, then "…". In Obsidian: add "-shared" to a passage\'s title.'),
         ),
     membersPanel(group),
   );
