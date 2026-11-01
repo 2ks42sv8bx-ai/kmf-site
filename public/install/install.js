@@ -12,7 +12,9 @@ const logIn = document.querySelector('#log-in');
 const on = signedIn();
 const lastStep = cards.length - 1;
 const loginAt = cards.length;
-let at = !on && location.hash === '#login' ? loginAt : 0;
+// Arriving straight at the card, there's nothing to go back to but Home.
+const straightToLogin = !on && location.hash === '#login';
+let at = straightToLogin ? loginAt : 0;
 
 function show() {
   const onLogin = at === loginAt;
@@ -22,7 +24,7 @@ function show() {
   login.hidden = !onLogin;
   progress.hidden = onLogin;
   progress.textContent = `Step ${at + 1} of ${cards.length}`;
-  back.hidden = at === 0;
+  back.hidden = at === 0 || straightToLogin;
   logIn.hidden = !onLogin;
   done.hidden = !(on && at === lastStep);
   next.hidden = onLogin || (on && at === lastStep);
