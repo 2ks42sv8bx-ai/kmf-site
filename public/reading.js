@@ -35,7 +35,7 @@ function form(id, fields, submit, run) {
     'form',
     { class: 'card stack', id },
     ...fields.map(([label, name]) =>
-      el('label', {}, label, el('input', { name, maxlength: '60', autocomplete: 'off', required: '' })),
+      el('label', {}, label, el('input', { name, maxlength: '60', autocomplete: 'off', required: '', ...(label ? {} : { 'aria-label': 'Code from one of your devices', placeholder: 'Code' }) })),
     ),
     el('button', { class: 'primary', type: 'submit' }, submit),
     problemLine(),
@@ -73,7 +73,7 @@ function signedOutView() {
         'details',
         { class: 'already' },
         el('summary', {}, 'Already installed?'),
-        form('connect', [['Code from one of your devices', 'code']], 'Connect', async (data) => {
+        form('connect', [['', 'code']], 'Connect', async (data) => {
           await pair(data.get('code').trim());
           view.className = 'page';
           await route();

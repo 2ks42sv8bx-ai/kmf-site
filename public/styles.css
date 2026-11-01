@@ -1,5 +1,5 @@
 /*
- * One family, two sizes, two weights, two colours. Type sits flush left on one margin, the
+ * One family, three sizes, two weights, two colours. Type sits flush left on one margin, the
  * flyer's proportion of 14 mm in 148.5 mm, and display type runs past it, off the page.
  * Everything is spaced in multiples of the line.
  */
@@ -18,6 +18,7 @@
   --line: 24px;
   --margin: clamp(20px, 9.4vw, 140px);
   --display: clamp(56px, 11vw, 168px);
+  --large: clamp(24px, 3.2vw, 44px);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -76,12 +77,36 @@ h1 {
   .hero h1 span { display: block; }
   .hero h1 .wide { display: none; }
 }
-.meta { margin-top: auto; padding-left: var(--margin); }
-.install-link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
-.already summary { display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; list-style: none; }
+.meta { margin-top: auto; font-size: var(--large); line-height: 1.2; letter-spacing: -.015em; }
+.install-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5em;
+  padding: 0 1.5em 0 var(--margin);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 700;
+  text-decoration: none;
+}
+.install-link:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .15em; }
+.already { padding-left: var(--margin); margin-top: .5em; }
+.already summary { display: inline-flex; align-items: center; min-height: 2em; cursor: pointer; list-style: none; }
 .already summary::-webkit-details-marker { display: none; }
-.already summary:hover { text-decoration: underline; text-underline-offset: 3px; }
-.already form { max-width: 360px; margin-top: var(--line); }
+.already summary:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .15em; }
+.already form {
+  display: grid;
+  grid-template-columns: minmax(0, 14em) auto;
+  gap: 8px 0;
+  justify-content: start;
+  align-items: end;
+  margin: .5em var(--margin) 0 0;
+  font-size: 16px;
+  letter-spacing: 0;
+}
+.already label { grid-column: 1 / -1; display: contents; }
+.already input { grid-row: 1; grid-column: 1; min-height: 2.5em; font-size: var(--large); border-right: 0; }
+.already button { grid-row: 1; grid-column: 2; min-height: 2.5em; padding: 0 1em; font-size: var(--large); }
+.already .problem { grid-column: 1 / -1; }
 
 /* The page */
 
