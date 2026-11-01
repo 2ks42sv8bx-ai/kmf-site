@@ -1,7 +1,5 @@
 import { showCodeButtons, signedIn } from '../account.js';
 
-const tiles = document.querySelectorAll('.tile');
-const variants = document.querySelectorAll('[data-for]');
 const cards = [...document.querySelectorAll('.step-card')];
 const progress = document.querySelector('#progress');
 const back = document.querySelector('#back');
@@ -17,12 +15,6 @@ function show() {
   next.hidden = at === cards.length - 1;
 }
 
-for (const tile of tiles) {
-  tile.addEventListener('click', () => {
-    for (const other of tiles) other.setAttribute('aria-pressed', String(other === tile));
-    for (const variant of variants) variant.hidden = variant.dataset.for !== tile.dataset.device;
-  });
-}
 back.addEventListener('click', () => {
   at -= 1;
   show();
