@@ -1,6 +1,7 @@
 /*
- * One family, three sizes, two weights, two colours. Everything sits flush left on one margin,
- * nothing leaves the page, and everything is spaced in multiples of the line.
+ * One family, three sizes, two weights, two colours. Everything hangs on two lines: the margin
+ * and an axis a third of the way across. Titles sit left of the axis and content right of it.
+ * Display size belongs to the front page's sentence alone. Spacing is in multiples of the line.
  */
 
 @font-face {
@@ -17,7 +18,7 @@
   --line: 24px;
   --margin: var(--line);
   --measure: calc(100vw - var(--margin) * 2);
-  --display: clamp(56px, 11vw, 168px);
+  --axis: calc(var(--margin) + var(--measure) / 3);
   --large: clamp(24px, 3.2vw, 44px);
 }
 
@@ -32,7 +33,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font: 400 16px/var(--line) Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font: 400 17px/var(--line) Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -47,11 +48,11 @@ h2, h3, strong { font-weight: 700; }
 /* Display type */
 
 h1 {
-  margin: 0 0 calc(var(--line) * 2);
-  font-size: var(--display);
+  margin: 0;
+  font-size: var(--large);
   font-weight: 700;
-  line-height: .92;
-  letter-spacing: -.035em;
+  line-height: 1.1;
+  letter-spacing: -.02em;
   overflow-wrap: break-word;
 }
 
@@ -65,7 +66,8 @@ h1 {
 .hero h1 {
   margin-bottom: calc(var(--line) * 2);
   font-size: min(calc(var(--measure) / 8.9), 17svh);
-  line-height: .9;
+  line-height: .92;
+  letter-spacing: -.035em;
   white-space: nowrap;
 }
 @media (max-aspect-ratio: 1/1) {
@@ -73,7 +75,7 @@ h1 {
   .hero h1 span { display: block; }
   .hero h1 .wide { display: none; }
 }
-.meta { margin-top: auto; font-size: var(--large); line-height: 1.2; letter-spacing: -.015em; }
+.meta { margin-top: auto; margin-left: calc(var(--axis) - var(--margin)); font-size: var(--large); line-height: 1.2; letter-spacing: -.015em; }
 .install-link {
   display: inline-flex;
   align-items: center;
@@ -112,11 +114,26 @@ h1 {
 .top a:hover { text-decoration: underline; }
 .top a[aria-current] { font-weight: 700; }
 
-.page { padding: var(--margin) var(--margin) calc(var(--line) * 4); overflow-wrap: break-word; }
+.page {
+  position: relative;
+  padding: var(--margin) var(--margin) calc(var(--line) * 4) var(--axis);
+  overflow-wrap: break-word;
+}
 .page > * { max-width: 40em; }
-.page > h1, .heading-row { max-width: none; }
+.page > h1, .heading-row h1, .page > .back {
+  position: absolute;
+  top: var(--margin);
+  left: var(--margin);
+  width: calc(var(--measure) / 3 - var(--line));
+}
+.page > .back:not([hidden]) ~ h1 { top: calc(var(--margin) + 44px); }
 .heading-row { margin-bottom: calc(var(--line) * 2); }
-.heading-row h1 { margin-bottom: var(--line); }
+@media (max-width: 720px) {
+  .page { padding-left: var(--margin); }
+  .page > h1, .heading-row h1, .page > .back { position: static; width: auto; }
+  .page > h1, .heading-row h1 { margin-bottom: calc(var(--line) * 2); }
+  .meta { margin-left: 0; }
+}
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .back { display: inline-flex; align-items: center; min-height: 44px; }
@@ -189,7 +206,7 @@ details summary { cursor: pointer; min-height: 44px; }
 .group-row:hover .group-name, .book-row:hover .book-title { text-decoration: underline; text-underline-offset: 3px; }
 .group-name, .book-title { display: block; font-weight: 700; }
 .group-books, .group-row .muted, .book-row .muted, .book-meta { display: block; }
-.subtitle { margin-top: calc(var(--line) * -1); margin-bottom: calc(var(--line) * 2); font-weight: 700; }
+.subtitle { margin-bottom: calc(var(--line) * 2); font-weight: 700; }
 .empty-card { margin-bottom: calc(var(--line) * 2); padding: var(--line) 0; border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
 .empty-card h2 { margin-bottom: var(--line); }
 
@@ -207,7 +224,7 @@ details summary { cursor: pointer; min-height: 44px; }
 .passage p:not(.muted) { margin-bottom: var(--line); white-space: pre-line; }
 
 .quiet-footer .code-line { margin-top: 0; }
-.quiet-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--line); margin-top: calc(var(--line) * 3); padding-top: var(--line); border-top: 1px solid var(--ink); }
+.quiet-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--line); margin-top: calc(var(--line) * 3); }
 
 /* Admin */
 
