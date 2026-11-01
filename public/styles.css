@@ -168,25 +168,25 @@ summary { cursor: pointer; }
 .code:empty { display: none; }
 .code-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--line); }
 
-/* Install: the whole programme, as on the flyer's back. Every item has the same shape. */
+/* Install: prose in the facts' voice, with the same size and margin as the front. */
 
-.steps { counter-reset: step; max-width: 36rem; }
-.steps li { position: relative; margin-bottom: 1.45em; counter-increment: step; }
-.steps li::before { content: counter(step); position: absolute; right: 100%; margin-right: .75em; }
-.steps h2 { font-weight: 700; }
+.unseen { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.wide-text { max-width: none; }
+.prose { max-width: 26em; font-size: var(--facts); line-height: 1.36; }
+.prose p + p { margin-top: 1.36em; }
 button.link {
+  display: inline;
   min-height: 0;
-  margin-top: 0;
   padding: 0;
   border: 0;
   background: none;
   color: var(--ink);
+  font-size: inherit;
   font-weight: 700;
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-underline-offset: .12em;
 }
-.steps .code-line { gap: .75em; }
 
 /* Reading */
 

@@ -10,7 +10,7 @@
 try { if (localStorage.getItem('vandenhove-token')) document.documentElement.classList.add('connected'); } catch {}
 history.scrollRestoration = 'manual';
 </script>
-<link rel="stylesheet" href="../styles.css?v=20261101b">
+<link rel="stylesheet" href="../styles.css?v=20261101c">
 </head>
 <body>
 <header class="top">
@@ -19,39 +19,16 @@ history.scrollRestoration = 'manual';
     <a href="../install/" data-connected aria-current="page">Install</a>
   </nav>
 </header>
-<main class="page narrow">
+<main class="page wide-text">
   <p class="notice" id="joined" role="status" hidden></p>
-  <h1>Install</h1>
+  <h1 class="unseen">Install</h1>
 
-  <ol class="steps">
-    <li>
-      <h2>Install KOReader</h2>
-      <p>Follow <a href="https://github.com/koreader/koreader/wiki">KOReader's guide</a> for your device.</p>
-    </li>
-    <li>
-      <h2>Add the plugin to KOReader</h2>
-      <p>Download <a href="../downloads/vandenhove.koplugin.zip">the plugin</a> and unzip it into KOReader's plugins folder.</p>
-    </li>
-    <li>
-      <h2>Connect your e-reader</h2>
-      <p>In KOReader, open Menu, Tools, vandenHove, Account, and enter the code you were given.</p>
-      <div class="code-line" data-signed-in hidden><button class="link get-code" type="button">Get a code</button> <strong class="code"></strong></div>
-    </li>
-    <li>
-      <h2>Add the plugin to Obsidian</h2>
-      <p>Download <a href="../downloads/vandenhove-obsidian.zip">the plugin</a>, unzip it into your vault's .obsidian/plugins folder, then turn it on in Settings, Community plugins.</p>
-    </li>
-    <li>
-      <h2>Connect Obsidian</h2>
-      <p>In Obsidian, open Settings, vandenHove, and enter the code from KOReader's Account menu, under Code for another device.</p>
-      <div class="code-line" data-signed-in hidden><button class="link get-code" type="button">Get a code</button> <strong class="code"></strong></div>
-    </li>
-    <li>
-      <h2>Sharing with a group</h2>
-      <p>On your e-reader, tap a highlight, tap the three dots (…), then Share with groups.</p>
-    </li>
-  </ol>
+  <div class="prose">
+    <p><strong>KOReader.</strong> Install it with <a href="https://github.com/koreader/koreader/wiki">its guide</a>. Unzip <a href="../downloads/vandenhove.koplugin.zip">the plugin</a> into its plugins folder. Open Menu, Tools, vandenHove, Account, and enter the code you were given. <span data-signed-in hidden><button class="link get-code" type="button">Get a code</button> <strong class="code"></strong></span></p>
+    <p><strong>Obsidian.</strong> Unzip <a href="../downloads/vandenhove-obsidian.zip">the plugin</a> into your vault's .obsidian/plugins folder, and turn it on in Settings, Community plugins. Open Settings, vandenHove, and enter the code from KOReader's Account menu, under Code for another device. <span data-signed-in hidden><button class="link get-code" type="button">Get a code</button> <strong class="code"></strong></span></p>
+    <p><strong>Sharing.</strong> On your e-reader, tap a highlight, tap the three dots (…), then Share with groups.</p>
+  </div>
 </main>
-<script type="module" src="install.js?v=20261101b"></script>
+<script type="module" src="install.js?v=20261101c"></script>
 </body>
 </html>
