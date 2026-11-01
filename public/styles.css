@@ -121,7 +121,6 @@ details label { margin-top: 8px; }
 .code-entry label { display: block; margin-bottom: 8px; color: var(--muted); }
 .row { display: flex; gap: 8px; max-width: 460px; }
 .row input { font-size: 18px; letter-spacing: .04em; }
-.hero-links { display: flex; flex-wrap: wrap; gap: 20px; margin: 28px 0 0; }
 
 .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 32px; }
 .tile { min-height: 88px; border: 1px solid var(--sep); border-radius: 12px; background: var(--card); color: var(--ink); }
