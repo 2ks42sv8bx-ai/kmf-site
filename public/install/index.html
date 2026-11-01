@@ -10,7 +10,7 @@
 try { if (localStorage.getItem('vandenhove-token')) document.documentElement.classList.add('connected'); } catch {}
 history.scrollRestoration = 'manual';
 </script>
-<link rel="stylesheet" href="../styles.css?v=20261101m">
+<link rel="stylesheet" href="../styles.css?v=20261101n">
 </head>
 <body class="fixed">
 <header class="top">
@@ -55,21 +55,22 @@ history.scrollRestoration = 'manual';
 
     <form class="step-card login-card" id="login" hidden>
       <h2>Log in</h2>
-      <p>In KOReader, open Menu, Tools, vandenHove, Account, Code for another device. Enter that code here.</p>
-      <input name="code" aria-label="Code" placeholder="Code" autocomplete="off" autocapitalize="characters" required>
+      <p>Enter a code from KOReader. You'll find it under Menu, Tools, vandenHove, Account, Code for another device.</p>
+      <div class="login-row">
+        <input name="code" aria-label="Code" placeholder="Code" autocomplete="off" autocapitalize="characters" required>
+        <button type="submit">Log in</button>
+      </div>
       <p class="problem" role="alert"></p>
-      <button class="hidden-submit" type="submit" tabindex="-1" aria-hidden="true"></button>
     </form>
 
     <div class="wizard-nav">
       <button class="quiet" type="button" id="back">Back</button>
       <button type="button" id="next">Next</button>
       <a class="done" id="done" href="../" hidden>Done</a>
-      <button type="submit" form="login" id="log-in" hidden>Log in</button>
     </div>
   </section>
 </main>
 <a class="home" href="../">Home</a>
-<script type="module" src="install.js?v=20261101m"></script>
+<script type="module" src="install.js?v=20261101n"></script>
 </body>
 </html>

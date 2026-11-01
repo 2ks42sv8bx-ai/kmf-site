@@ -6,7 +6,6 @@ const progress = document.querySelector('#progress');
 const back = document.querySelector('#back');
 const next = document.querySelector('#next');
 const done = document.querySelector('#done');
-const logIn = document.querySelector('#log-in');
 
 // The steps, then the log-in card for anyone not connected yet. A connected reader just finishes.
 const on = signedIn();
@@ -25,7 +24,6 @@ function show() {
   progress.hidden = onLogin;
   progress.textContent = `Step ${at + 1} of ${cards.length}`;
   back.hidden = at === 0 || straightToLogin;
-  logIn.hidden = !onLogin;
   done.hidden = !(on && at === lastStep);
   next.hidden = onLogin || (on && at === lastStep);
   if (onLogin) login.elements.code.focus({ preventScroll: true });
