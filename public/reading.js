@@ -81,6 +81,9 @@ function signedOutView() {
       ),
     ),
   );
+  view.querySelector('.already').addEventListener('toggle', (event) => {
+    if (event.target.open) event.target.scrollIntoView({ block: 'end' });
+  });
 }
 
 function groupRow(group) {
