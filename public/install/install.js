@@ -21,7 +21,8 @@ function show() {
     card.hidden = i !== at;
   });
   login.hidden = !onLogin;
-  progress.hidden = onLogin;
+  // Hidden but still taking its room, so the card stays exactly where the steps' card was.
+  progress.style.visibility = onLogin ? 'hidden' : 'visible';
   progress.textContent = `Step ${at + 1} of ${cards.length}`;
   back.hidden = at === 0 || straightToLogin;
   done.hidden = !(on && at === lastStep);

@@ -416,3 +416,8 @@ html:not(.connected) .top:not(:has(a:not([data-connected]))) { display: none; }
 
 /* The cursor already shows where typing goes, so a field gains no second outline. */
 input:focus, input:focus-visible { outline: none; }
+
+/* Nothing on this page may move: every card has one size, and a message has its line waiting. */
+.step-card { min-height: 19em; }
+.login-card .problem:empty { display: block; min-height: var(--line); }
+.wizard-nav { min-height: 48px; }
