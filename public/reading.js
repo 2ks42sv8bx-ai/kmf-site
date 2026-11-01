@@ -185,28 +185,44 @@ async function findGroup(id) {
   return groups.find((group) => String(group.id) === id);
 }
 
+function bookPicker(group, books, problem) {
+  const list = el('ul', { class: 'book-picker' });
+  const search = el('input', { type: 'search', 'aria-label': 'Search your books', placeholder: 'Search your books', autocomplete: 'off' });
+  const added = new Set(books.map((book) => book.id));
+  let available = [];
+  const show = () => {
+    const words = search.value.trim().toLowerCase();
+    const matching = available.filter((book) => `${book.title} ${book.author ?? ''}`.toLowerCase().includes(words));
+    list.replaceChildren(
+      ...matching.map((book) => {
+        const choice = action('', 'book-choice', null, () => call('POST', `/groups/${group.id}/books`, { book: book.id }), problem);
+        choice.append(el('span', { class: 'book-title' }, book.title), book.author ? el('span', { class: 'muted' }, book.author) : '');
+        return el('li', {}, choice);
+      }),
+    );
+    if (matching.length === 0) list.append(el('li', { class: 'muted' }, 'No books to add'));
+  };
+  search.addEventListener('input', show);
+  const picker = el('div', { class: 'picker' }, search, list);
+  picker.load = async () => {
+    available = (await call('GET', '/library')).books.filter((book) => !added.has(book.id));
+    show();
+    search.focus();
+  };
+  return picker;
+}
+
 function booksPanel(group, books) {
   const problem = problemLine();
-  const picker = el('ul', { class: 'book-picker' });
+  const picker = bookPicker(group, books, problem);
   picker.hidden = true;
   const add = el('button', { type: 'button' }, 'Add a book');
   add.addEventListener('click', async () => {
-    if (!picker.hidden) {
-      picker.hidden = true;
-      return;
-    }
+    picker.hidden = !picker.hidden;
+    add.textContent = picker.hidden ? 'Add a book' : 'Cancel';
+    if (picker.hidden) return;
     try {
-      const { books: mine } = await call('GET', '/books');
-      const added = new Set(books.map((book) => book.id));
-      const available = mine.filter((book) => !added.has(book.id));
-      picker.replaceChildren(
-        ...(available.length > 0
-          ? available.map((book) =>
-              el('li', {}, action(book.title, 'quiet', null, () => call('POST', `/groups/${group.id}/books`, { book: book.id }), problem)),
-            )
-          : [el('li', { class: 'muted' }, 'No more books to add')]),
-      );
-      picker.hidden = false;
+      await picker.load();
     } catch (error) {
       problem.textContent = error.message;
     }

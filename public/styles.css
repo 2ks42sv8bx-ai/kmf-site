@@ -493,3 +493,12 @@ body:not(.fixed) main.page:has(.quiet-footer) { padding-bottom: 96px; }
 .page > h1:has(+ .panels) { margin-bottom: 0; }
 .page > h1 + .panels { margin-top: var(--line); }
 body:not(.fixed) main.page { padding-top: var(--edge); }
+
+.picker input { width: 100%; }
+.book-picker { max-height: 20em; overflow-y: auto; margin-top: .75em; list-style: none; }
+.book-picker li { min-height: 0; }
+.book-picker li.muted { padding: 10px 0; }
+.book-choice { display: flex; flex-direction: column; align-items: flex-start; width: 100%; min-height: 0; padding: 10px 8px; border: 0; border-radius: var(--round); background: none; color: var(--ink); font-weight: 400; text-align: left; }
+.book-choice:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); color: var(--ink); }
+.picker input { max-width: none; }
+.book-picker { margin-left: -8px; margin-right: -8px; }
