@@ -207,7 +207,7 @@ async function groupView(id) {
           'div',
           { class: 'empty-card' },
           el('h2', {}, 'Nothing shared yet'),
-          el('p', { class: 'muted' }, 'Books are listed once a passage is shared. On an e-reader: tap a highlight, then "…". In Obsidian: add "-shared" to a passage\'s title.'),
+          el('p', { class: 'muted' }, 'Books are listed once a passage is shared. On an e-reader: tap a highlight, tap the three dots (…), then Share with groups. In Obsidian: add "-shared" to a passage\'s title.'),
         ),
     membersPanel(group),
   );
