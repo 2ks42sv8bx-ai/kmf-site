@@ -19,44 +19,36 @@
   <a class="back" href="../" data-disconnected hidden>Back</a>
   <h1>Install</h1>
 
-  <section class="wizard">
-    <p class="progress" id="progress"></p>
-
-    <article class="step-card" hidden>
+  <ol class="steps">
+    <li>
       <h2>Install KOReader</h2>
       <p>Follow <a href="https://github.com/koreader/koreader/wiki">KOReader's guide</a> for your device.</p>
-    </article>
-    <article class="step-card" hidden>
+    </li>
+    <li>
       <h2>Add the plugin to KOReader</h2>
       <p>Unzip it into KOReader's <code>plugins</code> folder.</p>
-      <a class="button secondary" href="../downloads/vandenhove.koplugin.zip">Download for KOReader</a>
-    </article>
-    <article class="step-card" hidden>
+      <a class="button" href="../downloads/vandenhove.koplugin.zip">Download for KOReader</a>
+    </li>
+    <li>
       <h2>Connect your e-reader</h2>
       <p>In KOReader, open Menu, Tools, vandenHove, Account, and enter the code you were given.</p>
       <div class="code-line" data-signed-in hidden><button class="primary get-code" type="button">Get a code</button> <strong class="code"></strong></div>
-    </article>
-    <article class="step-card" hidden>
+    </li>
+    <li>
       <h2>Add the plugin to Obsidian</h2>
       <p>Unzip it into your vault's <code>.obsidian/plugins</code> folder, then turn it on in Settings, Community plugins.</p>
-      <a class="button secondary" href="../downloads/vandenhove-obsidian.zip">Download for Obsidian</a>
-    </article>
-    <article class="step-card" hidden>
+      <a class="button" href="../downloads/vandenhove-obsidian.zip">Download for Obsidian</a>
+    </li>
+    <li>
       <h2>Connect Obsidian</h2>
       <p>In Obsidian, open Settings, vandenHove, and enter the code from KOReader's Account menu, under Code for another device.</p>
       <div class="code-line" data-signed-in hidden><button class="primary get-code" type="button">Get a code</button> <strong class="code"></strong></div>
-    </article>
-    <article class="step-card" hidden>
+    </li>
+    <li>
       <h2>Sharing with a group</h2>
       <p>On your e-reader, tap a highlight, tap the three dots (…), then Share with groups.</p>
-      <a class="button primary" href="../">Reading</a>
-    </article>
-
-    <div class="wizard-nav">
-      <button class="quiet" type="button" id="back">Back</button>
-      <button class="primary" type="button" id="next">Next</button>
-    </div>
-  </section>
+    </li>
+  </ol>
 </main>
 <script type="module" src="install.js"></script>
 </body>
