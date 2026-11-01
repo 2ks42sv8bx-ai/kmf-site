@@ -14,8 +14,7 @@ function stored() {
 let session = stored();
 
 function showConnected() {
-  for (const part of document.querySelectorAll('[data-connected]')) part.hidden = !session;
-  for (const part of document.querySelectorAll('[data-disconnected]')) part.hidden = Boolean(session);
+  document.documentElement.classList.toggle('connected', Boolean(session));
 }
 
 export function remember(value) {

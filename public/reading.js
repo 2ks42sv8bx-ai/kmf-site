@@ -44,45 +44,24 @@ function form(id, fields, submit, run) {
   return made;
 }
 
+// The front page is already in the HTML. This only gives it its form.
 function signedOutView() {
   view.className = 'hero';
-  // Six lines on a tall screen, like the flyer. A wide one joins some, so the type can fill it.
-  const word = (text) => el('span', {}, text);
-  const wideBreak = () => el('br', { class: 'wide' });
-  view.replaceChildren(
-    el(
-      'h1',
-      {},
-      word('Sync'),
-      ' ',
-      word('highlights'),
-      wideBreak(),
-      word('and notes'),
-      wideBreak(),
-      word('between'),
-      ' ',
-      word('KOReader'),
-      wideBreak(),
-      word('and Obsidian.'),
-    ),
-    el(
-      'div',
-      { class: 'meta' },
-      el('p', {}, el('a', { class: 'install-link', href: 'install/' }, 'Install')),
-      el(
-        'details',
-        { class: 'already' },
-        el('summary', {}, 'Already installed?'),
-        form('connect', [['', 'code']], 'Connect', async (data) => {
-          await pair(data.get('code').trim());
-          view.className = 'page';
-          await route();
-        }),
-      ),
-    ),
-  );
-  view.querySelector('.already').addEventListener('toggle', (event) => {
-    if (event.target.open) event.target.scrollIntoView({ block: 'end' });
+  if (!view.querySelector('.meta')) location.reload();
+  const already = view.querySelector('.already');
+  if (already.querySelector('form')) return;
+  const code = el('input', { name: 'code', 'aria-label': 'Code from one of your devices', placeholder: 'Code', maxlength: '60', autocomplete: 'off', required: '' });
+  const connect = el('form', { id: 'connect' }, code, el('button', { type: 'submit' }, 'Connect'), problemLine());
+  onSubmit(connect, async (data) => {
+    await pair(data.get('code').trim());
+    await route();
+  });
+  already.append(connect);
+  already.addEventListener('toggle', () => {
+    if (already.open) {
+      code.focus({ preventScroll: true });
+      already.scrollIntoView({ block: 'end' });
+    }
   });
 }
 
@@ -294,6 +273,7 @@ async function route() {
     signedOutView();
     return;
   }
+  view.className = 'page';
   const [groupId, bookId] = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
   try {
     if (bookId) await bookView(groupId, bookId);

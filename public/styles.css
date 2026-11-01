@@ -12,7 +12,7 @@
   font-family: Inter;
   src: url('fonts/inter.woff2') format('woff2');
   font-weight: 100 900;
-  font-display: swap;
+  font-display: block;
 }
 
 :root {
@@ -22,8 +22,8 @@
   --margin: clamp(24px, 9.4vw, 160px);
   --edge: clamp(12px, 1.7vw, 28px);
   --facts: clamp(20px, 2.6vw, 44px);
-  --text: 18px;
-  --line: 26px;
+  --text: clamp(18px, 1.4vw, 21px);
+  --line: 1.45em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,6 +32,8 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
+html:not(.connected) [data-connected], html.connected [data-disconnected] { display: none !important; }
+html.connected #view.hero { visibility: hidden; }
 
 body {
   margin: 0;
@@ -80,10 +82,13 @@ code { font: inherit; font-weight: 700; }
 .install-link:hover, .already summary:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
 .already summary { width: fit-content; cursor: pointer; list-style: none; }
 .already summary::-webkit-details-marker { display: none; }
-.already form { display: flex; flex-flow: row wrap; align-items: stretch; gap: 0; margin: .4em 0 0; }
-.already label { display: contents; }
-.already input { width: 8em; min-height: 1.9em; border-right: 0; font-size: inherit; }
-.already button { min-height: 1.9em; padding: 0 .6em; font-size: inherit; }
+/* The field is one more line of the facts: a rule to write on, and a word to press. */
+.already form { display: flex; flex-flow: row wrap; align-items: baseline; gap: 0 .75em; margin: .35em 0 0; font-size: inherit; }
+.already input { width: 6em; min-height: 0; padding: 0; border: 0; border-bottom: 1px solid var(--ink); font-size: inherit; letter-spacing: .02em; text-transform: uppercase; }
+.already input::placeholder { text-transform: none; letter-spacing: 0; opacity: .5; }
+.already input:focus { outline: none; border-bottom-width: 2px; margin-bottom: -1px; }
+.already button { min-height: 0; padding: 0; border: 0; background: none; color: var(--ink); font-size: inherit; font-weight: 700; }
+.already button:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .12em; }
 .already .problem { flex-basis: 100%; font-size: var(--text); }
 
 /* The back */
@@ -163,11 +168,25 @@ summary { cursor: pointer; }
 .code:empty { display: none; }
 .code-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--line); }
 
-/* Install: the whole programme, as on the flyer's back */
+/* Install: the whole programme, as on the flyer's back. Every item has the same shape. */
 
-.steps li { margin-bottom: calc(var(--line) * 1.5); }
+.steps { counter-reset: step; max-width: 36rem; }
+.steps li { position: relative; margin-bottom: 1.45em; counter-increment: step; }
+.steps li::before { content: counter(step); position: absolute; right: 100%; margin-right: .75em; }
 .steps h2 { font-weight: 700; }
-.steps .code-line, .steps .button { margin-top: 4px; }
+button.link {
+  min-height: 0;
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.steps .code-line { gap: .75em; }
 
 /* Reading */
 
