@@ -421,3 +421,17 @@ input:focus, input:focus-visible { outline: none; }
 .step-card { min-height: 19em; }
 .login-card .problem:empty { display: block; min-height: var(--line); }
 .wizard-nav { min-height: 48px; }
+
+/* Admin: three columns, so everything is in view. Home is part of the page here, not over it. */
+body.admin main.page { max-width: none; padding-bottom: var(--line); }
+.admin-columns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: calc(var(--line) * 2); align-items: start; max-width: none; }
+.page > .admin-columns, .page > #panel { max-width: none; }
+#panel h2 { margin: 0 0 var(--line); }
+.admin-form { max-width: none; margin-bottom: calc(var(--line) * 2); gap: 12px; }
+.admin-form input, .admin-form select { max-width: none; }
+.admin-form label { margin: 0; }
+body.admin .home { position: static; display: inline-flex; margin: var(--line) var(--edge); min-height: 44px; padding: 0 1em; font-size: var(--text); }
+.admin-group { border-top: 1px solid var(--ink); padding-top: var(--line); margin-bottom: var(--line); }
+@media (max-width: 900px) {
+  .admin-columns { grid-template-columns: 1fr; }
+}
