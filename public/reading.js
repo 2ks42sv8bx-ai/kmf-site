@@ -60,7 +60,6 @@ function signedOutView() {
   already.addEventListener('toggle', () => {
     if (already.open) {
       code.focus({ preventScroll: true });
-      already.scrollIntoView({ block: 'end' });
     }
   });
 }

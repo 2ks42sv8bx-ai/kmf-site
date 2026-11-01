@@ -24,6 +24,9 @@
   --facts: clamp(20px, 2.6vw, 44px);
   --text: clamp(18px, 1.4vw, 21px);
   --line: 1.45em;
+  /* What the facts can take up with the connect field open, so opening it never overflows. */
+  --facts-room: calc(var(--edge) * 2 + var(--facts) * 4.6 + 6.7svh + 26px);
+  --round: 10px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -59,7 +62,7 @@ code { font: inherit; font-weight: 700; }
   margin: 0;
   padding: var(--edge);
   /* The longest line fills the page, whatever the page really is. */
-  font-size: min(calc((100cqw - var(--edge) * 2) / 8.95), 17svh);
+  font-size: min(calc((100cqw - var(--edge) * 2) / 8.95), calc((100svh - var(--facts-room)) / 3.8));
   font-weight: 700;
   line-height: .95;
   letter-spacing: -.03em;
@@ -67,7 +70,7 @@ code { font: inherit; font-weight: 700; }
   text-transform: none;
 }
 @media (max-aspect-ratio: 1/1) {
-  .hero h1 { font-size: calc((100cqw - var(--edge) * 2) / 6.3); }
+  .hero h1 { font-size: min(calc((100cqw - var(--edge) * 2) / 6.3), calc((100svh - var(--facts-room)) / 5.7)); }
   .hero h1 span { display: block; }
   .hero h1 .wide { display: none; }
 }
@@ -223,3 +226,36 @@ summary { cursor: pointer; }
 .admin-group p { display: flex; flex-wrap: wrap; align-items: center; gap: var(--line); }
 .admin-group li, .admin-list li { display: flex; flex-wrap: wrap; align-items: center; gap: var(--line); min-height: 44px; }
 .admin-list > li { display: block; margin-bottom: var(--line); }
+
+/* Rounded corners */
+
+button, input, select, .card-action, .home { border-radius: var(--round); }
+.step-card { border-radius: calc(var(--round) * 1.6); }
+.already input { border-radius: 0; }
+.already button { border-radius: 0; }
+
+/* Back to the first page, in the same place everywhere */
+
+.home {
+  position: fixed;
+  left: var(--margin);
+  bottom: 6.7svh;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1em;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+.home:hover { background: var(--ink); color: var(--paper); }
+
+/* Only Reading and the admin page scroll. Very short screens do too, so nothing is ever cut off. */
+
+@media (min-height: 560px) {
+  html:has(body.fixed), html:not(.connected):has(main.hero) { overflow: hidden; }
+  body.fixed, html:not(.connected) body:has(main.hero) { height: 100svh; overflow: hidden; }
+  html:not(.connected) main.hero { height: 100svh; min-height: 0; }
+}
