@@ -55,8 +55,8 @@ function groupRow(group) {
     'a',
     { class: 'group-row', href: `#/${group.id}` },
     el('span', { class: 'group-name' }, group.name),
-    group.books.length > 0 ? el('span', { class: 'group-books' }, group.books.map((book) => book.title).join(' · ')) : null,
-    el('span', { class: 'muted' }, names),
+    el('span', { class: 'group-books' }, ...(group.books.length > 0 ? group.books.map((book) => el('span', {}, book.title)) : [el('span', { class: 'muted' }, 'No books yet')])),
+    el('span', { class: 'muted group-names' }, names),
   );
 }
 
@@ -86,11 +86,12 @@ async function groupsView() {
   });
 
   view.replaceChildren(
+    el('h1', { class: 'unseen' }, 'Reading'),
     el(
       'div',
-      { class: 'heading-row' },
-      el('h1', { class: 'unseen' }, 'Reading'),
-      el('div', { class: 'actions' }, el('a', { class: 'button secondary', href: 'join/' }, 'Join a group'), newGroup),
+      { class: 'actions' },
+      newGroup,
+      el('a', { class: 'button', href: 'join/' }, 'Join a group'),
     ),
     create,
     groups.length > 0 ? el('div', { class: 'group-list' }, ...groups.map(groupRow)) : el('p', { class: 'muted' }, 'No groups yet.'),
@@ -119,7 +120,7 @@ function bookRow(group, book) {
     el(
       'span',
       { class: 'book-meta' },
-      [readers, plural(book.notes.length, 'shared passage'), versionLine(book.versions)].filter(Boolean).join(' · '),
+      book.notes.length > 0 ? [readers, plural(book.notes.length, 'shared passage'), versionLine(book.versions)].filter(Boolean).join(' · ') : 'Nothing shared yet',
     ),
   );
 }
@@ -139,8 +140,8 @@ function membersPanel(group) {
   const you = group.members.find((member) => member.you);
   return el(
     'section',
-    { class: 'members' },
-    el('h2', {}, plural(group.members.length, 'member')),
+    { class: 'panel-card' },
+    el('header', { class: 'panel-head' }, el('h2', {}, plural(group.members.length, 'member'))),
     el(
       'ul',
       { class: 'people' },
@@ -183,6 +184,42 @@ async function findGroup(id) {
   return groups.find((group) => String(group.id) === id);
 }
 
+function booksPanel(group, books) {
+  const problem = problemLine();
+  const picker = el('ul', { class: 'book-picker' });
+  picker.hidden = true;
+  const add = el('button', { type: 'button' }, 'Add a book');
+  add.addEventListener('click', async () => {
+    if (!picker.hidden) {
+      picker.hidden = true;
+      return;
+    }
+    try {
+      const { books: mine } = await call('GET', '/books');
+      const added = new Set(books.map((book) => book.id));
+      const available = mine.filter((book) => !added.has(book.id));
+      picker.replaceChildren(
+        ...(available.length > 0
+          ? available.map((book) =>
+              el('li', {}, action(book.title, 'quiet', null, () => call('POST', `/groups/${group.id}/books`, { book: book.id }), problem)),
+            )
+          : [el('li', { class: 'muted' }, 'No more books to add')]),
+      );
+      picker.hidden = false;
+    } catch (error) {
+      problem.textContent = error.message;
+    }
+  });
+  return el(
+    'section',
+    { class: 'panel-card' },
+    el('header', { class: 'panel-head' }, el('h2', {}, 'Books'), add),
+    picker,
+    problem,
+    books.length > 0 ? el('div', { class: 'book-list' }, ...books.map((book) => bookRow(group, book))) : el('p', { class: 'muted' }, 'No books yet'),
+  );
+}
+
 async function groupView(id) {
   const group = await findGroup(id);
   if (!group) {
@@ -192,15 +229,7 @@ async function groupView(id) {
   const { books } = await call('GET', `/groups/${id}/library`);
   view.replaceChildren(
     el('h1', {}, group.name),
-    books.length > 0
-      ? el('div', { class: 'book-list' }, ...books.map((book) => bookRow(group, book)))
-      : el(
-          'div',
-          { class: 'empty-card' },
-          el('h2', {}, 'Nothing shared yet'),
-          el('p', { class: 'muted' }, 'Books are listed once a passage is shared. On an e-reader: tap a highlight, tap the three dots (…), then Share with groups. In Obsidian: add "-shared" to a passage\'s title.'),
-        ),
-    membersPanel(group),
+    el('div', { class: 'panels' }, booksPanel(group, books), membersPanel(group)),
   );
 }
 
@@ -246,6 +275,12 @@ async function bookView(groupId, bookId) {
     el('a', { class: 'back', href: `#/${groupId}` }, group.name),
     el('h1', {}, book.title),
     book.author ? el('p', { class: 'subtitle muted' }, book.author) : null,
+    group.keeper
+      ? action('Remove from group', 'quiet', `Remove ${book.title} from ${group.name}? Everyone keeps their own notes.`, async () => {
+          await call('DELETE', `/groups/${groupId}/books/${book.id}`);
+          location.hash = `#/${groupId}`;
+        }, el('p'))
+      : null,
     versionsPanel(book),
     el('div', { class: 'passages' }, ...parts),
   );
