@@ -1,4 +1,4 @@
-import { call, onSubmit, pair, remember, showCodeButtons, signedIn } from '../account.js';
+import { call, onSubmit, pair, remember, showCodeButtons, signedIn } from './account.js';
 
 // Three views on one page: #/ every group, #/ID one group's books, #/ID/BOOK one book's notes.
 const view = document.querySelector('#view');
@@ -45,17 +45,15 @@ function form(id, fields, submit, run) {
 }
 
 function signedOutView() {
+  view.className = 'hero';
   view.replaceChildren(
-    el('h1', {}, 'Groups'),
-    el(
-      'div',
-      { class: 'two' },
-      form('connect', [['Code from one of your devices', 'code']], 'Connect', async (data) => {
-        await pair(data.get('code').trim());
-        await route();
-      }),
-      el('div', { class: 'card stack' }, el('h2', {}, 'New account'), el('a', { class: 'button secondary', href: '../join/' }, 'Join a group')),
-    ),
+    el('h1', {}, 'Sync highlights and notes between KOReader and Obsidian.'),
+    el('p', {}, el('a', { class: 'button primary', href: 'install/' }, 'Install')),
+    form('connect', [['Already installed? Enter a code from one of your devices', 'code']], 'Connect', async (data) => {
+      await pair(data.get('code').trim());
+      view.className = 'page';
+      await route();
+    }),
   );
 }
 
@@ -99,8 +97,8 @@ async function groupsView() {
     el(
       'div',
       { class: 'heading-row' },
-      el('h1', {}, 'Groups'),
-      el('div', { class: 'actions' }, el('a', { class: 'button secondary', href: '../join/' }, 'Join a group'), newGroup),
+      el('h1', {}, 'Reading'),
+      el('div', { class: 'actions' }, el('a', { class: 'button secondary', href: 'join/' }, 'Join a group'), newGroup),
     ),
     create,
     groups.length > 0 ? el('div', { class: 'group-list' }, ...groups.map(groupRow)) : el('p', { class: 'muted' }, 'No groups yet.'),
@@ -138,7 +136,7 @@ function membersPanel(group) {
   const problem = problemLine();
   const copy = el('button', { type: 'button', class: 'secondary' }, 'Copy invite link');
   copy.addEventListener('click', async () => {
-    const link = new URL(`../join/#${group.code}`, location.href).href;
+    const link = new URL(`join/#${group.code}`, location.href).href;
     try {
       await navigator.clipboard.writeText(link);
       copy.textContent = 'Copied';
@@ -201,7 +199,7 @@ async function groupView(id) {
   }
   const { books } = await call('GET', `/groups/${id}/library`);
   view.replaceChildren(
-    el('a', { class: 'back', href: '#/' }, 'Groups'),
+    el('a', { class: 'back', href: '#/' }, 'Reading'),
     el('h1', {}, group.name),
     books.length > 0
       ? el('div', { class: 'book-list' }, ...books.map((book) => bookRow(group, book)))

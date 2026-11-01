@@ -24,7 +24,7 @@ onSubmit(nameForm, async (data) => {
   const reply = await call('POST', '/join', { code: groupCode, name: data.get('name') });
   if (reply.token) remember(reply.token);
   // Someone with a device is already set up, and wants to see the group.
-  location.href = wasSignedIn ? '../groups/' : `../setup/?joined=${encodeURIComponent(reply.group.name)}`;
+  location.href = wasSignedIn ? '../' : `../install/?joined=${encodeURIComponent(reply.group.name)}`;
 });
 
 const fromLink = decodeURIComponent(location.hash.slice(1));

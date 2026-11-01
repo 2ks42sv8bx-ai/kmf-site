@@ -11,20 +11,11 @@
 <header class="top">
   <a class="brand" href="">vandenHove</a>
   <nav aria-label="Main">
-    <a href="setup/">Setup</a>
-    <a href="groups/">Groups</a>
+    <a href="" data-connected hidden aria-current="page">Reading</a>
+    <a href="install/">Install</a>
   </nav>
 </header>
-<main class="hero">
-  <h1>Sync highlights and notes between KOReader and Obsidian.</h1>
-  <form class="code-entry" id="enter">
-    <label for="code">Group code</label>
-    <div class="row">
-      <input id="code" name="code" autocomplete="off" autocapitalize="characters" required>
-      <button class="primary" type="submit">Join</button>
-    </div>
-  </form>
-</main>
-<script type="module" src="home.js"></script>
+<main class="page" id="view"></main>
+<script type="module" src="reading.js"></script>
 </body>
 </html>

@@ -192,3 +192,8 @@ details label { margin-top: 8px; }
 .admin-list ul { margin: 4px 0 0 16px; padding: 0; list-style: none; color: var(--muted); }
 .admin-group li, .admin-list li { padding: 4px 0; }
 .admin-list > li + li { border-top: 1px solid var(--sep); }
+
+.hero form { margin-top: 32px; max-width: 460px; padding: 0; background: none; border: 0; }
+.hero form label { color: var(--muted); }
+.hero form input { width: 100%; min-height: 44px; margin-top: 6px; padding: 0 12px; border: 1px solid var(--sep); border-radius: 8px; background: var(--card); color: var(--ink); font: inherit; }
+.hero form button { margin-top: 10px; background: var(--well); color: var(--ink); }

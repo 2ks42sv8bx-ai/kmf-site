@@ -13,8 +13,13 @@ function stored() {
 // Without storage the page still works until it's closed.
 let session = stored();
 
+function showConnected() {
+  for (const part of document.querySelectorAll('[data-connected]')) part.hidden = !session;
+}
+
 export function remember(value) {
   session = value;
+  showConnected();
   try {
     if (value) localStorage.setItem(KEY, value);
     else localStorage.removeItem(KEY);
@@ -92,3 +97,5 @@ export function showCodeButtons() {
     });
   }
 }
+
+showConnected();
