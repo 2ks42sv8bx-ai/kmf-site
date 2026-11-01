@@ -25,7 +25,7 @@
   --text: clamp(18px, 1.4vw, 21px);
   --line: 1.45em;
   /* What the facts can take up with the connect field open, so opening it never overflows. */
-  --facts-room: calc(var(--edge) * 2 + var(--facts) * 4.6 + 6.7svh + 26px);
+  --facts-room: calc(var(--edge) * 2 + var(--facts) * 2.6 + 6.7svh + 26px);
   --round: 10px;
 }
 
@@ -259,3 +259,81 @@ button, input, select, .card-action, .home { border-radius: var(--round); }
   body.fixed, html:not(.connected) body:has(main.hero) { height: 100svh; overflow: hidden; }
   html:not(.connected) main.hero { height: 100svh; min-height: 0; }
 }
+
+/*
+ * The home page's two anchors, shared by every page: the headline's left edge, and a row of
+ * buttons at the same height from the bottom. Home sits exactly where Install does on the front.
+ */
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: .4em;
+  padding: var(--line) var(--edge) 6.7svh;
+  line-height: 1.2;
+}
+.meta p { display: contents; }
+.install-link, .already summary, .home {
+  display: inline-flex;
+  align-items: center;
+  width: auto;
+  min-height: 2.2em;
+  padding: 0 .8em;
+  border: 1px solid var(--ink);
+  border-radius: var(--round);
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+}
+.install-link { background: var(--ink); color: var(--paper); font-weight: 700; }
+.install-link:hover, .install-link:focus-visible { opacity: .85; text-decoration: none; outline: none; }
+.already summary, .home { background: var(--paper); color: var(--ink); font-weight: 500; }
+.already summary:hover, .already summary:focus-visible, .already[open] summary, .home:hover { background: var(--ink); color: var(--paper); text-decoration: none; outline: none; }
+.already { position: relative; margin: 0; }
+.already form { position: absolute; left: calc(100% + .4em); top: 0; display: flex; flex-wrap: nowrap; align-items: stretch; gap: .4em; margin: 0; }
+.already input, .already button { min-height: 2.2em; margin: 0; padding: 0 .8em; border: 1px solid var(--ink); border-radius: var(--round); font-size: inherit; }
+.already input { width: 6em; }
+.already input:focus { margin: 0; border-width: 2px; }
+.already button { background: var(--ink); color: var(--paper); font-weight: 700; }
+.already .problem { position: absolute; top: 100%; left: 0; white-space: nowrap; }
+.home { left: var(--edge); bottom: 6.7svh; font-size: var(--facts); line-height: 1.2; }
+button, summary, .card-action { user-select: none; }
+
+/* Pages with one thing to do hold it in the middle, and the anchors stay where they are. */
+
+body.fixed main.page {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  max-width: none;
+  padding: var(--margin);
+  pointer-events: none;
+}
+body.fixed main.page > * { width: min(100%, 38rem); pointer-events: auto; }
+body.fixed .top { position: relative; z-index: 1; }
+.step-card { min-height: 16em; padding: 2em; }
+.step-card h2 { font-weight: 700; letter-spacing: -.02em; }
+#code-form, #name-form { width: min(100%, 38rem); }
+
+@media (max-width: 720px) {
+  .already { position: static; flex-basis: 100%; }
+  .already form { position: static; flex-wrap: wrap; margin-top: .4em; }
+  .already summary { width: fit-content; }
+  .already .problem { position: static; flex-basis: 100%; white-space: normal; }
+  body.fixed main.page { padding: var(--margin) var(--margin) calc(6.7svh + 3em); }
+}
+@media (max-height: 559px) {
+  body.fixed main.page { position: static; display: block; }
+  .home { position: static; margin: var(--line) var(--edge); }
+}
+
+/* The step's own Back and Next match Home and the front page's buttons. */
+
+.wizard-nav button { min-height: 2.2em; padding: 0 .8em; border: 1px solid var(--ink); border-radius: var(--round); font-size: var(--facts); line-height: 1.2; font-weight: 700; text-decoration: none; }
+.wizard-nav .quiet { background: var(--paper); color: var(--ink); font-weight: 500; }
+.wizard-nav .quiet:hover { background: var(--ink); color: var(--paper); }
+
+.top { padding-left: var(--edge); padding-right: var(--edge); }
