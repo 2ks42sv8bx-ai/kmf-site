@@ -8,19 +8,21 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<nav><strong><a href="./">vandenHove</a></strong> · <a href="groups/">Groups</a></nav>
+<nav><strong><a href="./">vandenHove</a></strong><a href="groups/">Groups</a></nav>
 <main>
-  <h1>vandenHove</h1>
-  <p>Your reading notes, shared between your e-reader and Obsidian.</p>
+  <h1 class="headline">Your reading notes, shared between your e-reader and Obsidian.</h1>
   <p id="joined" role="status" hidden></p>
 
   <form id="code-form">
-    <label>Group code <input name="code" autocomplete="off" autocapitalize="characters" required></label>
-    <button type="submit">Continue</button>
+    <label for="code">Have a group code?</label>
+    <div class="row">
+      <input id="code" name="code" placeholder="KANT-4F7Q" autocomplete="off" autocapitalize="characters" required>
+      <button type="submit">Continue</button>
+    </div>
     <p class="problem" role="alert"></p>
   </form>
 
-  <form id="name-form" hidden>
+  <form id="name-form" class="panel" hidden>
     <h2 id="group-name"></h2>
     <label>Your name in this group <input name="name" maxlength="60" autocomplete="name" required></label>
     <details id="existing">
@@ -31,18 +33,16 @@
     <p class="problem" role="alert"></p>
   </form>
 
-  <h2>Set up</h2>
-  <label>What do you read on?
-    <select id="device">
-      <option value="kobo">Kobo</option>
-      <option value="kindle">Kindle</option>
-      <option value="pocketbook">PocketBook</option>
-      <option value="android">Android</option>
-      <option value="remarkable">reMarkable</option>
-      <option value="other">Something else</option>
-    </select>
-  </label>
-  <ol>
+  <h2>What do you read on?</h2>
+  <div class="tiles" role="group" aria-label="What you read on">
+    <button class="tile" type="button" data-device="kobo" aria-pressed="true">Kobo</button>
+    <button class="tile" type="button" data-device="kindle" aria-pressed="false">Kindle</button>
+    <button class="tile" type="button" data-device="pocketbook" aria-pressed="false">PocketBook</button>
+    <button class="tile" type="button" data-device="android" aria-pressed="false">Android</button>
+    <button class="tile" type="button" data-device="remarkable" aria-pressed="false">reMarkable</button>
+    <button class="tile" type="button" data-device="other" aria-pressed="false">Something else</button>
+  </div>
+  <ol class="steps">
     <li>
       Install KOReader.
       <span data-for="kobo"><a href="https://github.com/koreader/koreader/wiki/Installation-on-Kobo-devices">Steps for Kobo</a>.</span>
@@ -65,7 +65,7 @@
       <span class="code-line" data-signed-in hidden><button type="button" class="get-code">Get a code</button> <strong class="code"></strong></span>
     </li>
   </ol>
-  <p>To share a passage with your groups: on your e-reader, tap a highlight, then "…". In Obsidian, add "-shared" to its title.</p>
+  <p class="tip">To share a passage with your groups: on your e-reader, tap a highlight, then "…". In Obsidian, add "-shared" to its title.</p>
 </main>
 <script type="module" src="start.js"></script>
 </body>

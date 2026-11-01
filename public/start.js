@@ -2,12 +2,15 @@ import { call, onSubmit, pair, remember, showCodeButtons, signedIn } from './acc
 
 const codeForm = document.querySelector('#code-form');
 const nameForm = document.querySelector('#name-form');
-const device = document.querySelector('#device');
+const tiles = document.querySelectorAll('.tile');
 let groupCode = '';
 
-device.addEventListener('change', () => {
-  for (const part of document.querySelectorAll('[data-for]')) part.hidden = part.dataset.for !== device.value;
-});
+for (const tile of tiles) {
+  tile.addEventListener('click', () => {
+    for (const other of tiles) other.setAttribute('aria-pressed', String(other === tile));
+    for (const part of document.querySelectorAll('[data-for]')) part.hidden = part.dataset.for !== tile.dataset.device;
+  });
+}
 
 function showConnected() {
   const on = signedIn();
