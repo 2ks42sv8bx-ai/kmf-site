@@ -124,7 +124,7 @@ summary { min-height: 32px; cursor: pointer; }
 details label { margin-top: 8px; }
 
 .hero { max-width: 720px; margin: 0 auto; padding: 12vh 16px 64px; }
-.hero h1 { margin-bottom: 40px; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(32px, 4.5vw, 44px); font-weight: 500; line-height: 1.15; letter-spacing: -.02em; }
+.hero h1 { margin-bottom: 56px; font-family: Inter, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(38px, 6vw, 60px); font-weight: 600; line-height: 1.08; letter-spacing: -.02em; text-wrap: balance; }
 .code-entry label { display: block; margin-bottom: 8px; color: var(--muted); }
 .row { display: flex; gap: 8px; max-width: 460px; }
 .row input { font-size: 18px; letter-spacing: .04em; }
@@ -201,7 +201,7 @@ details label { margin-top: 8px; }
 
 .top { justify-content: flex-end; min-height: 76px; }
 
-.already { margin-top: 28px; color: var(--muted); }
+.already { margin-top: 40px; color: var(--muted); }
 .already summary { display: inline-flex; align-items: center; min-height: 44px; cursor: pointer; list-style: none; }
 .already summary::-webkit-details-marker { display: none; }
 .already summary:hover { color: var(--ink); }
