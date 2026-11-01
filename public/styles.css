@@ -408,19 +408,11 @@ body:not(.fixed) main.page { max-width: calc(40rem + var(--edge) * 2); padding-l
 /* A top bar with no tabs to show takes up no room. */
 html:not(.connected) .top:not(:has(a:not([data-connected]))) { display: none; }
 
-/* Already installed? is a real button: Install's size and shape, outlined. */
-.already-link {
-  min-height: 2.2em;
-  padding: 0 .8em;
-  border: 1px solid var(--ink);
-  border-radius: var(--round);
-  font-weight: 500;
-  user-select: none;
-}
-.already-link:hover, .already-link:focus-visible { background: var(--ink); color: var(--paper); text-decoration: none; }
-
 /* The field and its button are one thing, at the foot of the card, in the card's own type. */
 .login-row { display: flex; gap: .5em; width: 100%; margin-top: auto; }
 .login-row input { flex: 1; min-width: 0; max-width: none; min-height: 48px; padding: 0 1em; font-size: var(--text); }
 .login-row button { min-height: 48px; padding: 0 1.5em; font-size: var(--text); font-weight: 700; }
 .login-card .problem { margin: -.5em 0 0; font-size: var(--text); }
+
+/* The cursor already shows where typing goes, so a field gains no second outline. */
+input:focus, input:focus-visible { outline: none; }
